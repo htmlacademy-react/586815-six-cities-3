@@ -31,8 +31,22 @@ function NotFoundPage(): JSX.Element {
       </header>
 
       <main className="page__main">
-        <h1>404. Page not found</h1>
-        <a href="/">Вернуться на главную</a>
+        <h1 style={{
+          textAlign: 'center'
+        }}
+        >404. Page not found
+        </h1>
+        <a style={{
+          display: 'block',
+          margin: '0 auto',
+          width: 'fit-content',
+          padding: '10px',
+          color: '#ffffff',
+          backgroundColor:'#4481c3',
+          borderRadius:'3px'
+        }} href="/"
+        >Back to Main Page
+        </a>
       </main>
     </div>
   );
