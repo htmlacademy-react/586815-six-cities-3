@@ -1,10 +1,14 @@
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { AuthorizationStatus } from '../const';
+import {Helmet} from 'react-helmet-async';
 
 export default function Factories():JSX.Element {
   return (
     <div className="page">
+      <Helmet>
+        <title>Six cities. In favorites</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">

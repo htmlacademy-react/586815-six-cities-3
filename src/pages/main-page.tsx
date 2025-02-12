@@ -3,6 +3,7 @@ import { CardType } from '../types/common';
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { AuthorizationStatus } from '../const';
+import { Helmet } from 'react-helmet-async';
 
 type Props = {
 cards:CardType[];
@@ -18,6 +19,9 @@ function MainPage(props:Props): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>Six cities. Main page</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
