@@ -53,4 +53,4 @@ const placeCards: CardType[] = [
   }
 ];
 
-export {placeCards};
+export {placeCards };
