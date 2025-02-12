@@ -1,8 +1,9 @@
 import Logo from '../components/logo';
 import {Link} from 'react-router-dom';
 import UserProfile from '../components/user-profile';
-import { AuthorizationStatus } from '../const';
 import { Helmet } from 'react-helmet-async';
+import { AppRoute } from '../const';
+import { getAuthorizationStatus } from '../mocks/mocks';
 
 function NotFoundPage(): JSX.Element {
   return (
@@ -18,7 +19,7 @@ function NotFoundPage(): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={AuthorizationStatus.NoAuth}/>
+                <UserProfile authorizationStatus={getAuthorizationStatus()}/>
               </ul>
             </nav>
           </div>
@@ -39,7 +40,7 @@ function NotFoundPage(): JSX.Element {
           color: '#ffffff',
           backgroundColor:'#4481c3',
           borderRadius:'3px'
-        }} to="/"
+        }} to={AppRoute.Main}
         >Back to Main Page
         </Link>
       </main>

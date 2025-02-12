@@ -1,13 +1,14 @@
 import MainPage from '../pages/main-page';
 import { CardType } from '../types/common';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../const';
+import { AppRoute } from '../const';
 import NotFoundPage from '../pages/not-found-page';
 import Favorites from '../pages/favorites';
 import Login from '../pages/login';
 import Offer from '../pages/offer';
 import PrivateRoute from './private-route';
 import {HelmetProvider} from 'react-helmet-async';
+import { getAuthorizationStatus } from '../mocks/mocks';
 
 function App({cards}:{cards:CardType[]}): JSX.Element {
   return (
@@ -22,7 +23,7 @@ function App({cards}:{cards:CardType[]}): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={getAuthorizationStatus()}
               >
                 <Favorites />
               </PrivateRoute>
@@ -30,7 +31,14 @@ function App({cards}:{cards:CardType[]}): JSX.Element {
           />
           <Route
             path={AppRoute.Login}
-            element={<Login />}
+            element={
+              <PrivateRoute
+                authorizationStatus={getAuthorizationStatus()}
+                isReverse
+              >
+                <Login />
+              </PrivateRoute>
+            }
           />
           <Route
             path={AppRoute.Offer}

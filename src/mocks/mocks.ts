@@ -1,4 +1,5 @@
 import { CardType } from '../types/common';
+import { AuthorizationStatus } from '../const';
 
 const placeCards: CardType[] = [
   {
@@ -53,4 +54,6 @@ const placeCards: CardType[] = [
   }
 ];
 
-export {placeCards };
+const getAuthorizationStatus = () => AuthorizationStatus.NoAuth;
+
+export {placeCards, getAuthorizationStatus };

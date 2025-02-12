@@ -1,7 +1,7 @@
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
-import { AuthorizationStatus } from '../const';
 import {Helmet} from 'react-helmet-async';
+import { getAuthorizationStatus } from '../mocks/mocks';
 
 export default function Factories():JSX.Element {
   return (
@@ -17,7 +17,7 @@ export default function Factories():JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={AuthorizationStatus.NoAuth}/>
+                <UserProfile authorizationStatus={getAuthorizationStatus()}/>
               </ul>
             </nav>
           </div>

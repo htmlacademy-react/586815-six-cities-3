@@ -2,8 +2,8 @@ import PlaceCard from '../components/place-card';
 import { CardType } from '../types/common';
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
-import { AuthorizationStatus } from '../const';
 import { Helmet } from 'react-helmet-async';
+import { getAuthorizationStatus } from '../mocks/mocks';
 
 type Props = {
 cards:CardType[];
@@ -30,7 +30,7 @@ function MainPage(props:Props): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={AuthorizationStatus.NoAuth}/>
+                <UserProfile authorizationStatus={getAuthorizationStatus()}/>
               </ul>
             </nav>
           </div>
