@@ -1,9 +1,13 @@
 import PlaceCard from '../components/place-card';
 import { CardType } from '../types/common';
 
-function MainPage({cards}:{cards:CardType[]}): JSX.Element {
+type Props = {
+cards:CardType[];
+}
 
-  const cardList = cards.map((card:CardType) => (
+function MainPage(props:Props): JSX.Element {
+
+  const cardList = props.cards.map((card:CardType) => (
     <PlaceCard
       key={card.id}
       cardData={card}
