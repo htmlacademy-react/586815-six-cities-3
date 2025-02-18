@@ -1,5 +1,5 @@
 import MainPage from '../pages/main-page';
-import { CardType } from '../types/common';
+import { OfferType } from '../types/common';
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import { AppRoute } from '../const';
 import NotFoundPage from '../pages/not-found-page';
@@ -10,14 +10,20 @@ import PrivateRoute from './private-route';
 import {HelmetProvider} from 'react-helmet-async';
 import { getAuthorizationStatus } from '../mocks/mocks';
 
-function App({cards}:{cards:CardType[]}): JSX.Element {
+type Props = {
+  cards:OfferType[];
+}
+
+function App(props: Props): JSX.Element {
+  const {cards} = props;
+  const favoritesOffers = cards.filter((card) => card.isFavorite);
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage cards={cards} />}
+            element={<MainPage cards={cards} authorizationStatus={getAuthorizationStatus()} />}
           />
           <Route
             path={AppRoute.Favorites}
@@ -25,28 +31,23 @@ function App({cards}:{cards:CardType[]}): JSX.Element {
               <PrivateRoute
                 authorizationStatus={getAuthorizationStatus()}
               >
-                <Favorites />
+                <Favorites cards={favoritesOffers} authorizationStatus = {getAuthorizationStatus()} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Login}
             element={
-              <PrivateRoute
-                authorizationStatus={getAuthorizationStatus()}
-                isReverse
-              >
-                <Login />
-              </PrivateRoute>
+              <Login authorizationStatus={getAuthorizationStatus()} />
             }
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer />}
+            element={<Offer cards={cards} authorizationStatus={getAuthorizationStatus()}/>}
           />
           <Route
             path="*"
-            element={<NotFoundPage />}
+            element={<NotFoundPage authorizationStatus={getAuthorizationStatus()} />}
           />
         </Routes>
       </BrowserRouter>

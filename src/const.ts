@@ -1,3 +1,5 @@
+export const SCALE_RATING = 20;
+
 export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',

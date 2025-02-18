@@ -3,11 +3,16 @@ import {Link} from 'react-router-dom';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../const';
-import { getAuthorizationStatus } from '../mocks/mocks';
+import { AuthorizationStatus } from '../const';
 
-function NotFoundPage(): JSX.Element {
+type Props = {
+  authorizationStatus: AuthorizationStatus;
+};
+
+function NotFoundPage(props:Props): JSX.Element {
+  const {authorizationStatus} = props;
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray">
       <Helmet>
         <title>404. Page not found</title>
       </Helmet>
@@ -19,7 +24,7 @@ function NotFoundPage(): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={getAuthorizationStatus()}/>
+                <UserProfile authorizationStatus={authorizationStatus}/>
               </ul>
             </nav>
           </div>
