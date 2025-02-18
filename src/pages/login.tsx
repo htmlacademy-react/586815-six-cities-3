@@ -1,7 +1,21 @@
 import Logo from '../components/logo';
 import { Helmet } from 'react-helmet-async';
+import { AuthorizationStatus } from '../const';
+import { AppRoute } from '../const';
+import { Navigate } from 'react-router-dom';
 
-export default function Login():JSX.Element {
+type Props = {
+  authorizationStatus: AuthorizationStatus;
+};
+
+export default function Login(props:Props):JSX.Element {
+
+  const {authorizationStatus} = props;
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Main} />;
+  }
+
   return (
     <div className="page page--gray page--login">
       <Helmet>

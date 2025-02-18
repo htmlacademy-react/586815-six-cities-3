@@ -1,22 +1,18 @@
-import PlaceCard from '../components/place-card';
-import { CardType } from '../types/common';
+import { OfferType } from '../types/common';
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
-import { getAuthorizationStatus } from '../mocks/mocks';
+import OffersSection from '../components/main-offers/offers-section';
+import { AuthorizationStatus } from '../const';
+import NoOffersList from '../components/no-offers-list';
 
 type Props = {
-cards:CardType[];
+cards:OfferType[];
+authorizationStatus: AuthorizationStatus;
 }
 
 function MainPage(props:Props): JSX.Element {
-
-  const cardList = props.cards.map((card:CardType) => (
-    <PlaceCard
-      key={card.id}
-      cardData={card}
-    />));
-
+  const {cards, authorizationStatus} = props;
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -30,7 +26,7 @@ function MainPage(props:Props): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={getAuthorizationStatus()}/>
+                <UserProfile authorizationStatus={authorizationStatus}/>
               </ul>
             </nav>
           </div>
@@ -76,33 +72,7 @@ function MainPage(props:Props): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <div className="cities__places-list places__list tabs__content">
-                {cardList}
-              </div>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map"></section>
-            </div>
-          </div>
+          {cards.length === 0 ? <NoOffersList/> : <OffersSection cards = {cards} />}
         </div>
       </main>
     </div>

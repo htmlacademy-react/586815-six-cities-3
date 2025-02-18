@@ -1,59 +1,124 @@
-import { CardType } from '../types/common';
+import { OfferType } from '../types/common';
 import { AuthorizationStatus } from '../const';
 
-const placeCards: CardType[] = [
+const placeCards: OfferType[] = [
   {
-    id: 1,
+    id: '1',
     isPremium: true,
-    href: '#',
-    imageUrl: 'img/apartment-01.jpg',
+    isFavorite: true,
+    previewImage: 'img/apartment-01.jpg',
     price: 120,
-    rating: 80,
+    rating: 4,
     title: 'Beautiful & luxurious apartment at great location',
-    type: 'Apartment'
+    type: 'Apartment',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    }
   },
   {
-    id: 2,
+    id: '2',
     isPremium: false,
-    href: '#',
-    imageUrl: 'img/room.jpg',
+    isFavorite: true,
+    previewImage: 'img/room.jpg',
     price: 80,
-    rating: 80,
+    rating: 4,
     title: 'Wood and stone place',
-    type: 'Room'
+    type: 'Room',
+    city: {
+      name: 'Amsterdam',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    }
   },
   {
-    id: 3,
+    id: '3',
     isPremium: false,
-    href: '#',
-    imageUrl: 'img/apartment-02.jpg',
+    isFavorite: false,
+    previewImage: 'img/apartment-02.jpg',
     price: 132,
-    rating: 80,
+    rating: 4,
     title: 'Canal View Prinsengracht',
-    type: 'Apartment'
+    type: 'Apartment',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    }
   },
   {
-    id: 4,
+    id: '4',
     isPremium: true,
-    href: '#',
-    imageUrl: 'img/apartment-03.jpg',
+    isFavorite: true,
+    previewImage: 'img/apartment-03.jpg',
     price: 180,
-    rating: 100,
+    rating: 5,
     title: 'Nice, cozy, warm big bed apartment',
-    type: 'Apartment'
+    type: 'Apartment',
+    city: {
+      name: 'Cologne',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    }
   },
   {
-    id: 5,
+    id: '5',
     isPremium: false,
-    href: '#',
-    imageUrl: 'img/room.jpg',
+    isFavorite: true,
+    previewImage: 'img/room.jpg',
     price: 80,
-    rating: 80,
+    rating: 4.3,
     title: 'Wood and stone place',
-    type: 'Room'
+    type: 'Room',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 52.35514938496378,
+        longitude: 4.673877537499948,
+        zoom: 8
+      }
+    },
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    }
   }
 ];
 
-const getAuthorizationStatus = () => AuthorizationStatus.NoAuth;
+const getAuthorizationStatus = () => AuthorizationStatus.Auth;
 
 export {placeCards, getAuthorizationStatus };
