@@ -121,4 +121,4 @@ const placeCards: OfferType[] = [
 
 const getAuthorizationStatus = () => AuthorizationStatus.Auth;
 
-export {placeCards, getAuthorizationStatus };
+export { placeCards, getAuthorizationStatus };

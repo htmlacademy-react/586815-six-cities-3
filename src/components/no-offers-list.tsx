@@ -1,4 +1,4 @@
-function NoOffersList() : JSX.Element {
+function NoOffersList(): JSX.Element {
   return (
     <div className="cities__places-container cities__places-container--empty container">
       <section className="cities__no-places">

@@ -4,18 +4,17 @@ import { useState } from 'react';
 import { Nullable } from 'vitest';
 
 type Props = {
-cards:OfferType[];
+  cards: OfferType[];
 }
 
-function OffersSection (props:Props):JSX.Element {
-  // eslint-disable-next-line
-  const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null); //Временно , пока координаты не будут использованы на карте.
+function OffersSection(props: Props): JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null);
 
-  const handleOfferHover = (offer : OfferType | null) => {
+  const handleOfferHover = (offer: OfferType | null) => {
     setActiveOffer(offer || null);
   };
 
-  const cardList = props.cards.map((card:OfferType) => (
+  const cardList = props.cards.map((card: OfferType) => (
     <OfferCard
       key={card.id}
       cardData={card}
@@ -31,7 +30,7 @@ function OffersSection (props:Props):JSX.Element {
         <form className="places__sorting" action="#" method="get">
           <span className="places__sorting-caption">Sort by</span>
           <span className="places__sorting-type" tabIndex={0}>
-                  Popular
+            Popular
             <svg className="places__sorting-arrow" width="7" height="4">
               <use xlinkHref="#icon-arrow-select"></use>
             </svg>

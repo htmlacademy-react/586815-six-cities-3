@@ -20,5 +20,5 @@ export type OfferType = {
   isPremium: boolean;
   rating: number;
   previewImage: string;
-  };
+};
 

@@ -1,5 +1,5 @@
 import Logo from '../components/logo';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../const';
@@ -9,8 +9,8 @@ type Props = {
   authorizationStatus: AuthorizationStatus;
 };
 
-function NotFoundPage(props:Props): JSX.Element {
-  const {authorizationStatus} = props;
+function NotFoundPage(props: Props): JSX.Element {
+  const { authorizationStatus } = props;
   return (
     <div className="page page--gray">
       <Helmet>
@@ -24,7 +24,7 @@ function NotFoundPage(props:Props): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus}/>
+                <UserProfile authorizationStatus={authorizationStatus} />
               </ul>
             </nav>
           </div>
@@ -43,8 +43,8 @@ function NotFoundPage(props:Props): JSX.Element {
           width: 'fit-content',
           padding: '10px',
           color: '#ffffff',
-          backgroundColor:'#4481c3',
-          borderRadius:'3px'
+          backgroundColor: '#4481c3',
+          borderRadius: '3px'
         }} to={AppRoute.Main}
         >Back to Main Page
         </Link>

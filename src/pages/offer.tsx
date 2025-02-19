@@ -9,18 +9,18 @@ import { AuthorizationStatus } from '../const';
 import ReviewsSection from '../components/reviews/reviews-section';
 
 type Props = {
-  cards:OfferType[];
-  authorizationStatus: AuthorizationStatus ;
-  }
+  cards: OfferType[];
+  authorizationStatus: AuthorizationStatus;
+}
 
-export default function Offer(props:Props):JSX.Element {
-  const {cards, authorizationStatus} = props;
+export default function Offer(props: Props): JSX.Element {
+  const { cards, authorizationStatus } = props;
 
   const params = useParams();
   const currentOffer = cards.find((offer) => (offer.id === params.id));
 
   if (!currentOffer) {
-    return <NotFoundPage authorizationStatus={authorizationStatus}/>;
+    return <NotFoundPage authorizationStatus={authorizationStatus} />;
   }
 
   const { price, title, isPremium, previewImage, rating, type } = currentOffer;
@@ -38,7 +38,7 @@ export default function Offer(props:Props):JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus}/>
+                <UserProfile authorizationStatus={authorizationStatus} />
               </ul>
             </nav>
           </div>
@@ -50,31 +50,31 @@ export default function Offer(props:Props):JSX.Element {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               <div className="offer__image-wrapper">
-                <img className="offer__image" src={previewImage} alt="Photo studio"/>
+                <img className="offer__image" src={previewImage} alt="Photo studio" />
               </div>
               <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
+                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
               </div>
               <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio"/>
+                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio" />
               </div>
               <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio"/>
+                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio" />
               </div>
               <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio"/>
+                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio" />
               </div>
               <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio"/>
+                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
               </div>
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
               {isPremium &&
-              <div className="offer__mark">
-                <span>Premium</span>
-              </div>}
+                <div className="offer__mark">
+                  <span>Premium</span>
+                </div>}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {title}
@@ -147,7 +147,7 @@ export default function Offer(props:Props):JSX.Element {
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
                   <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
+                    <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
                     Angelina
@@ -165,7 +165,7 @@ export default function Offer(props:Props):JSX.Element {
                   </p>
                 </div>
               </div>
-              <ReviewsSection authorizationStatus={authorizationStatus}/>
+              <ReviewsSection authorizationStatus={authorizationStatus} />
             </div>
           </div>
           <section className="offer__map map"></section>
@@ -177,7 +177,7 @@ export default function Offer(props:Props):JSX.Element {
               <article className="near-places__card place-card">
                 <div className="near-places__image-wrapper place-card__image-wrapper">
                   <a href="#">
-                    <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place image"/>
+                    <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place image" />
                   </a>
                 </div>
                 <div className="place-card__info">
@@ -195,7 +195,7 @@ export default function Offer(props:Props):JSX.Element {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: '80%'}}></span>
+                      <span style={{ width: '80%' }}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
@@ -209,7 +209,7 @@ export default function Offer(props:Props):JSX.Element {
               <article className="near-places__card place-card">
                 <div className="near-places__image-wrapper place-card__image-wrapper">
                   <a href="#">
-                    <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place image"/>
+                    <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place image" />
                   </a>
                 </div>
                 <div className="place-card__info">
@@ -227,7 +227,7 @@ export default function Offer(props:Props):JSX.Element {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: '80%'}}></span>
+                      <span style={{ width: '80%' }}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>
@@ -244,7 +244,7 @@ export default function Offer(props:Props):JSX.Element {
                 </div>
                 <div className="near-places__image-wrapper place-card__image-wrapper">
                   <a href="#">
-                    <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place image"/>
+                    <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place image" />
                   </a>
                 </div>
                 <div className="place-card__info">
@@ -262,7 +262,7 @@ export default function Offer(props:Props):JSX.Element {
                   </div>
                   <div className="place-card__rating rating">
                     <div className="place-card__stars rating__stars">
-                      <span style={{width: '100%'}}></span>
+                      <span style={{ width: '100%' }}></span>
                       <span className="visually-hidden">Rating</span>
                     </div>
                   </div>

@@ -3,22 +3,22 @@ import { Link } from 'react-router-dom';
 import { SCALE_RATING } from '../../const';
 
 type Props = {
-  offer:OfferType;
-  }
+  offer: OfferType;
+}
 
-function FavoritesOffer (props: Props): JSX.Element {
-  const {isPremium, title, price, rating, previewImage , type, id} = props.offer;
+function FavoritesOffer(props: Props): JSX.Element {
+  const { isPremium, title, price, rating, previewImage, type, id } = props.offer;
   const offerRoute = `/offer/${id}`;
 
   return (
     <article className="favorites__card place-card">
       {isPremium &&
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>}
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>}
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={offerRoute}>
-          <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place image"/>
+          <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place image" />
         </Link>
       </div>
       <div className="favorites__card-info place-card__info">
@@ -36,7 +36,7 @@ function FavoritesOffer (props: Props): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${rating * SCALE_RATING}%`}}></span>
+            <span style={{ width: `${rating * SCALE_RATING}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

@@ -9,6 +9,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App cards = {placeCards} />
+    <App cards={placeCards} />
   </React.StrictMode>
 );
