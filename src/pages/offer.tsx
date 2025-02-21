@@ -9,15 +9,15 @@ import { AuthorizationStatus } from '../const';
 import ReviewsSection from '../components/reviews/reviews-section';
 
 type Props = {
-  cards: OfferType[];
+  offers: OfferType[];
   authorizationStatus: AuthorizationStatus;
 }
 
 export default function Offer(props: Props): JSX.Element {
-  const { cards, authorizationStatus } = props;
+  const { offers, authorizationStatus } = props;
 
   const params = useParams();
-  const currentOffer = cards.find((offer) => (offer.id === params.id));
+  const currentOffer = offers.find((offer) => (offer.id === params.id));
 
   if (!currentOffer) {
     return <NotFoundPage authorizationStatus={authorizationStatus} />;

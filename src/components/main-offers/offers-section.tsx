@@ -1,23 +1,26 @@
-import { OfferType } from '../../types/common';
+import { OfferType, LocationType } from '../../types/common';
 import OfferCard from './offer-card';
 import { useState } from 'react';
 import { Nullable } from 'vitest';
+import OffersMap from './offers-map';
 
 type Props = {
-  cards: OfferType[];
+  offers: OfferType[];
+  currentCity: LocationType;
 }
 
 function OffersSection(props: Props): JSX.Element {
+  const { offers, currentCity } = props;
   const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null);
 
   const handleOfferHover = (offer: OfferType | null) => {
     setActiveOffer(offer || null);
   };
 
-  const cardList = props.cards.map((card: OfferType) => (
+  const cardList = offers.map((offer: OfferType) => (
     <OfferCard
-      key={card.id}
-      cardData={card}
+      key={offer.id}
+      cardData={offer}
       onOfferHover={handleOfferHover}
     />));
 
@@ -47,7 +50,7 @@ function OffersSection(props: Props): JSX.Element {
         </div>
       </section>
       <div className="cities__right-section">
-        <section className="cities__map map"></section>
+        <OffersMap offers={offers} currentCity={currentCity} selectedOffer={activeOffer} />
       </div>
     </div>
   );

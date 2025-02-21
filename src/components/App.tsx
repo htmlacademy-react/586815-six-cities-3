@@ -11,19 +11,19 @@ import { HelmetProvider } from 'react-helmet-async';
 import { getAuthorizationStatus } from '../mocks/mocks';
 
 type Props = {
-  cards: OfferType[];
+  offers: OfferType[];
 }
 
 function App(props: Props): JSX.Element {
-  const { cards } = props;
-  const favoritesOffers = cards.filter((card) => card.isFavorite);
+  const { offers } = props;
+  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage cards={cards} authorizationStatus={getAuthorizationStatus()} />}
+            element={<MainPage offers={offers} authorizationStatus={getAuthorizationStatus()} />}
           />
           <Route
             path={AppRoute.Favorites}
@@ -31,7 +31,7 @@ function App(props: Props): JSX.Element {
               <PrivateRoute
                 authorizationStatus={getAuthorizationStatus()}
               >
-                <Favorites cards={favoritesOffers} authorizationStatus={getAuthorizationStatus()} />
+                <Favorites favoritesOffers={favoritesOffers} authorizationStatus={getAuthorizationStatus()} />
               </PrivateRoute>
             }
           />
@@ -43,7 +43,7 @@ function App(props: Props): JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer cards={cards} authorizationStatus={getAuthorizationStatus()} />}
+            element={<Offer offers={offers} authorizationStatus={getAuthorizationStatus()} />}
           />
           <Route
             path="*"

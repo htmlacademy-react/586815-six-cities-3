@@ -7,16 +7,16 @@ import FavoritesCity from '../components/favorites/favorites-city';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  cards: OfferType[];
+  favoritesOffers: OfferType[];
   authorizationStatus: AuthorizationStatus;
 };
 
 export default function Factories(props: Props): JSX.Element {
-  const { cards, authorizationStatus } = props;
+  const { favoritesOffers, authorizationStatus } = props;
 
-  const favoritesCities = [...new Set(cards.map((card) => card.city.name))];
+  const favoritesCities = [...new Set(favoritesOffers.map((offer) => offer.city.name))];
   const cityList = favoritesCities.map((city: string) => (
-    <FavoritesCity key={city} cityName={city} offers={cards} />
+    <FavoritesCity key={city} cityName={city} offers={favoritesOffers} />
   ));
 
   return (

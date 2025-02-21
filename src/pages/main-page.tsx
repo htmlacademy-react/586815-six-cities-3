@@ -7,12 +7,15 @@ import { AuthorizationStatus } from '../const';
 import NoOffersList from '../components/no-offers-list';
 
 type Props = {
-  cards: OfferType[];
+  offers: OfferType[];
   authorizationStatus: AuthorizationStatus;
 }
 
 function MainPage(props: Props): JSX.Element {
-  const { cards, authorizationStatus } = props;
+  const { offers, authorizationStatus } = props;
+
+  const currentCity = offers[0].city.location;
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -72,7 +75,7 @@ function MainPage(props: Props): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          {cards.length ? <OffersSection cards={cards} /> : <NoOffersList />}
+          {offers.length ? <OffersSection offers={offers} currentCity={currentCity} /> : <NoOffersList />}
         </div>
       </main>
     </div>
