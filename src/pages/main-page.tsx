@@ -7,12 +7,15 @@ import { AuthorizationStatus } from '../const';
 import NoOffersList from '../components/no-offers-list';
 
 type Props = {
-cards:OfferType[];
-authorizationStatus: AuthorizationStatus;
+  offers: OfferType[];
+  authorizationStatus: AuthorizationStatus;
 }
 
-function MainPage(props:Props): JSX.Element {
-  const {cards, authorizationStatus} = props;
+function MainPage(props: Props): JSX.Element {
+  const { offers, authorizationStatus } = props;
+
+  const currentCity = offers[0].city.location;
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -22,11 +25,11 @@ function MainPage(props:Props): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <Logo isActive/>
+              <Logo isActive />
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus}/>
+                <UserProfile authorizationStatus={authorizationStatus} />
               </ul>
             </nav>
           </div>
@@ -72,7 +75,7 @@ function MainPage(props:Props): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          {cards.length === 0 ? <NoOffersList/> : <OffersSection cards = {cards} />}
+          {offers.length ? <OffersSection offers={offers} currentCity={currentCity} /> : <NoOffersList />}
         </div>
       </main>
     </div>

@@ -7,14 +7,14 @@ type UserProfilePropsType = {
   authorizationStatus: AuthorizationStatus;
 };
 
-function UserProfile (props: UserProfilePropsType): JSX.Element {
-  const {disabled, authorizationStatus} = props;
+function UserProfile(props: UserProfilePropsType): JSX.Element {
+  const { disabled, authorizationStatus } = props;
 
   return (
     authorizationStatus === AuthorizationStatus.Auth ?
       <>
         <li className="header__nav-item user">
-          <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites} style={{ pointerEvents: disabled ? 'none' : 'auto'}} aria-disabled={disabled}>
+          <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites} style={{ pointerEvents: disabled ? 'none' : 'auto' }} aria-disabled={disabled}>
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
             <span className="header__user-name user__name">Oliver.conner@gmail.com</span>

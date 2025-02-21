@@ -1,9 +1,9 @@
-type CityType = {
+export type CityType = {
   name: string;
   location: LocationType;
 }
 
-type LocationType = {
+export type LocationType = {
   latitude: number;
   longitude: number;
   zoom: number;
@@ -20,5 +20,5 @@ export type OfferType = {
   isPremium: boolean;
   rating: number;
   previewImage: string;
-  };
+};
 

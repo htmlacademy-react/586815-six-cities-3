@@ -1,22 +1,22 @@
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
-import {Helmet} from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import { AuthorizationStatus } from '../const';
 import { OfferType } from '../types/common';
 import FavoritesCity from '../components/favorites/favorites-city';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  cards: OfferType[];
+  favoritesOffers: OfferType[];
   authorizationStatus: AuthorizationStatus;
 };
 
-export default function Factories(props: Props):JSX.Element {
-  const {cards, authorizationStatus} = props;
+export default function Factories(props: Props): JSX.Element {
+  const { favoritesOffers, authorizationStatus } = props;
 
-  const favoritesCities = [...new Set(cards.map((card) => card.city.name))];
-  const cityList = favoritesCities.map((city:string) => (
-    <FavoritesCity key={city} cityName={city} offers={cards}/>
+  const favoritesCities = [...new Set(favoritesOffers.map((offer) => offer.city.name))];
+  const cityList = favoritesCities.map((city: string) => (
+    <FavoritesCity key={city} cityName={city} offers={favoritesOffers} />
   ));
 
   return (
@@ -32,7 +32,7 @@ export default function Factories(props: Props):JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus} disabled/>
+                <UserProfile authorizationStatus={authorizationStatus} disabled />
               </ul>
             </nav>
           </div>
@@ -51,7 +51,7 @@ export default function Factories(props: Props):JSX.Element {
       </main>
       <footer className="footer container">
         <Link className="footer__logo-link" to="/">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
+          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </Link>
       </footer>
     </div>

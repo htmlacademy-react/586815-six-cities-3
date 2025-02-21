@@ -1,29 +1,29 @@
 import MainPage from '../pages/main-page';
 import { OfferType } from '../types/common';
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { AppRoute } from '../const';
 import NotFoundPage from '../pages/not-found-page';
 import Favorites from '../pages/favorites';
 import Login from '../pages/login';
 import Offer from '../pages/offer';
 import PrivateRoute from './private-route';
-import {HelmetProvider} from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 import { getAuthorizationStatus } from '../mocks/mocks';
 
 type Props = {
-  cards:OfferType[];
+  offers: OfferType[];
 }
 
 function App(props: Props): JSX.Element {
-  const {cards} = props;
-  const favoritesOffers = cards.filter((card) => card.isFavorite);
+  const { offers } = props;
+  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage cards={cards} authorizationStatus={getAuthorizationStatus()} />}
+            element={<MainPage offers={offers} authorizationStatus={getAuthorizationStatus()} />}
           />
           <Route
             path={AppRoute.Favorites}
@@ -31,7 +31,7 @@ function App(props: Props): JSX.Element {
               <PrivateRoute
                 authorizationStatus={getAuthorizationStatus()}
               >
-                <Favorites cards={favoritesOffers} authorizationStatus = {getAuthorizationStatus()} />
+                <Favorites favoritesOffers={favoritesOffers} authorizationStatus={getAuthorizationStatus()} />
               </PrivateRoute>
             }
           />
@@ -43,7 +43,7 @@ function App(props: Props): JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer cards={cards} authorizationStatus={getAuthorizationStatus()}/>}
+            element={<Offer offers={offers} authorizationStatus={getAuthorizationStatus()} />}
           />
           <Route
             path="*"

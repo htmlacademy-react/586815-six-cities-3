@@ -1,34 +1,34 @@
 import { Fragment, ReactEventHandler } from 'react';
 import { useState } from 'react';
 
-type ChangeHandler=ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+type ChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
-type RatingType ={
+type RatingType = {
   value: string;
   title: string;
 }
 
 const rating: RatingType[] = [
-  {value: '5', title: 'perfect'},
-  {value: '4', title: 'good'},
-  {value: '3', title: 'not bad'},
-  {value: '2', title: 'badly'},
-  {value: '1', title: 'terribly'}
+  { value: '5', title: 'perfect' },
+  { value: '4', title: 'good' },
+  { value: '3', title: 'not bad' },
+  { value: '2', title: 'badly' },
+  { value: '1', title: 'terribly' }
 ];
 
-function ReviewForm () :JSX.Element {
-  const [review, setReview] = useState({rating: 0, review: ''});
+function ReviewForm(): JSX.Element {
+  const [review, setReview] = useState({ rating: 0, review: '' });
 
-  const handleChange:ChangeHandler = (event) => {
-    const {name, value} = event.currentTarget;
-    setReview({...review, [name]:value});
+  const handleChange: ChangeHandler = (event) => {
+    const { name, value } = event.currentTarget;
+    setReview({ ...review, [name]: value });
   };
 
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {rating.map(({value, title})=>(
+        {rating.map(({ value, title }) => (
           <Fragment key={value}>
             <input
               className="form__rating-input visually-hidden"
@@ -60,7 +60,7 @@ function ReviewForm () :JSX.Element {
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-      To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"

@@ -2,16 +2,16 @@ import { OfferType } from '../../types/common';
 import FavoritesOffer from './favorites-offer';
 
 type Props = {
-cityName: string;
-offers: OfferType[];
+  cityName: string;
+  offers: OfferType[];
 }
 
-function FavoritesCity (props:Props): JSX.Element {
-  const {cityName, offers} = props;
-  const cityOffers = offers.filter((offer:OfferType) => offer.city.name === cityName);
+function FavoritesCity(props: Props): JSX.Element {
+  const { cityName, offers } = props;
+  const cityOffers = offers.filter((offer: OfferType) => offer.city.name === cityName);
 
-  const offersList = cityOffers.map((offer:OfferType) =>(
-    <FavoritesOffer offer={offer} key={offer.id}/>
+  const offersList = cityOffers.map((offer: OfferType) => (
+    <FavoritesOffer offer={offer} key={offer.id} />
   ));
 
   return (

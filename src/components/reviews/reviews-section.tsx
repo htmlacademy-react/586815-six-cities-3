@@ -3,11 +3,11 @@ import ReviewsList from './reviews-list';
 import ReviewForm from './review-form';
 
 type Props = {
-  authorizationStatus: AuthorizationStatus ;
-  }
+  authorizationStatus: AuthorizationStatus;
+}
 
-function ReviewsSection (props:Props): JSX.Element {
-  const {authorizationStatus} = props;
+function ReviewsSection(props: Props): JSX.Element {
+  const { authorizationStatus } = props;
 
   return (
     <section className="offer__reviews reviews">
