@@ -1,7 +1,7 @@
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../types/common';
+import { OfferType, ReviewType } from '../types/common';
 import { SCALE_RATING } from '../const';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found-page';
@@ -10,14 +10,16 @@ import ReviewsSection from '../components/reviews/reviews-section';
 
 type Props = {
   offers: OfferType[];
+  reviews: ReviewType[];
   authorizationStatus: AuthorizationStatus;
 }
 
 export default function Offer(props: Props): JSX.Element {
-  const { offers, authorizationStatus } = props;
+  const { offers, authorizationStatus, reviews } = props;
 
   const params = useParams();
   const currentOffer = offers.find((offer) => (offer.id === params.id));
+  const currentReviewsByOfferId = reviews.filter((review) => (review.id === params.id));
 
   if (!currentOffer) {
     return <NotFoundPage authorizationStatus={authorizationStatus} />;
@@ -165,7 +167,7 @@ export default function Offer(props: Props): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ReviewsSection authorizationStatus={authorizationStatus} />
+              <ReviewsSection authorizationStatus={authorizationStatus} reviews={currentReviewsByOfferId} />
             </div>
           </div>
           <section className="offer__map map"></section>
