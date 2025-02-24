@@ -17,37 +17,39 @@ type Props = {
 function App(props: Props): JSX.Element {
   const { offers } = props;
   const favoritesOffers = offers.filter((offer) => offer.isFavorite);
+  const authorizationStatus = getAuthorizationStatus();
+
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offers={offers} authorizationStatus={getAuthorizationStatus()} />}
+            element={<MainPage offers={offers} authorizationStatus={authorizationStatus} />}
           />
           <Route
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={getAuthorizationStatus()}
+                authorizationStatus={authorizationStatus}
               >
-                <Favorites favoritesOffers={favoritesOffers} authorizationStatus={getAuthorizationStatus()} />
+                <Favorites favoritesOffers={favoritesOffers} authorizationStatus={authorizationStatus} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Login}
             element={
-              <Login authorizationStatus={getAuthorizationStatus()} />
+              <Login authorizationStatus={authorizationStatus} />
             }
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer offers={offers} authorizationStatus={getAuthorizationStatus()} />}
+            element={<Offer offers={offers} authorizationStatus={authorizationStatus} />}
           />
           <Route
             path="*"
-            element={<NotFoundPage authorizationStatus={getAuthorizationStatus()} />}
+            element={<NotFoundPage authorizationStatus={authorizationStatus} />}
           />
         </Routes>
       </BrowserRouter>

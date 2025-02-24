@@ -9,7 +9,7 @@ import { Nullable } from 'vitest';
 type Props = {
   offers: OfferType[];
   currentCity: LocationType;
-  selectedOffer: Nullable<OfferType>;
+  selectedOfferId: Nullable<string>;
 }
 
 const defaultCustomIcon = leaflet.icon({
@@ -25,7 +25,7 @@ const currentCustomIcon = leaflet.icon({
 });
 
 function OffersMap(props: Props): JSX.Element {
-  const { offers, currentCity, selectedOffer } = props;
+  const { offers, currentCity, selectedOfferId } = props;
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap({ mapRef, city: currentCity });
 
@@ -36,14 +36,14 @@ function OffersMap(props: Props): JSX.Element {
           lat: offer.location.latitude,
           lng: offer.location.longitude,
         }, {
-          icon: (selectedOffer && selectedOffer.id === offer.id)
+          icon: (selectedOfferId && selectedOfferId === offer.id)
             ? currentCustomIcon
             : defaultCustomIcon
         })
           .addTo(map);
       });
     }
-  }, [map, offers, selectedOffer]);
+  }, [map, offers, selectedOfferId]);
 
   return (
     <section

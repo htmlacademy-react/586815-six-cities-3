@@ -13,7 +13,7 @@ function OffersSection(props: Props): JSX.Element {
   const { offers, currentCity } = props;
   const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null);
 
-  const handleOfferHover = (offer: OfferType | null) => {
+  const handleOfferHover = (offer: Nullable<OfferType>) => {
     setActiveOffer(offer || null);
   };
 
@@ -50,7 +50,7 @@ function OffersSection(props: Props): JSX.Element {
         </div>
       </section>
       <div className="cities__right-section">
-        <OffersMap offers={offers} currentCity={currentCity} selectedOffer={activeOffer} />
+        <OffersMap offers={offers} currentCity={currentCity} selectedOfferId={activeOffer ? activeOffer.id : null} />
       </div>
     </div>
   );
