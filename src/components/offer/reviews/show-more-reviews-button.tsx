@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ShowMoreButtonText } from '../../const';
+import { ShowMoreButtonText } from '../../../const';
 
 type Props = {
   handleShowButtonClick: () => void;

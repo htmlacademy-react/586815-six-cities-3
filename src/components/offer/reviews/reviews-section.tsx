@@ -1,10 +1,10 @@
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus } from '../../../const';
 import ReviewsList from './reviews-list';
 import ReviewForm from './review-form';
-import { ReviewType } from '../../types/common';
-import '../../css/reviews.css';
+import { ReviewType } from '../../../types/common';
+import '../../../css/reviews.css';
 import { useRef, useState } from 'react';
-import { VISIBLE_REVIEWS_AMOUNT } from '../../const';
+import { VISIBLE_REVIEWS_AMOUNT } from '../../../const';
 import ShowMoreReviewsButton from './show-more-reviews-button';
 
 type Props = {

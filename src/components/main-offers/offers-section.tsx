@@ -22,6 +22,7 @@ function OffersSection(props: Props): JSX.Element {
       key={offer.id}
       cardData={offer}
       onOfferHover={handleOfferHover}
+      isMainOffers
     />));
 
 

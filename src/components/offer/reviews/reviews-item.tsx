@@ -1,5 +1,5 @@
-import { ReviewType } from '../../types/common';
-import { SCALE_RATING } from '../../const';
+import { ReviewType } from '../../../types/common';
+import { SCALE_RATING } from '../../../const';
 import classNames from 'classnames';
 
 type Props = {
