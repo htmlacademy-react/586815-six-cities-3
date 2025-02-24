@@ -2,13 +2,17 @@ import { OfferType } from '../../types/common';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SCALE_RATING } from '../../const';
+import classNames from 'classnames';
 
 type Props = {
   cardData: OfferType;
-  onOfferHover: (offer: OfferType | null) => void;
+  onOfferHover?: (offer: OfferType | null) => void;
+  isMainOffers?: boolean;
+  isOffer?: boolean;
 }
 
 function OfferCard(props: Props): JSX.Element {
+  const { isMainOffers, isOffer } = props;
   const { isPremium, isFavorite, title, price, rating, previewImage, type, id } = props.cardData;
   const { onOfferHover } = props;
   const offerRoute = `/offer/${id}`;
@@ -23,20 +27,36 @@ function OfferCard(props: Props): JSX.Element {
   };
 
   const handleMouseEnter = () => {
-    onOfferHover(props.cardData);
+    if (onOfferHover) {
+      onOfferHover(props.cardData);
+    }
   };
 
   const handleMouseLeave = () => {
-    onOfferHover(null);
+    if (onOfferHover) {
+      onOfferHover(null);
+    }
   };
 
   return (
-    <article className="cities__card place-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <article
+      className={classNames('place-card',
+        isMainOffers && 'cities__card',
+        isOffer && 'near-places__card'
+      )}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div
+        className={classNames('place-card__image-wrapper',
+          isMainOffers && 'cities__image-wrapper',
+          isOffer && 'near-places__image-wrapper'
+        )}
+      >
         <Link to={offerRoute}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
         </Link>
@@ -65,7 +85,7 @@ function OfferCard(props: Props): JSX.Element {
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
-    </article>
+    </article >
   );
 }
 

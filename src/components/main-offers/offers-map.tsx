@@ -3,29 +3,17 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { OfferType, LocationType } from '../../types/common';
 import useMap from './use-map';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import { Nullable } from 'vitest';
+import { defaultCustomIcon, currentCustomIcon } from '../../const';
 
 type Props = {
   offers: OfferType[];
   currentCity: LocationType;
-  selectedOffer: Nullable<OfferType>;
+  selectedOfferId: Nullable<string>;
 }
 
-const defaultCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39],
-});
-
-const currentCustomIcon = leaflet.icon({
-  iconUrl: URL_MARKER_CURRENT,
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39],
-});
-
 function OffersMap(props: Props): JSX.Element {
-  const { offers, currentCity, selectedOffer } = props;
+  const { offers, currentCity, selectedOfferId } = props;
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap({ mapRef, city: currentCity });
 
@@ -36,14 +24,14 @@ function OffersMap(props: Props): JSX.Element {
           lat: offer.location.latitude,
           lng: offer.location.longitude,
         }, {
-          icon: (selectedOffer && selectedOffer.id === offer.id)
+          icon: (selectedOfferId && selectedOfferId === offer.id)
             ? currentCustomIcon
             : defaultCustomIcon
         })
           .addTo(map);
       });
     }
-  }, [map, offers, selectedOffer]);
+  }, [map, offers, selectedOfferId]);
 
   return (
     <section
