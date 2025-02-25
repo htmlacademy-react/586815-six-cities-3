@@ -1,25 +1,13 @@
-import { useState } from 'react';
-import { ShowMoreButtonText } from '../../../const';
-
 type Props = {
-  onToggleReviewsVisibility: (isVisibleAllReviews: React.MutableRefObject<boolean>) => void;
-  isVisibleAllReviews: React.MutableRefObject<boolean>;
+  onToggleReviewsVisibility: () => void;
+  buttonText: string;
 }
 
 function ShowMoreReviewsButton(props: Props): JSX.Element {
-  const { onToggleReviewsVisibility, isVisibleAllReviews } = props;
-  const [buttonText, setButtonText] = useState(ShowMoreButtonText.SHOW);
-
-  const handleToggleButtonText = () => {
-    if (isVisibleAllReviews.current) {
-      return setButtonText(ShowMoreButtonText.SHOW);
-    }
-    setButtonText(ShowMoreButtonText.HIDE);
-  };
+  const { onToggleReviewsVisibility, buttonText } = props;
 
   const handleButtonClick = () => {
-    handleToggleButtonText();
-    onToggleReviewsVisibility(isVisibleAllReviews);
+    onToggleReviewsVisibility();
   };
 
   return (
