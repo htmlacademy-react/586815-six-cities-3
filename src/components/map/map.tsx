@@ -5,15 +5,17 @@ import { OfferType, LocationType } from '../../types/common';
 import useMap from './use-map';
 import { Nullable } from 'vitest';
 import { defaultCustomIcon, currentCustomIcon } from '../../const';
+import classNames from 'classnames';
 
 type Props = {
+  className: string;
   offers: OfferType[];
   currentCity: LocationType;
   selectedOfferId: Nullable<string>;
 }
 
-function OffersMap(props: Props): JSX.Element {
-  const { offers, currentCity, selectedOfferId } = props;
+function Map(props: Props): JSX.Element {
+  const { className, offers, currentCity, selectedOfferId } = props;
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap({ mapRef, city: currentCity });
 
@@ -35,11 +37,11 @@ function OffersMap(props: Props): JSX.Element {
 
   return (
     <section
-      className="cities__map map"
+      className={classNames(className, 'map')}
       ref={mapRef}
     >
-    </section>
+    </section >
   );
 }
 
-export default OffersMap;
+export default Map;

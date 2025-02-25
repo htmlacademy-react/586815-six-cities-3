@@ -19,9 +19,14 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const enum ShowMoreButtonText {
+export enum ShowMoreButtonText {
   SHOW = 'Show more reviews',
   HIDE = 'Hide reviews'
+}
+
+export enum classNamesMap {
+  cities = 'cities__map',
+  offer = 'offer__map'
 }
 
 export const URL_MARKER_DEFAULT = '/img/pin.svg';

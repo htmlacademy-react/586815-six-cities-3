@@ -2,7 +2,8 @@ import { OfferType, LocationType } from '../../types/common';
 import OfferCard from './offer-card';
 import { useState } from 'react';
 import { Nullable } from 'vitest';
-import OffersMap from './offers-map';
+import Map from '../map/map';
+import { classNamesMap } from '../../const';
 
 type Props = {
   offers: OfferType[];
@@ -51,7 +52,12 @@ function OffersSection(props: Props): JSX.Element {
         </div>
       </section>
       <div className="cities__right-section">
-        <OffersMap offers={offers} currentCity={currentCity} selectedOfferId={activeOffer ? activeOffer.id : null} />
+        <Map
+          className={classNamesMap.cities}
+          offers={offers}
+          currentCity={currentCity}
+          selectedOfferId={activeOffer ? activeOffer.id : null}
+        />
       </div>
     </div>
   );
