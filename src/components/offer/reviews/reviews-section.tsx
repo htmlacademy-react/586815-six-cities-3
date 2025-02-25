@@ -33,7 +33,6 @@ function ReviewsSection(props: Props): JSX.Element {
     setIsVisibleMoreReviews(!isVisibleMoreReviews);
   };
 
-
   return (
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">Reviews &middot;
