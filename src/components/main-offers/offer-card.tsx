@@ -27,15 +27,11 @@ function OfferCard(props: Props): JSX.Element {
   };
 
   const handleMouseEnter = () => {
-    if (onOfferHover) {
-      onOfferHover(props.cardData);
-    }
+    onOfferHover?.(props.cardData);
   };
 
   const handleMouseLeave = () => {
-    if (onOfferHover) {
-      onOfferHover(null);
-    }
+    onOfferHover?.(null);
   };
 
   return (

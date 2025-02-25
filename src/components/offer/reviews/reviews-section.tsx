@@ -16,23 +16,25 @@ function ReviewsSection(props: Props): JSX.Element {
   const { authorizationStatus, reviews } = props;
   const reviewsAmount = reviews?.length || 0;
   const [renderAmount, setRenderAmount] = useState(VISIBLE_REVIEWS_AMOUNT);
+  const sortedReviews = reviews?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const reviewsForRender = sortedReviews?.slice(0, renderAmount);
+  const isVisibleReviewsRef = useRef(reviewsForRender?.length === sortedReviews?.length);
   const buttonRef = useRef(false);
 
   if (reviewsAmount > VISIBLE_REVIEWS_AMOUNT) {
     buttonRef.current = true;
   }
 
-  const sortedReviews = reviews?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  const handleShowButtonClick = () => {
-    setRenderAmount(sortedReviews?.length || 0);
-  };
-
-  const handleHideButtonClick = () => {
+  const handleToggleReviewsVisibility = (isVisibleAllReviews: React.MutableRefObject<boolean>) => {
+    if (!isVisibleAllReviews.current) {
+      setRenderAmount(sortedReviews?.length || 0);
+      isVisibleReviewsRef.current = true;
+      return;
+    }
     setRenderAmount(VISIBLE_REVIEWS_AMOUNT);
+    isVisibleReviewsRef.current = false;
   };
 
-  const reviewsForRender = sortedReviews && sortedReviews.slice(0, renderAmount);
 
   return (
     <section className="offer__reviews reviews">
@@ -40,7 +42,7 @@ function ReviewsSection(props: Props): JSX.Element {
       {reviewsForRender &&
         <><ReviewsList reviews={reviewsForRender} />
           {buttonRef.current &&
-            <ShowMoreReviewsButton handleShowButtonClick={handleShowButtonClick} handleHideButtonClick={handleHideButtonClick} />}
+            <ShowMoreReviewsButton onToggleReviewsVisibility={handleToggleReviewsVisibility} isVisibleAllReviews={isVisibleReviewsRef} />}
         </>}
       {(authorizationStatus === AuthorizationStatus.Auth) && <ReviewForm />}
     </section>

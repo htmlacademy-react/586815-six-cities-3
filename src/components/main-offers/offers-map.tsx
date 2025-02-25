@@ -24,7 +24,7 @@ function OffersMap(props: Props): JSX.Element {
           lat: offer.location.latitude,
           lng: offer.location.longitude,
         }, {
-          icon: (selectedOfferId && selectedOfferId === offer.id)
+          icon: (selectedOfferId === offer.id)
             ? currentCustomIcon
             : defaultCustomIcon
         })
