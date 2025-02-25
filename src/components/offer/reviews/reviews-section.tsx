@@ -29,7 +29,7 @@ function ReviewsSection(props: Props): JSX.Element {
   }, [reviewsAmount]);
 
   const handleButtonClick = () => {
-    setRenderAmount(!isVisibleMoreReviews ? sortedReviews?.length || 0 : VISIBLE_REVIEWS_AMOUNT);
+    setRenderAmount(!isVisibleMoreReviews ? reviewsAmount : VISIBLE_REVIEWS_AMOUNT);
     setIsVisibleMoreReviews(!isVisibleMoreReviews);
   };
 
