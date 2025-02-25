@@ -5,7 +5,6 @@ import { ReviewType } from '../../../types/common';
 import '../../../css/reviews.css';
 import { useState } from 'react';
 import { VISIBLE_REVIEWS_AMOUNT } from '../../../const';
-import ShowMoreReviewsButton from './show-more-reviews-button';
 import { ShowMoreButtonText } from '../../../const';
 import { useEffect } from 'react';
 
@@ -16,19 +15,20 @@ type Props = {
 
 function ReviewsSection(props: Props): JSX.Element {
   const { authorizationStatus, reviews } = props;
-  const reviewsAmount = reviews?.length || 0;
+
   const [renderAmount, setRenderAmount] = useState(VISIBLE_REVIEWS_AMOUNT);
+  const [isVisibleMoreReviews, setIsVisibleMoreReviews] = useState(false);
+  const [isVisibleButton, setIsVisibleButton] = useState(false);
+
+  const reviewsAmount = reviews?.length || 0;
   const sortedReviews = reviews?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const reviewsForRender = sortedReviews?.slice(0, renderAmount);
-  const [isVisibleMoreReviews, setIsVisibleMoreReviews] = useState(false);
-  const [isVisibleButton, setIsVisibleButton] = useState(reviewsAmount > VISIBLE_REVIEWS_AMOUNT);
-
 
   useEffect(() => {
     setIsVisibleButton(reviewsAmount > VISIBLE_REVIEWS_AMOUNT);
   }, [reviewsAmount]);
 
-  const handleToggleReviewsVisibility = () => {
+  const handleButtonClick = () => {
     setRenderAmount(!isVisibleMoreReviews ? sortedReviews?.length || 0 : VISIBLE_REVIEWS_AMOUNT);
     setIsVisibleMoreReviews(!isVisibleMoreReviews);
   };
@@ -41,10 +41,12 @@ function ReviewsSection(props: Props): JSX.Element {
       {reviewsForRender &&
         <><ReviewsList reviews={reviewsForRender} />
           {isVisibleButton &&
-            <ShowMoreReviewsButton
-              onToggleReviewsVisibility={handleToggleReviewsVisibility}
-              buttonText={isVisibleMoreReviews ? ShowMoreButtonText.HIDE : ShowMoreButtonText.SHOW}
-            />}
+            <button
+              className="button button-show-more"
+              onClick={handleButtonClick}
+            >
+              {isVisibleMoreReviews ? ShowMoreButtonText.HIDE : ShowMoreButtonText.SHOW}
+            </button>}
         </>}
       {(authorizationStatus === AuthorizationStatus.Auth) && <ReviewForm />}
     </section>
