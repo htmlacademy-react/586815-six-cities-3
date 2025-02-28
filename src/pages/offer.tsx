@@ -7,9 +7,10 @@ import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found-page';
 import { AuthorizationStatus } from '../const';
 import ReviewsSection from '../components/offer/reviews/reviews-section';
-import OfferMap from '../components/offer/offer-map';
 import { NEAR_OFFERS_AMOUNT } from '../const';
 import NearOffersList from '../components/offer/near-offers-list';
+import Map from '../components/map/map';
+import { classNamesMap } from '../const';
 
 type Props = {
   offers: OfferType[];
@@ -28,10 +29,11 @@ export default function Offer(props: Props): JSX.Element {
     return <NotFoundPage authorizationStatus={authorizationStatus} />;
   }
 
-  const { price, title, isPremium, previewImage, rating, type, city, id, location } = currentOffer;
+  const { price, title, isPremium, previewImage, rating, type, city, id } = currentOffer;
+
   const currentCity = city.location;
   const nearOffers = offers.filter((offer) => offer.id !== id).slice(0, NEAR_OFFERS_AMOUNT);
-  const nearOffersLocations = nearOffers.map((offer) => offer.location);
+  const nearOffersPlusCurrent = [currentOffer, ...nearOffers];
 
   return (
     <div className="page">
@@ -176,7 +178,12 @@ export default function Offer(props: Props): JSX.Element {
               <ReviewsSection authorizationStatus={authorizationStatus} reviews={currentReviewsByOfferId} />
             </div>
           </div>
-          <OfferMap currentCity={currentCity} currentOfferLocation={location} nearOffersLocations={nearOffersLocations} />
+          <Map
+            className={classNamesMap.offer}
+            currentCity={currentCity}
+            offers={nearOffersPlusCurrent}
+            selectedOfferId={id}
+          />
         </section>
         <NearOffersList nearOffers={nearOffers} />
       </main>

@@ -5,16 +5,47 @@ import { Helmet } from 'react-helmet-async';
 import OffersSection from '../components/main-offers/offers-section';
 import { AuthorizationStatus } from '../const';
 import NoOffersList from '../components/no-offers-list';
+import Cities from '../components/cities';
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { LocationType } from '../types/common';
+import React, { useEffect, useState } from 'react';
+import { changeCity } from '../store/action';
 
 type Props = {
   offers: OfferType[];
   authorizationStatus: AuthorizationStatus;
 }
 
+const getCurrenCityLocation = (city: string, offers: OfferType[]) => offers.find((offer) => offer.city.name === city)?.city.location;
+
+const getFilteredOffers = (city: string, offers: OfferType[]) => offers.filter((offer) => offer.city.name === city);
+
 function MainPage(props: Props): JSX.Element {
   const { offers, authorizationStatus } = props;
 
-  const currentCity = offers[0].city.location;
+  const [currentCity, setCurrentCity] = useState(useAppSelector((state) => state.city));
+  const [currentCityLocation, setCurrentCityLocation] = useState<LocationType | null>(getCurrenCityLocation(currentCity, offers) || null);
+  const [filteredOffers, setFilteredOffers] = useState<OfferType[]>(getFilteredOffers(currentCity, offers));
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const newLocation = getCurrenCityLocation(currentCity, offers);
+    const newFilteredOffers = getFilteredOffers(currentCity, offers);
+    setCurrentCityLocation(newLocation || null);
+    setFilteredOffers(newFilteredOffers);
+  }, [currentCity, offers]);
+
+  const handleCityClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+
+    const target = evt.currentTarget as HTMLAnchorElement;
+
+    const cityName = target.dataset.name?.toString() || '';
+
+    dispatch(changeCity(cityName));
+    setCurrentCity(cityName);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -37,45 +68,9 @@ function MainPage(props: Props): JSX.Element {
       </header>
 
       <main className="page__main page__main--index">
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
-        </div>
+        <Cities currentCity={currentCity} onCityClick={handleCityClick} />
         <div className="cities">
-          {offers.length ? <OffersSection offers={offers} currentCity={currentCity} /> : <NoOffersList />}
+          {currentCityLocation ? <OffersSection offers={filteredOffers} currentCity={currentCity} currentCityLocation={currentCityLocation} /> : <NoOffersList />}
         </div>
       </main>
     </div>

@@ -9,6 +9,8 @@ import Offer from '../pages/offer';
 import PrivateRoute from './private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import { getAuthorizationStatus } from '../mocks/offers';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { initialOffers } from '../store/action';
 
 type Props = {
   offers: OfferType[];
@@ -17,7 +19,13 @@ type Props = {
 
 function App(props: Props): JSX.Element {
   const { offers, reviews } = props;
-  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
+
+  const dispatch = useAppDispatch();
+  dispatch(initialOffers(offers));
+
+  const initialedOffers = useAppSelector((state) => state.offers);
+
+  const favoritesOffers = initialedOffers.filter((offer) => offer.isFavorite);
   const authorizationStatus = getAuthorizationStatus();
 
   return (
@@ -26,7 +34,7 @@ function App(props: Props): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offers={offers} authorizationStatus={authorizationStatus} />}
+            element={<MainPage offers={initialedOffers} authorizationStatus={authorizationStatus} />}
           />
           <Route
             path={AppRoute.Favorites}
@@ -46,7 +54,7 @@ function App(props: Props): JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer offers={offers} reviews={reviews} authorizationStatus={authorizationStatus} />}
+            element={<Offer offers={initialedOffers} reviews={reviews} authorizationStatus={authorizationStatus} />}
           />
           <Route
             path="*"

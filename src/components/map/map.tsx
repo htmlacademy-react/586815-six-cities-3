@@ -5,41 +5,60 @@ import { OfferType, LocationType } from '../../types/common';
 import useMap from './use-map';
 import { Nullable } from 'vitest';
 import { defaultCustomIcon, currentCustomIcon } from '../../const';
+import classNames from 'classnames';
 
 type Props = {
+  className: string;
   offers: OfferType[];
   currentCity: LocationType;
   selectedOfferId: Nullable<string>;
 }
 
-function OffersMap(props: Props): JSX.Element {
-  const { offers, currentCity, selectedOfferId } = props;
+function Map(props: Props): JSX.Element {
+  const { className, offers, currentCity, selectedOfferId } = props;
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap({ mapRef, city: currentCity });
+  // const [newMap, setNewMap] = useState<leaflet.Map | null>(null);
+  const markerGroupRef = useRef<leaflet.LayerGroup | null>(null);
 
   useEffect(() => {
+    if (map) {
+      map.setView({
+        lat: currentCity.latitude,
+        lng: currentCity.longitude,
+      }, currentCity.zoom);
+    }
+  }, [currentCity, map]);
+
+  useEffect(() => {
+    if (!markerGroupRef.current && map) {
+      markerGroupRef.current = leaflet.layerGroup().addTo(map);
+    }
+
+    markerGroupRef.current?.clearLayers();
+
     if (map) {
       offers.forEach((offer) => {
         leaflet.marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude,
         }, {
-          icon: (selectedOfferId && selectedOfferId === offer.id)
+          icon: (selectedOfferId === offer.id)
             ? currentCustomIcon
             : defaultCustomIcon
         })
-          .addTo(map);
+          .addTo(markerGroupRef.current as leaflet.LayerGroup);
       });
     }
   }, [map, offers, selectedOfferId]);
 
   return (
     <section
-      className="cities__map map"
+      className={classNames(className, 'map')}
       ref={mapRef}
     >
-    </section>
+    </section >
   );
 }
 
-export default OffersMap;
+export default Map;

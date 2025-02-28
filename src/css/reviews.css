@@ -11,7 +11,7 @@
   height: 20px;
   border-radius: 50%;
   background-color: #ff9000;
-  background-image: url(../../public/img/star-white.svg);
+  background-image: url(/img/star-white.svg);
   background-size: 15px 14px;
   background-position: center 2px;
   background-repeat: no-repeat;

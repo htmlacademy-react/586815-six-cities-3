@@ -3,9 +3,10 @@ import ReviewsList from './reviews-list';
 import ReviewForm from './review-form';
 import { ReviewType } from '../../../types/common';
 import '../../../css/reviews.css';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { VISIBLE_REVIEWS_AMOUNT } from '../../../const';
-import ShowMoreReviewsButton from './show-more-reviews-button';
+import { ShowMoreButtonText } from '../../../const';
+import { useEffect } from 'react';
 
 type Props = {
   authorizationStatus: AuthorizationStatus;
@@ -14,33 +15,38 @@ type Props = {
 
 function ReviewsSection(props: Props): JSX.Element {
   const { authorizationStatus, reviews } = props;
-  const reviewsAmount = reviews?.length || 0;
+
   const [renderAmount, setRenderAmount] = useState(VISIBLE_REVIEWS_AMOUNT);
-  const buttonRef = useRef(false);
+  const [isVisibleMoreReviews, setIsVisibleMoreReviews] = useState(false);
+  const [isVisibleButton, setIsVisibleButton] = useState(false);
 
-  if (reviewsAmount > VISIBLE_REVIEWS_AMOUNT) {
-    buttonRef.current = true;
-  }
-
+  const reviewsAmount = reviews?.length || 0;
   const sortedReviews = reviews?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const reviewsForRender = sortedReviews?.slice(0, renderAmount);
 
-  const handleShowButtonClick = () => {
-    setRenderAmount(sortedReviews?.length || 0);
+  useEffect(() => {
+    setIsVisibleButton(reviewsAmount > VISIBLE_REVIEWS_AMOUNT);
+  }, [reviewsAmount]);
+
+  const handleButtonClick = () => {
+    setRenderAmount(!isVisibleMoreReviews ? reviewsAmount : VISIBLE_REVIEWS_AMOUNT);
+    setIsVisibleMoreReviews(!isVisibleMoreReviews);
   };
-
-  const handleHideButtonClick = () => {
-    setRenderAmount(VISIBLE_REVIEWS_AMOUNT);
-  };
-
-  const reviewsForRender = sortedReviews && sortedReviews.slice(0, renderAmount);
 
   return (
     <section className="offer__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviewsAmount}</span></h2>
+      <h2 className="reviews__title">Reviews &middot;
+        <span className="reviews__amount">{reviewsAmount}</span>
+      </h2>
       {reviewsForRender &&
         <><ReviewsList reviews={reviewsForRender} />
-          {buttonRef.current &&
-            <ShowMoreReviewsButton handleShowButtonClick={handleShowButtonClick} handleHideButtonClick={handleHideButtonClick} />}
+          {isVisibleButton &&
+            <button
+              className="button button-show-more"
+              onClick={handleButtonClick}
+            >
+              {isVisibleMoreReviews ? ShowMoreButtonText.HIDE : ShowMoreButtonText.SHOW}
+            </button>}
         </>}
       {(authorizationStatus === AuthorizationStatus.Auth) && <ReviewForm />}
     </section>

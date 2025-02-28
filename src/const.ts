@@ -6,6 +6,8 @@ export const VISIBLE_REVIEWS_AMOUNT = 10;
 
 export const NEAR_OFFERS_AMOUNT = 3;
 
+export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
 export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
@@ -19,9 +21,14 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const enum ShowMoreButtonText {
+export enum ShowMoreButtonText {
   SHOW = 'Show more reviews',
   HIDE = 'Hide reviews'
+}
+
+export enum classNamesMap {
+  cities = 'cities__map',
+  offer = 'offer__map'
 }
 
 export const URL_MARKER_DEFAULT = '/img/pin.svg';
