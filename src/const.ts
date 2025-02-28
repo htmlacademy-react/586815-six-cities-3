@@ -6,6 +6,8 @@ export const VISIBLE_REVIEWS_AMOUNT = 10;
 
 export const NEAR_OFFERS_AMOUNT = 3;
 
+export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
 export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',

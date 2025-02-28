@@ -36,6 +36,7 @@ function useMap(props: Props): leaflet.Map | null {
     }
   }, [mapRef, city]);
 
+
   return map;
 }
 

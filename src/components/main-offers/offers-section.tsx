@@ -7,11 +7,12 @@ import { classNamesMap } from '../../const';
 
 type Props = {
   offers: OfferType[];
-  currentCity: LocationType;
+  currentCity: string;
+  currentCityLocation: LocationType;
 }
 
 function OffersSection(props: Props): JSX.Element {
-  const { offers, currentCity } = props;
+  const { offers, currentCity, currentCityLocation } = props;
   const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null);
 
   const handleOfferHover = (offer: Nullable<OfferType>) => {
@@ -31,7 +32,7 @@ function OffersSection(props: Props): JSX.Element {
     <div className="cities__places-container container">
       <section className="cities__places places">
         <h2 className="visually-hidden">Places</h2>
-        <b className="places__found">312 places to stay in Amsterdam</b>
+        <b className="places__found">{offers.length} places to stay in {currentCity}</b>
         <form className="places__sorting" action="#" method="get">
           <span className="places__sorting-caption">Sort by</span>
           <span className="places__sorting-type" tabIndex={0}>
@@ -55,7 +56,7 @@ function OffersSection(props: Props): JSX.Element {
         <Map
           className={classNamesMap.cities}
           offers={offers}
-          currentCity={currentCity}
+          currentCity={currentCityLocation}
           selectedOfferId={activeOffer ? activeOffer.id : null}
         />
       </div>

@@ -18,8 +18,25 @@ function Map(props: Props): JSX.Element {
   const { className, offers, currentCity, selectedOfferId } = props;
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap({ mapRef, city: currentCity });
+  // const [newMap, setNewMap] = useState<leaflet.Map | null>(null);
+  const markerGroupRef = useRef<leaflet.LayerGroup | null>(null);
 
   useEffect(() => {
+    if (map) {
+      map.setView({
+        lat: currentCity.latitude,
+        lng: currentCity.longitude,
+      }, currentCity.zoom);
+    }
+  }, [currentCity, map]);
+
+  useEffect(() => {
+    if (!markerGroupRef.current && map) {
+      markerGroupRef.current = leaflet.layerGroup().addTo(map);
+    }
+
+    markerGroupRef.current?.clearLayers();
+
     if (map) {
       offers.forEach((offer) => {
         leaflet.marker({
@@ -30,7 +47,7 @@ function Map(props: Props): JSX.Element {
             ? currentCustomIcon
             : defaultCustomIcon
         })
-          .addTo(map);
+          .addTo(markerGroupRef.current as leaflet.LayerGroup);
       });
     }
   }, [map, offers, selectedOfferId]);
