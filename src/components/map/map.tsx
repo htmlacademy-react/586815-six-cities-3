@@ -18,7 +18,6 @@ function Map(props: Props): JSX.Element {
   const { className, offers, currentCity, selectedOfferId } = props;
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap({ mapRef, city: currentCity });
-  // const [newMap, setNewMap] = useState<leaflet.Map | null>(null);
   const markerGroupRef = useRef<leaflet.LayerGroup | null>(null);
 
   useEffect(() => {

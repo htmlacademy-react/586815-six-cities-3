@@ -1,11 +1,12 @@
 import { OfferType, LocationType } from '../../types/common';
 import OfferCard from './offer-card';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Nullable } from 'vitest';
 import Map from '../map/map';
 import { classNamesMap } from '../../const';
 import Sorting from './sorting';
 import { getSortedOffers } from '../../utils/sort';
+import { SortingOptions } from '../../const';
 
 type Props = {
   offers: OfferType[];
@@ -16,13 +17,21 @@ type Props = {
 function OffersSection(props: Props): JSX.Element {
   const { offers, currentCity, currentCityLocation } = props;
   const [activeOffer, setActiveOffer] = useState<Nullable<OfferType>>(null);
-  const [sortedOffers, setSortedOffers] = useState<OfferType[]>(offers);
+  const [currentSortOption, setCurrentSortOption] = useState<string>(SortingOptions.POPULAR);
+  const [sortedOffers, setSortedOffers] = useState<OfferType[]>(getSortedOffers(offers, currentSortOption));
+
+  useEffect(() => {
+    setSortedOffers(getSortedOffers(offers, currentSortOption));
+  }, [currentCity, offers, currentSortOption]);
 
   const handleOfferHover = (offer: Nullable<OfferType>) => {
     setActiveOffer(offer || null);
   };
 
-  const handleSortingOptionChange = (sortType: string) => setSortedOffers(getSortedOffers(offers, sortType));
+  const handleSortingOptionChange = (sortOption: string) => {
+    setSortedOffers(getSortedOffers(offers, sortOption));
+    setCurrentSortOption(sortOption);
+  };
 
   const cardList = sortedOffers.map((offer: OfferType) => (
     <OfferCard
