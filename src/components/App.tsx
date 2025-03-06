@@ -50,7 +50,7 @@ function App(props: Props): JSX.Element {
           <Route
             path={AppRoute.Login}
             element={
-              <Login authorizationStatus={authorizationStatus} />
+              <Login />
             }
           />
           <Route
