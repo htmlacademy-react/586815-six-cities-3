@@ -1,5 +1,5 @@
 import MainPage from '../pages/main-page';
-import { OfferType, ReviewType } from '../types/common';
+import { ReviewType } from '../types/common';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { AppRoute } from '../const';
 import NotFoundPage from '../pages/not-found-page';
@@ -8,25 +8,26 @@ import Login from '../pages/login';
 import Offer from '../pages/offer';
 import PrivateRoute from './private-route';
 import { HelmetProvider } from 'react-helmet-async';
-import { getAuthorizationStatus } from '../mocks/offers';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { initialOffers } from '../store/action';
+import { useAppSelector } from '../hooks';
+import Loader from '../loader';
+import { AuthorizationStatus } from '../const';
 
 type Props = {
-  offers: OfferType[];
   reviews: ReviewType[];
 }
 
 function App(props: Props): JSX.Element {
-  const { offers, reviews } = props;
-
-  const dispatch = useAppDispatch();
-  dispatch(initialOffers(offers));
+  const { reviews } = props;
 
   const initialedOffers = useAppSelector((state) => state.offers);
 
   const favoritesOffers = initialedOffers.filter((offer) => offer.isFavorite);
-  const authorizationStatus = getAuthorizationStatus();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) {
+    return <Loader />;
+  }
 
   return (
     <HelmetProvider>

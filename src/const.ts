@@ -6,6 +6,8 @@ export const VISIBLE_REVIEWS_AMOUNT = 10;
 
 export const NEAR_OFFERS_AMOUNT = 3;
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export enum AppRoute {
@@ -53,3 +55,10 @@ export const SortingOptions = {
   PRICE_HIGH_TO_LOW: 'Price: high to low',
   TOP_RATED_FIRST: 'Top rated first',
 };
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Favorites = '/favorite'
+}
