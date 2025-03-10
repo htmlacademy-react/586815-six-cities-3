@@ -1,18 +1,16 @@
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
-import { AuthorizationStatus } from '../const';
 import { OfferType } from '../types/common';
 import FavoritesCity from '../components/favorites/favorites-city';
 import { Link } from 'react-router-dom';
 
 type Props = {
   favoritesOffers: OfferType[];
-  authorizationStatus: AuthorizationStatus;
 };
 
 export default function Factories(props: Props): JSX.Element {
-  const { favoritesOffers, authorizationStatus } = props;
+  const { favoritesOffers } = props;
 
   const favoritesCities = [...new Set(favoritesOffers.map((offer) => offer.city.name))];
   const cityList = favoritesCities.map((city: string) => (
@@ -32,7 +30,7 @@ export default function Factories(props: Props): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus} disabled />
+                <UserProfile disabled />
               </ul>
             </nav>
           </div>

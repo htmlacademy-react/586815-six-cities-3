@@ -3,7 +3,6 @@ import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
 import OffersSection from '../components/main-offers/offers-section';
-import { AuthorizationStatus } from '../const';
 import NoOffersList from '../components/no-offers-list';
 import Cities from '../components/cities';
 import { useAppSelector, useAppDispatch } from '../hooks';
@@ -13,7 +12,6 @@ import { changeCity } from '../store/action';
 
 type Props = {
   offers: OfferType[];
-  authorizationStatus: AuthorizationStatus;
 }
 
 const getCurrenCityLocation = (city: string, offers: OfferType[]) => offers.find((offer) => offer.city.name === city)?.city.location;
@@ -21,7 +19,7 @@ const getCurrenCityLocation = (city: string, offers: OfferType[]) => offers.find
 const getFilteredOffers = (city: string, offers: OfferType[]) => offers.filter((offer) => offer.city.name === city);
 
 function MainPage(props: Props): JSX.Element {
-  const { offers, authorizationStatus } = props;
+  const { offers } = props;
 
   const [currentCity, setCurrentCity] = useState(useAppSelector((state) => state.city));
   const [currentCityLocation, setCurrentCityLocation] = useState<LocationType | null>(getCurrenCityLocation(currentCity, offers) || null);
@@ -60,7 +58,7 @@ function MainPage(props: Props): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus} />
+                <UserProfile />
               </ul>
             </nav>
           </div>

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { AuthorizationStatus } from '../const';
 import { AppRoute } from '../const';
 import { useAppDispatch } from '../hooks';
 import { logoutAction } from '../store/api-actions';
@@ -7,11 +6,10 @@ import { useAppSelector } from '../hooks';
 
 type UserProfilePropsType = {
   disabled?: boolean;
-  authorizationStatus: AuthorizationStatus;
 };
 
 function UserProfile(props: UserProfilePropsType): JSX.Element {
-  const { disabled, authorizationStatus } = props;
+  const { disabled } = props;
   const userData = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
@@ -19,8 +17,7 @@ function UserProfile(props: UserProfilePropsType): JSX.Element {
     dispatch(logoutAction());
   };
 
-  if (authorizationStatus !== AuthorizationStatus.Auth ||
-    !userData) {
+  if (!userData) {
     return (
       <li className="header__nav-item user">
         <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>

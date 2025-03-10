@@ -9,6 +9,5 @@ const requireAuthorization = createAction<AuthorizationStatus>('requireAuthoriza
 const setError = createAction<string | null>('setError');
 const setOffersLoadingStatus = createAction<boolean>('setOffersLoadingStatus');
 const addUserData = createAction<UserData | null>('addUserData');
-const dropUserData = createAction<null>('dropUserData');
 
-export { changeCity, loadOffers, requireAuthorization, setError, setOffersLoadingStatus, addUserData, dropUserData };
+export { changeCity, loadOffers, requireAuthorization, setError, setOffersLoadingStatus, addUserData };

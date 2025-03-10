@@ -26,7 +26,7 @@ export default function Offer(props: Props): JSX.Element {
   const currentReviewsByOfferId = reviews.filter((review) => (review.id === params.id));
 
   if (!currentOffer) {
-    return <NotFoundPage authorizationStatus={authorizationStatus} />;
+    return <NotFoundPage />;
   }
 
   const { price, title, isPremium, previewImage, rating, type, city, id } = currentOffer;
@@ -48,7 +48,7 @@ export default function Offer(props: Props): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus} />
+                <UserProfile />
               </ul>
             </nav>
           </div>

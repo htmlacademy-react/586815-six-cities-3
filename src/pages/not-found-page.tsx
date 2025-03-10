@@ -3,14 +3,8 @@ import { Link } from 'react-router-dom';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../const';
-import { AuthorizationStatus } from '../const';
 
-type Props = {
-  authorizationStatus: AuthorizationStatus;
-};
-
-function NotFoundPage(props: Props): JSX.Element {
-  const { authorizationStatus } = props;
+function NotFoundPage(): JSX.Element {
   return (
     <div className="page page--gray">
       <Helmet>
@@ -24,7 +18,7 @@ function NotFoundPage(props: Props): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus} />
+                <UserProfile />
               </ul>
             </nav>
           </div>
