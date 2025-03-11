@@ -60,5 +60,6 @@ export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
-  Favorites = '/favorite'
+  Favorites = '/favorite',
+  Comments = '/comments',
 }

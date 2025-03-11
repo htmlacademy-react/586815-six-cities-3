@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../const';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from '../hooks/store';
 import { logoutAction } from '../store/api-actions';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../hooks/store';
 
 type UserProfilePropsType = {
   disabled?: boolean;

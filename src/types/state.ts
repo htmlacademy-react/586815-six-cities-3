@@ -1,5 +1,5 @@
 import { store } from '../store/index';
-import { OfferType } from './common';
+import { OfferType, DetailedOfferType, ReviewType } from './common';
 import { AuthorizationStatus } from '../const';
 import { UserData } from './user';
 
@@ -14,4 +14,7 @@ export type State = {
   error: string | null;
   isOffersLoading: boolean;
   user: UserData | null;
+  detailedOffer: DetailedOfferType | null;
+  offerReviews: ReviewType[] | never[];
+  nearbyOffers: OfferType[] | never[];
 }

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CITIES } from '../const';
-import { changeCity, loadOffers, requireAuthorization, setError, setOffersLoadingStatus, addUserData } from './action';
+import { changeCity, loadOffers, requireAuthorization, setError, setOffersLoadingStatus, addUserData, loadDetailedOffer, loadOfferReviews, loadNearbyOffers } from './action';
 import { AuthorizationStatus } from '../const';
 import { State } from '../types/state';
 
@@ -11,6 +11,9 @@ const initialState: State = {
   error: null,
   isOffersLoading: false,
   user: null,
+  detailedOffer: null,
+  offerReviews: [],
+  nearbyOffers: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -32,6 +35,15 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(addUserData, (state, action) => {
       state.user = action.payload;
+    })
+    .addCase(loadDetailedOffer, (state, action) => {
+      state.detailedOffer = action.payload;
+    })
+    .addCase(loadOfferReviews, (state, action) => {
+      state.offerReviews = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
     });
 });
 

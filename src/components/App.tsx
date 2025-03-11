@@ -1,5 +1,4 @@
 import MainPage from '../pages/main-page';
-import { ReviewType } from '../types/common';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { AppRoute } from '../const';
 import NotFoundPage from '../pages/not-found-page';
@@ -8,17 +7,11 @@ import Login from '../pages/login';
 import Offer from '../pages/offer';
 import PrivateRoute from './private-route';
 import { HelmetProvider } from 'react-helmet-async';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from '../hooks/store';
 import Loader from '../loader';
 import { AuthorizationStatus } from '../const';
 
-type Props = {
-  reviews: ReviewType[];
-}
-
-function App(props: Props): JSX.Element {
-  const { reviews } = props;
-
+function App(): JSX.Element {
   const initialedOffers = useAppSelector((state) => state.offers);
 
   const favoritesOffers = initialedOffers.filter((offer) => offer.isFavorite);
@@ -55,7 +48,7 @@ function App(props: Props): JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer offers={initialedOffers} reviews={reviews} authorizationStatus={authorizationStatus} />}
+            element={<Offer authorizationStatus={authorizationStatus} />}
           />
           <Route
             path="*"

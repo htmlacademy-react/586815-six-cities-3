@@ -2,7 +2,7 @@ import Logo from '../components/logo';
 import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../const';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from '../hooks/store';
 import { loginAction } from '../store/api-actions';
 import { FormEvent, useState } from 'react';
 
