@@ -65,6 +65,7 @@ export const createAPI = (): AxiosInstance => {
           );
         }
       }
+      toast.warn(error.message);
       throw error;
     }
   );

@@ -5,7 +5,7 @@ import { UserData } from '../types/user';
 
 const changeCity = createAction<string>('changeCity');
 const loadOffers = createAction<OfferType[]>('loadOffers');
-const loadDetailedOffer = createAction<DetailedOfferType>('loadDetailedOffer');
+const loadDetailedOffer = createAction<DetailedOfferType | null>('loadDetailedOffer');
 const loadOfferReviews = createAction<ReviewType[]>('loadOfferReviews');
 const loadNearbyOffers = createAction<OfferType[]>('loadNearbyOffers');
 const requireAuthorization = createAction<AuthorizationStatus>('requireAuthorization');

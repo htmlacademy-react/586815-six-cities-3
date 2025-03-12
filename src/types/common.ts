@@ -28,10 +28,13 @@ type UserType = {
   isPro: boolean;
 };
 
-export type ReviewType = {
+export type ReviewType = ReviewContentType & {
   id: string;
   date: string;
   user: UserType;
+};
+
+export type ReviewContentType = {
   comment: string;
   rating: number;
 };

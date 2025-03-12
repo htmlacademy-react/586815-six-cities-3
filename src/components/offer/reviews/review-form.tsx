@@ -1,31 +1,61 @@
 import { Fragment, ReactEventHandler } from 'react';
 import { useState } from 'react';
+import { sendReviewAction } from '../../../store/api-actions';
+import { useAppDispatch } from '../../../hooks/store';
+import { useParams } from 'react-router-dom';
+import { ReviewContentType } from '../../../types/common';
+import { toast } from 'react-toastify';
 
 type ChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
 type RatingType = {
-  value: string;
+  value: number;
   title: string;
 }
 
 const rating: RatingType[] = [
-  { value: '5', title: 'perfect' },
-  { value: '4', title: 'good' },
-  { value: '3', title: 'not bad' },
-  { value: '2', title: 'badly' },
-  { value: '1', title: 'terribly' }
+  { value: 5, title: 'perfect' },
+  { value: 4, title: 'good' },
+  { value: 3, title: 'not bad' },
+  { value: 2, title: 'badly' },
+  { value: 1, title: 'terribly' }
 ];
 
 function ReviewForm(): JSX.Element {
-  const [review, setReview] = useState({ rating: 0, review: '' });
+  const [review, setReview] = useState<ReviewContentType>({ comment: '', rating: 0 });
+  const [isSending, setIsSending] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+  const { id: offerId } = useParams<{ id: string }>();
 
   const handleChange: ChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
+    if (name === 'rating') {
+      setReview({ ...review, [name]: Number(value) });
+      return;
+    }
     setReview({ ...review, [name]: value });
   };
 
+  const handleSubmit = (evt: React.SyntheticEvent) => {
+    evt.preventDefault();
+    setIsSending(true);
+    dispatch(sendReviewAction({ offerId: offerId as string, offerData: review }))
+      .unwrap()
+      .then(() => {
+        toast.success('Review successfully published!');
+        setReview({ comment: '', rating: 0 });
+      })
+      .catch((error) => {
+        toast.warn(error as string);
+      })
+      .finally(() => {
+        setIsSending(false);
+      });
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {rating.map(({ value, title }) => (
@@ -36,7 +66,9 @@ function ReviewForm(): JSX.Element {
               defaultValue={value}
               id={`${value}-stars`}
               type="radio"
+              checked={review.rating === value}
               onChange={handleChange}
+              disabled={isSending}
             />
             <label
               htmlFor={`${value}-stars`}
@@ -53,10 +85,12 @@ function ReviewForm(): JSX.Element {
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
-        name="review"
+        name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        value={review.comment}
         onChange={handleChange}
-      >
+        disabled={isSending}
+      >{review.comment}
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -65,7 +99,7 @@ function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={review.review.length < 50 || review.rating === 0}
+          disabled={review.comment.length < 50 || review.rating === 0 || isSending}
         >Submit
         </button>
       </div>
