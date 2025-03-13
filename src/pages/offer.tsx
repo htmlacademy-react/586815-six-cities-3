@@ -1,39 +1,64 @@
 import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
-import { OfferType, ReviewType } from '../types/common';
-import { SCALE_RATING } from '../const';
+import { OfferType } from '../types/common';
+import { SCALE_RATING, NEAR_OFFERS_AMOUNT } from '../const';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found-page';
 import { AuthorizationStatus } from '../const';
 import ReviewsSection from '../components/offer/reviews/reviews-section';
-import { NEAR_OFFERS_AMOUNT } from '../const';
 import NearOffersList from '../components/offer/near-offers-list';
 import Map from '../components/map/map';
 import { classNamesMap } from '../const';
+import { fetchDetailedOffer, fetchOfferReviews, fetchNearbyOffers } from '../store/api-actions';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
+import { setError } from '../store/action';
+import Gallery from '../components/offer/gallery';
+import Features from '../components/offer/features';
 
 type Props = {
-  offers: OfferType[];
-  reviews: ReviewType[];
   authorizationStatus: AuthorizationStatus;
 }
 
 export default function Offer(props: Props): JSX.Element {
-  const { offers, authorizationStatus, reviews } = props;
+  const { authorizationStatus } = props;
 
-  const params = useParams();
-  const currentOffer = offers.find((offer) => (offer.id === params.id));
-  const currentReviewsByOfferId = reviews.filter((review) => (review.id === params.id));
+  const { id } = useParams();
 
-  if (!currentOffer) {
-    return <NotFoundPage authorizationStatus={authorizationStatus} />;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await Promise.all([
+          dispatch(fetchDetailedOffer(id)).unwrap(),
+          dispatch(fetchOfferReviews(id)).unwrap(),
+          dispatch(fetchNearbyOffers(id)).unwrap(),
+        ]);
+      } catch (error) {
+        dispatch(setError(error as string));
+      }
+    };
+
+    loadData();
+  }, [id, dispatch]);
+
+  const currentDetailedOffer = useAppSelector((state) => state.detailedOffer);
+  const reviews = useAppSelector((state) => state.offerReviews);
+  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const offers = useAppSelector((state) => state.offers);
+
+  if (!currentDetailedOffer) {
+    return <NotFoundPage />;
   }
 
-  const { price, title, isPremium, previewImage, rating, type, city, id } = currentOffer;
+  const { price, title, isPremium, images, rating, type, city, bedrooms, maxAdults, goods, description } = currentDetailedOffer;
 
+  const currentSimpleOffer = offers.find((offer) => offer.id === id) as OfferType;
   const currentCity = city.location;
-  const nearOffers = offers.filter((offer) => offer.id !== id).slice(0, NEAR_OFFERS_AMOUNT);
-  const nearOffersPlusCurrent = [currentOffer, ...nearOffers];
+  const nearbyOffersForMap = offers.filter((offer) => offer.id !== id).slice(0, NEAR_OFFERS_AMOUNT);
+  const nearbyOffersPlusCurrent = [currentSimpleOffer, ...nearbyOffersForMap];
 
   return (
     <div className="page">
@@ -48,7 +73,7 @@ export default function Offer(props: Props): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile authorizationStatus={authorizationStatus} />
+                <UserProfile />
               </ul>
             </nav>
           </div>
@@ -57,28 +82,7 @@ export default function Offer(props: Props): JSX.Element {
 
       <main className="page__main page__main--offer">
         <section className="offer">
-          <div className="offer__gallery-container container">
-            <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src={previewImage} alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-            </div>
-          </div>
+          <Gallery images={images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
               {isPremium &&
@@ -108,51 +112,17 @@ export default function Offer(props: Props): JSX.Element {
                   {type}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  3 Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max 4 adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
               <div className="offer__price">
                 <b className="offer__price-value">&euro;{price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
-              <div className="offer__inside">
-                <h2 className="offer__inside-title">What&apos;s inside</h2>
-                <ul className="offer__inside-list">
-                  <li className="offer__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="offer__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Towels
-                  </li>
-                  <li className="offer__inside-item">
-                    Heating
-                  </li>
-                  <li className="offer__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="offer__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="offer__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="offer__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="offer__inside-item">
-                    Fridge
-                  </li>
-                </ul>
-              </div>
+              <Features features={goods} />
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
@@ -168,24 +138,24 @@ export default function Offer(props: Props): JSX.Element {
                 </div>
                 <div className="offer__description">
                   <p className="offer__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
+                    {description}
                   </p>
-                  <p className="offer__text">
+                  {/* <p className="offer__text">
                     An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p>
+                  </p> */}
                 </div>
               </div>
-              <ReviewsSection authorizationStatus={authorizationStatus} reviews={currentReviewsByOfferId} />
+              <ReviewsSection authorizationStatus={authorizationStatus} reviews={reviews} />
             </div>
           </div>
           <Map
             className={classNamesMap.offer}
             currentCity={currentCity}
-            offers={nearOffersPlusCurrent}
+            offers={nearbyOffersPlusCurrent}
             selectedOfferId={id}
           />
         </section>
-        <NearOffersList nearOffers={nearOffers} />
+        <NearOffersList nearOffers={nearbyOffers} />
       </main>
     </div>
   );

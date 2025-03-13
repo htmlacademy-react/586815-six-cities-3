@@ -2,14 +2,13 @@ import Logo from '../components/logo';
 import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../const';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch } from '../hooks/store';
 import { loginAction } from '../store/api-actions';
-import { useRef, FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 
 export default function Login(): JSX.Element {
-
-  const loginRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -17,16 +16,11 @@ export default function Login(): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current && passwordRef.current) {
-      dispatch(loginAction({
-        login: loginRef.current.value,
-        password: passwordRef.current.value
-      }))
-        .unwrap()
-        .then(() =>
-          navigate(AppRoute.Main)
-        );
-    }
+    dispatch(loginAction({ login, password }))
+      .unwrap()
+      .then(() =>
+        navigate(AppRoute.Main)
+      );
   };
 
   return (
@@ -61,7 +55,8 @@ export default function Login(): JSX.Element {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  ref={loginRef}
+                  value={login}
+                  onChange={(evt) => setLogin(evt.target.value)}
                   required
                 />
               </div>
@@ -72,7 +67,8 @@ export default function Login(): JSX.Element {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  ref={passwordRef}
+                  value={password}
+                  onChange={(evt) => setPassword(evt.target.value)}
                   required
                 />
               </div>

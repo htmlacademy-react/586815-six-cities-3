@@ -21,7 +21,7 @@ function ReviewsSection(props: Props): JSX.Element {
   const [isVisibleButton, setIsVisibleButton] = useState(false);
 
   const reviewsAmount = reviews?.length || 0;
-  const sortedReviews = reviews?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const sortedReviews = [...(reviews || [])].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const reviewsForRender = sortedReviews?.slice(0, renderAmount);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function ReviewsSection(props: Props): JSX.Element {
       <h2 className="reviews__title">Reviews &middot;
         <span className="reviews__amount">{reviewsAmount}</span>
       </h2>
-      {reviewsForRender &&
+      {reviewsForRender?.length &&
         <><ReviewsList reviews={reviewsForRender} />
           {isVisibleButton &&
             <button
