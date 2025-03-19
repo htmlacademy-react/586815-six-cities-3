@@ -19,14 +19,16 @@ const initialState: FavoriteState = {
 export const favoritesSlice = createSlice({
   name: 'favorites',
   initialState,
-  reducers: {},
+  reducers: {
+    changeFetchingStatus(state, action) {
+      state.isFetching = action.payload as boolean;
+    }
+  },
   extraReducers(builder) {
     builder.addCase(fetchFavoritesOffers.pending, (state) => {
-      state.isFetching = true;
       state.status = RequestStatus.Loading;
     })
       .addCase(fetchFavoritesOffers.fulfilled, (state, action) => {
-        state.isFetching = false;
         state.items = action.payload;
         state.status = RequestStatus.Succeeded;
       })
@@ -34,11 +36,9 @@ export const favoritesSlice = createSlice({
         state.status = RequestStatus.Failed;
       })
       .addCase(changeFavorite.pending, (state) => {
-        state.isFetching = true;
         state.status = RequestStatus.Loading;
       })
       .addCase(changeFavorite.fulfilled, (state) => {
-        state.isFetching = false;
         state.status = RequestStatus.Succeeded;
       })
       .addCase(changeFavorite.rejected, (state) => {

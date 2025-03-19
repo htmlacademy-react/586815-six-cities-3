@@ -10,7 +10,7 @@ import { useAppDispatch } from '../../hooks/store';
 import { offersActions } from '../../store/slices/offers';
 import { memo } from 'react';
 
-const { changeFavorite } = favoriteActions;
+const { changeFavorite, changeFetchingStatus } = favoriteActions;
 const { changeFavoriteStatus } = offersActions;
 
 type Props = {
@@ -29,10 +29,14 @@ function OfferCard(props: Props): JSX.Element {
   // const [favoriteStatus, setFavoriteStatus] = useState(isFavorite);
 
   const handleFavoritesChange = () => {
+    dispatch(changeFetchingStatus(true));
     dispatch(changeFavorite({ offerId: id, status: !isFavorite }))
       .unwrap()
       .then(() => {
         dispatch(changeFavoriteStatus(id));
+      })
+      .finally(() => {
+        dispatch(changeFetchingStatus(false));
       });
 
 
