@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { AppRoute, TypeBookmark } from '../const';
 import { useAppSelector } from '../hooks/store';
-import { RequestStatus } from '../const';
+// import { RequestStatus } from '../const';
 import useAuth from '../hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ export default function Bookmark(props: Props): JSX.Element {
   const { type, isFavorite, onFavoritesChange } = props;
   const isAuth = useAuth();
   const navigate = useNavigate();
-  const isDataLoaded = useAppSelector((state) => state.favorites.status === RequestStatus.Loading);
+  const isDataLoaded = useAppSelector((state) => state.favorites.isFetching);
 
   const status = isFavorite && isAuth;
 
