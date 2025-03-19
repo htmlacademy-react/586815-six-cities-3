@@ -1,10 +1,12 @@
 import { Fragment, ReactEventHandler } from 'react';
 import { useState } from 'react';
-import { sendReviewAction } from '../../../store/api-actions';
 import { useAppDispatch } from '../../../hooks/store';
 import { useParams } from 'react-router-dom';
 import { ReviewContentType } from '../../../types/common';
 import { toast } from 'react-toastify';
+import { reviewsActions } from '../../../store/slices/reviews';
+
+const { sendReviewAction } = reviewsActions;
 
 type ChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -40,7 +42,7 @@ function ReviewForm(): JSX.Element {
   const handleSubmit = (evt: React.SyntheticEvent) => {
     evt.preventDefault();
     setIsSending(true);
-    dispatch(sendReviewAction({ offerId: offerId as string, offerData: review }))
+    dispatch(sendReviewAction({ offerId: offerId as string, body: review }))
       .unwrap()
       .then(() => {
         toast.success('Review successfully published!');

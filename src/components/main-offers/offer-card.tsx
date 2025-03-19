@@ -1,8 +1,17 @@
 import { OfferType } from '../../types/common';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SCALE_RATING } from '../../const';
+import { SCALE_RATING, TypeBookmark } from '../../const';
 import classNames from 'classnames';
+import Bookmark from '../bookmark';
+import { favoriteActions } from '../../store/slices/favorites';
+import { useAppDispatch } from '../../hooks/store';
+// import { FavoritesStatus } from '../../const';
+import { offersActions } from '../../store/slices/offers';
+import { memo } from 'react';
+
+const { changeFavorite } = favoriteActions;
+const { changeFavoriteStatus } = offersActions;
 
 type Props = {
   cardData: OfferType;
@@ -12,18 +21,26 @@ type Props = {
 }
 
 function OfferCard(props: Props): JSX.Element {
-  const { isMainOffers, isOffer } = props;
+  const { isMainOffers, isOffer, onOfferHover } = props;
   const { isPremium, isFavorite, title, price, rating, previewImage, type, id } = props.cardData;
-  const { onOfferHover } = props;
   const offerRoute = `/offer/${id}`;
+  const dispatch = useAppDispatch();
 
-  const [favoriteStatus, setFavoriteStatus] = useState(isFavorite);
+  // const [favoriteStatus, setFavoriteStatus] = useState(isFavorite);
 
-  const getFavoriteMarkState = (favoriteState: boolean) => favoriteState ? 'place-card__bookmark-button place-card__bookmark-button--active button' :
-    'place-card__bookmark-button button';
+  const handleFavoritesChange = () => {
+    dispatch(changeFavorite({ offerId: id, status: !isFavorite }))
+      .unwrap()
+      .then(() => {
+        dispatch(changeFavoriteStatus(id));
+      });
 
-  const handleFavoriteClick = () => {
-    setFavoriteStatus((prevState) => !prevState);
+
+    // if (isFavorite) {
+    //   dispatch(changeFavorite({ offerId: id, status: FavoritesStatus.Removed }));
+    //   return;
+    // }
+    // dispatch(changeFavorite({ offerId: id, status: FavoritesStatus.Added }));
   };
 
   const handleMouseEnter = () => {
@@ -63,12 +80,11 @@ function OfferCard(props: Props): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={getFavoriteMarkState(favoriteStatus)} type="button" onClick={handleFavoriteClick}>
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <Bookmark
+            type={TypeBookmark.PlaceCard}
+            isFavorite={isFavorite}
+            onFavoritesChange={handleFavoritesChange}
+          />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -85,4 +101,7 @@ function OfferCard(props: Props): JSX.Element {
   );
 }
 
-export default OfferCard;
+const MemoizedOfferCard = memo<Props>(OfferCard);
+MemoizedOfferCard.displayName = 'OfferCard';
+
+export default MemoizedOfferCard;

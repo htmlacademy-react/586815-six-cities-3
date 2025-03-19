@@ -3,8 +3,10 @@ import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../const';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/store';
-import { loginAction } from '../store/api-actions';
+import { userActions } from '../store/slices/user';
 import { FormEvent, useState } from 'react';
+
+const { loginAction } = userActions;
 
 export default function Login(): JSX.Element {
   const [login, setLogin] = useState('');

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { OfferType, LocationType } from '../../types/common';
-import useMap from './use-map';
+import useMap from '../../hooks/map';
 import { Nullable } from 'vitest';
 import { defaultCustomIcon, currentCustomIcon } from '../../const';
 import classNames from 'classnames';

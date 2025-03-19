@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { LocationType } from '../../types/common';
+import { LocationType } from '../types/common';
 import leaflet from 'leaflet';
 
 type Props = {

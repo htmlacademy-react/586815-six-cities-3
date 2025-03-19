@@ -9,16 +9,15 @@ import PrivateRoute from './private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../hooks/store';
 import Loader from '../loader';
-import { AuthorizationStatus } from '../const';
+import { RequestStatus } from '../const';
 
 function App(): JSX.Element {
-  const initialedOffers = useAppSelector((state) => state.offers);
+  const initialedOffers = useAppSelector((state) => state.offers.items);
+  const favoritesOffers = useAppSelector(({ favorites: state }) => state.items);
+  const authorizationStatus = useAppSelector((state) => state.user.authStatus);
+  const isOffersLoading = useAppSelector((state) => state.offers.status);
 
-  const favoritesOffers = initialedOffers.filter((offer) => offer.isFavorite);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
-
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersLoading) {
+  if (isOffersLoading === RequestStatus.Loading) {
     return <Loader />;
   }
 

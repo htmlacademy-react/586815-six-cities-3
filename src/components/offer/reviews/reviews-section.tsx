@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../../const';
+import { AuthStatus } from '../../../const';
 import ReviewsList from './reviews-list';
 import ReviewForm from './review-form';
 import { ReviewType } from '../../../types/common';
@@ -9,7 +9,7 @@ import { ShowMoreButtonText } from '../../../const';
 import { useEffect } from 'react';
 
 type Props = {
-  authorizationStatus: AuthorizationStatus;
+  authorizationStatus: AuthStatus;
   reviews?: ReviewType[];
 }
 
@@ -38,7 +38,7 @@ function ReviewsSection(props: Props): JSX.Element {
       <h2 className="reviews__title">Reviews &middot;
         <span className="reviews__amount">{reviewsAmount}</span>
       </h2>
-      {reviewsForRender?.length &&
+      {reviewsForRender?.length !== null &&
         <><ReviewsList reviews={reviewsForRender} />
           {isVisibleButton &&
             <button
@@ -48,7 +48,7 @@ function ReviewsSection(props: Props): JSX.Element {
               {isVisibleMoreReviews ? ShowMoreButtonText.HIDE : ShowMoreButtonText.SHOW}
             </button>}
         </>}
-      {(authorizationStatus === AuthorizationStatus.Auth) && <ReviewForm />}
+      {(authorizationStatus === AuthStatus.Auth) && <ReviewForm />}
     </section>
   );
 }

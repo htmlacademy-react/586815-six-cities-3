@@ -8,7 +8,9 @@ import Cities from '../components/cities';
 import { useAppSelector, useAppDispatch } from '../hooks/store';
 import { LocationType } from '../types/common';
 import React, { useEffect, useState } from 'react';
-import { changeCity } from '../store/action';
+import { offersActions } from '../store/slices/offers';
+
+const { changeCity } = offersActions;
 
 type Props = {
   offers: OfferType[];
@@ -21,7 +23,7 @@ const getFilteredOffers = (city: string, offers: OfferType[]) => offers.filter((
 function MainPage(props: Props): JSX.Element {
   const { offers } = props;
 
-  const [currentCity, setCurrentCity] = useState(useAppSelector((state) => state.city));
+  const [currentCity, setCurrentCity] = useState(useAppSelector((state) => state.offers.currentCity));
   const [currentCityLocation, setCurrentCityLocation] = useState<LocationType | null>(getCurrenCityLocation(currentCity, offers) || null);
   const [filteredOffers, setFilteredOffers] = useState<OfferType[]>(getFilteredOffers(currentCity, offers));
 

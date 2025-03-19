@@ -12,12 +12,12 @@ export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', '
 
 export enum AppRoute {
   Login = '/login',
-  Favorites = '/favorites',
+  Favorites = '/favorite',
   Offer = '/offer/:id',
   Main = '/',
 }
 
-export enum AuthorizationStatus {
+export enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
@@ -60,6 +60,23 @@ export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
-  Favorites = '/favorite',
+  Favorite = '/favorite',
   Comments = '/comments',
+}
+
+export enum RequestStatus {
+  Idle = 'idle',
+  Loading = 'loading',
+  Succeeded = 'succeeded',
+  Failed = 'failed'
+}
+
+export enum FavoritesStatus {
+  Added = 1,
+  Removed = 0
+}
+
+export enum TypeBookmark {
+  Offer = 'offer',
+  PlaceCard = 'place-card'
 }

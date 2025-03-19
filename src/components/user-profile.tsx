@@ -1,16 +1,20 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../const';
 import { useAppDispatch } from '../hooks/store';
-import { logoutAction } from '../store/api-actions';
 import { useAppSelector } from '../hooks/store';
+import { userActions } from '../store/slices/user';
+import { memo } from 'react';
 
-type UserProfilePropsType = {
+const { logoutAction } = userActions;
+
+type Props = {
   disabled?: boolean;
 };
 
-function UserProfile(props: UserProfilePropsType): JSX.Element {
+function UserProfile(props: Props): JSX.Element {
   const { disabled } = props;
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.info);
+  const favoritesCount = useAppSelector((state) => state.favorites.items.length);
   const dispatch = useAppDispatch();
 
   const handleLogoutClick = () => {
@@ -43,7 +47,7 @@ function UserProfile(props: UserProfilePropsType): JSX.Element {
           >
           </div>
           <span className="header__user-name user__name">{email}</span>
-          <span className="header__favorite-count">3</span>
+          <span className="header__favorite-count">{favoritesCount}</span>
         </Link>
       </li>
       <li className="header__nav-item" onClick={handleLogoutClick}>
@@ -55,4 +59,8 @@ function UserProfile(props: UserProfilePropsType): JSX.Element {
   );
 }
 
-export default UserProfile;
+
+const MemoizedUserProfile = memo<Props>(UserProfile);
+MemoizedUserProfile.displayName = 'UserProfile';
+
+export default MemoizedUserProfile;

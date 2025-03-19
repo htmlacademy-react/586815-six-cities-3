@@ -1,5 +1,4 @@
 import { OfferType, LocationType } from '../../types/common';
-import OfferCard from './offer-card';
 import { useEffect, useState } from 'react';
 import { Nullable } from 'vitest';
 import Map from '../map/map';
@@ -7,6 +6,8 @@ import { classNamesMap } from '../../const';
 import Sorting from './sorting';
 import { getSortedOffers } from '../../utils/sort';
 import { SortingOptions } from '../../const';
+import OffersList from './offers-list';
+import { useCallback } from 'react';
 
 type Props = {
   offers: OfferType[];
@@ -24,23 +25,14 @@ function OffersSection(props: Props): JSX.Element {
     setSortedOffers(getSortedOffers(offers, currentSortOption));
   }, [currentCity, offers, currentSortOption]);
 
-  const handleOfferHover = (offer: Nullable<OfferType>) => {
+  const handleOfferHover = useCallback((offer: Nullable<OfferType>) => {
     setActiveOffer(offer || null);
-  };
+  }, []);
 
-  const handleSortingOptionChange = (sortOption: string) => {
+  const handleSortingOptionChange = useCallback((sortOption: string) => {
     setSortedOffers(getSortedOffers(offers, sortOption));
     setCurrentSortOption(sortOption);
-  };
-
-  const cardList = sortedOffers.map((offer: OfferType) => (
-    <OfferCard
-      key={offer.id}
-      cardData={offer}
-      onOfferHover={handleOfferHover}
-      isMainOffers
-    />));
-
+  }, []);
 
   return (
     <div className="cities__places-container container">
@@ -49,7 +41,7 @@ function OffersSection(props: Props): JSX.Element {
         <b className="places__found">{offers.length} places to stay in {currentCity}</b>
         <Sorting onSortOptionChange={handleSortingOptionChange} />
         <div className="cities__places-list places__list tabs__content">
-          {cardList}
+          <OffersList offers={sortedOffers} onOfferHover={handleOfferHover} />
         </div>
       </section>
       <div className="cities__right-section">
