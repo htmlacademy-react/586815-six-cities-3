@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import { AppRoute, TypeBookmark } from '../const';
-import { useAppSelector } from '../hooks/store';
-// import { RequestStatus } from '../const';
 import useAuth from '../hooks/auth';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { memo } from 'react';
 
 type Props = {
   type: TypeBookmark;
@@ -11,11 +11,15 @@ type Props = {
   onFavoritesChange: () => void;
 };
 
-export default function Bookmark(props: Props): JSX.Element {
+function Bookmark(props: Props): JSX.Element {
   const { type, isFavorite, onFavoritesChange } = props;
+  const [isDisabled, setIsDisabled] = useState(false);
   const isAuth = useAuth();
   const navigate = useNavigate();
-  const isDataLoaded = useAppSelector((state) => state.favorites.isFetching);
+
+  useEffect(() => {
+    setIsDisabled(false);
+  }, [isFavorite]);
 
   const status = isFavorite && isAuth;
 
@@ -28,6 +32,7 @@ export default function Bookmark(props: Props): JSX.Element {
       navigate(AppRoute.Login);
       return;
     }
+    setIsDisabled(true);
     onFavoritesChange();
   };
 
@@ -40,7 +45,7 @@ export default function Bookmark(props: Props): JSX.Element {
       )}
       type="button"
       onClick={handleButtonClick}
-      disabled={isDataLoaded}
+      disabled={isDisabled}
     >
       <svg className={classNames(`${type}__bookmark-icon`)} width={widthMark} height={heightMark}>
         <use xlinkHref="#icon-bookmark"></use>
@@ -49,3 +54,8 @@ export default function Bookmark(props: Props): JSX.Element {
     </button >
   );
 }
+
+const MemoizedBookmark = memo<Props>(Bookmark);
+MemoizedBookmark.displayName = 'Bookmark';
+
+export default MemoizedBookmark;

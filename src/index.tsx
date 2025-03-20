@@ -12,8 +12,13 @@ const { fetchOffers } = offersActions;
 const { checkAuthAction } = userActions;
 
 store.dispatch(fetchOffers());
-store.dispatch(fetchFavoritesOffers());
-store.dispatch(checkAuthAction());
+store.dispatch(checkAuthAction())
+  .unwrap()
+  .then(() => {
+    store.dispatch(fetchFavoritesOffers());
+  }
+  );
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

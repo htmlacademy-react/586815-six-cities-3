@@ -1,50 +1,37 @@
 import { OfferType } from '../../types/common';
-// import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SCALE_RATING, TypeBookmark } from '../../const';
 import classNames from 'classnames';
 import Bookmark from '../bookmark';
 import { favoriteActions } from '../../store/slices/favorites';
 import { useAppDispatch } from '../../hooks/store';
-// import { FavoritesStatus } from '../../const';
 import { offersActions } from '../../store/slices/offers';
 import { memo } from 'react';
 
-const { changeFavorite, changeFetchingStatus } = favoriteActions;
+const { changeFavorite } = favoriteActions;
 const { changeFavoriteStatus } = offersActions;
 
 type Props = {
   cardData: OfferType;
   onOfferHover?: (offer: OfferType | null) => void;
   isMainOffers?: boolean;
-  isOffer?: boolean;
+  isNearbyOffers?: boolean;
+  isFavoritesOffers?: boolean;
 }
 
 function OfferCard(props: Props): JSX.Element {
-  const { isMainOffers, isOffer, onOfferHover } = props;
+  const { isMainOffers, isNearbyOffers: isOffer, isFavoritesOffers: isFavorites, onOfferHover } = props;
   const { isPremium, isFavorite, title, price, rating, previewImage, type, id } = props.cardData;
   const offerRoute = `/offer/${id}`;
+
   const dispatch = useAppDispatch();
 
-  // const [favoriteStatus, setFavoriteStatus] = useState(isFavorite);
-
   const handleFavoritesChange = () => {
-    dispatch(changeFetchingStatus(true));
     dispatch(changeFavorite({ offerId: id, status: !isFavorite }))
       .unwrap()
       .then(() => {
         dispatch(changeFavoriteStatus(id));
-      })
-      .finally(() => {
-        dispatch(changeFetchingStatus(false));
       });
-
-
-    // if (isFavorite) {
-    //   dispatch(changeFavorite({ offerId: id, status: FavoritesStatus.Removed }));
-    //   return;
-    // }
-    // dispatch(changeFavorite({ offerId: id, status: FavoritesStatus.Added }));
   };
 
   const handleMouseEnter = () => {
@@ -59,7 +46,8 @@ function OfferCard(props: Props): JSX.Element {
     <article
       className={classNames('place-card',
         isMainOffers && 'cities__card',
-        isOffer && 'near-places__card'
+        isOffer && 'near-places__card',
+        isFavorites && 'favorites__card'
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -71,14 +59,18 @@ function OfferCard(props: Props): JSX.Element {
       <div
         className={classNames('place-card__image-wrapper',
           isMainOffers && 'cities__image-wrapper',
-          isOffer && 'near-places__image-wrapper'
+          isOffer && 'near-places__image-wrapper',
+          isFavorites && 'favorites__image-wrapper'
         )}
       >
         <Link to={offerRoute}>
-          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={previewImage} width={isFavorites ? '150' : '260'} height={isFavorites ? '110' : '200'} alt="Place image" />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={classNames('place-card__info',
+        isFavorites && 'favorites__card-info'
+      )}
+      >
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>

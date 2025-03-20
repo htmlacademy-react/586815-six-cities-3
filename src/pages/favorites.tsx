@@ -2,7 +2,7 @@ import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
 import { OfferType } from '../types/common';
-import FavoritesCity from '../components/favorites/favorites-city';
+import FavoritesOffersList from '../components/favorites/favorites-offers-list';
 import { Link } from 'react-router-dom';
 import NoFavoritesList from '../components/no-favorites-list';
 
@@ -15,7 +15,7 @@ export default function Factories(props: Props): JSX.Element {
 
   const favoritesCities = [...new Set(favoritesOffers.map((offer) => offer.city.name))];
   const cityList = favoritesCities.map((city: string) => (
-    <FavoritesCity key={city} cityName={city} offers={favoritesOffers} />
+    <FavoritesOffersList key={city} cityName={city} offers={favoritesOffers} />
   ));
 
   return (

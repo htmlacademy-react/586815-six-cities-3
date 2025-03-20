@@ -3,7 +3,7 @@ import Logo from '../components/logo';
 import UserProfile from '../components/user-profile';
 import { Helmet } from 'react-helmet-async';
 import OffersSection from '../components/main-offers/offers-section';
-import NoOffersList from '../components/no-offers-list';
+import NoOffersList from '../components/main-offers/no-offers-list';
 import Cities from '../components/cities';
 import { useAppSelector, useAppDispatch } from '../hooks/store';
 import { LocationType } from '../types/common';
@@ -70,7 +70,7 @@ function MainPage(props: Props): JSX.Element {
       <main className="page__main page__main--index">
         <Cities currentCity={currentCity} onCityClick={handleCityClick} />
         <div className="cities">
-          {currentCityLocation ? <OffersSection offers={filteredOffers} currentCity={currentCity} currentCityLocation={currentCityLocation} /> : <NoOffersList />}
+          {currentCityLocation ? <OffersSection offers={filteredOffers} currentCity={currentCity} currentCityLocation={currentCityLocation} /> : <NoOffersList currentCity={currentCity} />}
         </div>
       </main>
     </div>

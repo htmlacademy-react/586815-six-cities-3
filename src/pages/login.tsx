@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/store';
 import { userActions } from '../store/slices/user';
 import { FormEvent, useState } from 'react';
+import { favoriteActions } from '../store/slices/favorites';
 
 const { loginAction } = userActions;
+const { fetchFavoritesOffers } = favoriteActions;
 
 export default function Login(): JSX.Element {
   const [login, setLogin] = useState('');
@@ -20,9 +22,10 @@ export default function Login(): JSX.Element {
 
     dispatch(loginAction({ login, password }))
       .unwrap()
-      .then(() =>
-        navigate(AppRoute.Main)
-      );
+      .then(() => {
+        navigate(AppRoute.Main);
+        dispatch(fetchFavoritesOffers);
+      });
   };
 
   return (

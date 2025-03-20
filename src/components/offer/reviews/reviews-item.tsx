@@ -1,6 +1,7 @@
 import { ReviewType } from '../../../types/common';
 import { SCALE_RATING } from '../../../const';
 import classNames from 'classnames';
+import { memo } from 'react';
 
 type Props = {
   review: ReviewType;
@@ -47,5 +48,8 @@ function ReviewsItem(props: Props): JSX.Element {
     </li >
   );
 }
+
+const MemoizedReviewsItem = memo<Props>(ReviewsItem, () => true);
+MemoizedReviewsItem.displayName = 'ReviewsItem';
 
 export default ReviewsItem;

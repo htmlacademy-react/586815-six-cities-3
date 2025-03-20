@@ -8,6 +8,7 @@ import { getSortedOffers } from '../../utils/sort';
 import { SortingOptions } from '../../const';
 import OffersList from './offers-list';
 import { useCallback } from 'react';
+import { getPluralSuffix } from '../../utils/common';
 
 type Props = {
   offers: OfferType[];
@@ -38,7 +39,7 @@ function OffersSection(props: Props): JSX.Element {
     <div className="cities__places-container container">
       <section className="cities__places places">
         <h2 className="visually-hidden">Places</h2>
-        <b className="places__found">{offers.length} places to stay in {currentCity}</b>
+        <b className="places__found">{offers.length} place{getPluralSuffix(offers.length)} to stay in {currentCity}</b>
         <Sorting onSortOptionChange={handleSortingOptionChange} />
         <div className="cities__places-list places__list tabs__content">
           <OffersList offers={sortedOffers} onOfferHover={handleOfferHover} />

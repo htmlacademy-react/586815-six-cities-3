@@ -20,12 +20,12 @@ import { nearbyOffersActions } from '../store/slices/nearby-offers';
 import Loader from '../loader';
 import Bookmark from '../components/bookmark';
 import { TypeBookmark } from '../const';
-import { changeFavorite } from '../store/thunks/favorites';
-// import { FavoritesStatus } from '../const';
+import { favoriteActions } from '../store/slices/favorites';
 
 const { fetchDetailedOffer } = offerActions;
 const { fetchOfferReviews } = reviewsActions;
 const { fetchNearbyOffers } = nearbyOffersActions;
+const { changeFavorite } = favoriteActions;
 
 type Props = {
   authorizationStatus: AuthStatus;
@@ -34,7 +34,6 @@ type Props = {
 export default function Offer(props: Props): JSX.Element {
   const { authorizationStatus } = props;
   const [isLoadingData, setIsLoadingData] = useState(false);
-  // const [favoriteStatus, setFavoriteStatus] = useState(false);
 
   const currentDetailedOffer = useAppSelector((state) => state.offer.item);
   const reviews = useAppSelector((state) => state.reviews.items);
@@ -80,12 +79,6 @@ export default function Offer(props: Props): JSX.Element {
       .then(() => {
         dispatch(fetchDetailedOffer({ offerId: id }));
       });
-    // setFavoriteStatus(!favoriteStatus);
-    // if (favoriteStatus) {
-    //   dispatch(changeFavorite({ offerId: id as string, status: FavoritesStatus.Removed }));
-    //   return;
-    // }
-    // dispatch(changeFavorite({ offerId: id as string, status: FavoritesStatus.Added }));
   };
 
   return (
@@ -167,9 +160,6 @@ export default function Offer(props: Props): JSX.Element {
                   <p className="offer__text">
                     {description}
                   </p>
-                  {/* <p className="offer__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p> */}
                 </div>
               </div>
               <ReviewsSection authorizationStatus={authorizationStatus} reviews={reviews} />

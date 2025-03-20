@@ -14,7 +14,7 @@ const Logo = (props: Props): JSX.Element => {
   );
 };
 
-const MemoizedLogo = memo<Props>(Logo);
+const MemoizedLogo = memo<Props>(Logo, (prevProps, nextProps) => prevProps.isActive === nextProps.isActive);
 MemoizedLogo.displayName = 'Logo';
 
 export default MemoizedLogo;

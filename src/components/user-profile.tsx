@@ -60,7 +60,8 @@ function UserProfile(props: Props): JSX.Element {
 }
 
 
-const MemoizedUserProfile = memo<Props>(UserProfile);
+const MemoizedUserProfile = memo<Props>(UserProfile, (prevProps, nextProps) =>
+  prevProps.disabled === nextProps.disabled);
 MemoizedUserProfile.displayName = 'UserProfile';
 
 export default MemoizedUserProfile;

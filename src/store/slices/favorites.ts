@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { RequestStatus } from '../../const';
 import { OfferType } from '../../types/common';
 import { fetchFavoritesOffers, changeFavorite } from '../thunks/favorites';
-// import { store } from '..';
 
 interface FavoriteState {
   items: OfferType[];
@@ -19,11 +18,7 @@ const initialState: FavoriteState = {
 export const favoritesSlice = createSlice({
   name: 'favorites',
   initialState,
-  reducers: {
-    changeFetchingStatus(state, action) {
-      state.isFetching = action.payload as boolean;
-    }
-  },
+  reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchFavoritesOffers.pending, (state) => {
       state.status = RequestStatus.Loading;
