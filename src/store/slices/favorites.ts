@@ -6,13 +6,11 @@ import { fetchFavoritesOffers, changeFavorite } from '../thunks/favorites';
 interface FavoriteState {
   items: OfferType[];
   status: RequestStatus;
-  isFetching: boolean;
 }
 
 const initialState: FavoriteState = {
   items: [],
   status: RequestStatus.Idle,
-  isFetching: false
 };
 
 export const favoritesSlice = createSlice({

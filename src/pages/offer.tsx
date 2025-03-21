@@ -1,11 +1,10 @@
-import Logo from '../components/logo';
-import UserProfile from '../components/user-profile';
+import Logo from '../components/header/logo';
+import UserProfile from '../components/header/user-profile';
 import { Helmet } from 'react-helmet-async';
 import { OfferType } from '../types/common';
-import { SCALE_RATING, NEAR_OFFERS_AMOUNT } from '../const';
+import { SCALE_RATING } from '../const';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found-page';
-import { AuthStatus } from '../const';
 import ReviewsSection from '../components/offer/reviews/reviews-section';
 import NearOffersList from '../components/offer/near-offers-list';
 import Map from '../components/map/map';
@@ -18,29 +17,29 @@ import { offerActions } from '../store/slices/offer';
 import { reviewsActions } from '../store/slices/reviews';
 import { nearbyOffersActions } from '../store/slices/nearby-offers';
 import Loader from '../loader';
-import Bookmark from '../components/bookmark';
+import Bookmark from '../components/favorites/bookmark';
 import { TypeBookmark } from '../const';
 import { favoriteActions } from '../store/slices/favorites';
+import { selectDetailedOffer, selectSortedReviews, selectNearbyOffersForMap, selectNearbyOffers } from '../store/selectors/offer';
+import { getOffers } from '../store/selectors/offers';
 
 const { fetchDetailedOffer } = offerActions;
 const { fetchOfferReviews } = reviewsActions;
 const { fetchNearbyOffers } = nearbyOffersActions;
 const { changeFavorite } = favoriteActions;
 
-type Props = {
-  authorizationStatus: AuthStatus;
-}
-
-export default function Offer(props: Props): JSX.Element {
-  const { authorizationStatus } = props;
+export default function Offer(): JSX.Element {
   const [isLoadingData, setIsLoadingData] = useState(false);
 
-  const currentDetailedOffer = useAppSelector((state) => state.offer.item);
-  const reviews = useAppSelector((state) => state.reviews.items);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers.items);
-  const offers = useAppSelector((state) => state.offers.items);
-
   const { id } = useParams();
+
+  const currentDetailedOffer = useAppSelector(selectDetailedOffer);
+  const reviews = useAppSelector(selectSortedReviews);
+  const nearbyOffers = useAppSelector(selectNearbyOffers);
+  const offers = useAppSelector(getOffers);
+  const currentOffer = offers.find((offer) => offer.id === id) as OfferType;
+  const nearbyOffersForMap = useAppSelector((state) => selectNearbyOffersForMap(state, currentOffer));
+
 
   const dispatch = useAppDispatch();
 
@@ -68,10 +67,7 @@ export default function Offer(props: Props): JSX.Element {
 
   const { price, title, isPremium, images, rating, type, city, bedrooms, maxAdults, goods, description, isFavorite } = currentDetailedOffer;
 
-  const currentOffer = offers.find((offer) => offer.id === id) as OfferType;
   const currentCity = city.location;
-  const nearbyOffersForMap = nearbyOffers.filter((offer) => offer.id !== id).slice(0, NEAR_OFFERS_AMOUNT);
-  const nearbyOffersPlusCurrent = [currentOffer, ...nearbyOffersForMap];
 
   const handleFavoritesChange = () => {
     dispatch(changeFavorite({ offerId: id as string, status: !isFavorite }))
@@ -162,13 +158,13 @@ export default function Offer(props: Props): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ReviewsSection authorizationStatus={authorizationStatus} reviews={reviews} />
+              <ReviewsSection reviews={reviews} />
             </div>
           </div>
           <Map
             className={classNamesMap.offer}
             currentCity={currentCity}
-            offers={nearbyOffersPlusCurrent}
+            offers={nearbyOffersForMap}
             selectedOfferId={id}
           />
         </section>

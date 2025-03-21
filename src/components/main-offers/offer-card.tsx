@@ -2,7 +2,7 @@ import { OfferType } from '../../types/common';
 import { Link } from 'react-router-dom';
 import { SCALE_RATING, TypeBookmark } from '../../const';
 import classNames from 'classnames';
-import Bookmark from '../bookmark';
+import Bookmark from '../favorites/bookmark';
 import { favoriteActions } from '../../store/slices/favorites';
 import { useAppDispatch } from '../../hooks/store';
 import { offersActions } from '../../store/slices/offers';

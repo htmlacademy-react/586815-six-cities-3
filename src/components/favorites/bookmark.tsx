@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import { AppRoute, TypeBookmark } from '../const';
-import useAuth from '../hooks/auth';
+import { AppRoute, TypeBookmark } from '../../const';
+import useAuth from '../../hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { memo } from 'react';

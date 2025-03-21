@@ -9,15 +9,12 @@ import PrivateRoute from './private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../hooks/store';
 import Loader from '../loader';
-import { RequestStatus } from '../const';
+import { isOffersLoading } from '../store/selectors/offers';
 
 function App(): JSX.Element {
-  const initialedOffers = useAppSelector((state) => state.offers.items);
-  const favoritesOffers = useAppSelector(({ favorites: state }) => state.items);
-  const authorizationStatus = useAppSelector((state) => state.user.authStatus);
-  const isOffersLoading = useAppSelector((state) => state.offers.status);
+  const isLoading = useAppSelector(isOffersLoading);
 
-  if (isOffersLoading === RequestStatus.Loading) {
+  if (isLoading) {
     return <Loader />;
   }
 
@@ -27,15 +24,13 @@ function App(): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage offers={initialedOffers} />}
+            element={<MainPage />}
           />
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute
-                authorizationStatus={authorizationStatus}
-              >
-                <Favorites favoritesOffers={favoritesOffers} />
+              <PrivateRoute>
+                <Favorites />
               </PrivateRoute>
             }
           />
@@ -47,7 +42,7 @@ function App(): JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer authorizationStatus={authorizationStatus} />}
+            element={<Offer />}
           />
           <Route
             path="*"

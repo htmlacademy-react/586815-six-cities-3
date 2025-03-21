@@ -33,7 +33,7 @@ function OffersSection(props: Props): JSX.Element {
   const handleSortingOptionChange = useCallback((sortOption: string) => {
     setSortedOffers(getSortedOffers(offers, sortOption));
     setCurrentSortOption(sortOption);
-  }, []);
+  }, [offers]);
 
   return (
     <div className="cities__places-container container">

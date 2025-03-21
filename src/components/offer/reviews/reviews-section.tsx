@@ -1,4 +1,3 @@
-import { AuthStatus } from '../../../const';
 import ReviewsList from './reviews-list';
 import ReviewForm from './review-form';
 import { ReviewType } from '../../../types/common';
@@ -7,22 +6,23 @@ import { useState } from 'react';
 import { VISIBLE_REVIEWS_AMOUNT } from '../../../const';
 import { ShowMoreButtonText } from '../../../const';
 import { useEffect } from 'react';
+import useAuth from '../../../hooks/auth';
 
 type Props = {
-  authorizationStatus: AuthStatus;
   reviews?: ReviewType[];
 }
 
 function ReviewsSection(props: Props): JSX.Element {
-  const { authorizationStatus, reviews } = props;
+  const { reviews } = props;
 
   const [renderAmount, setRenderAmount] = useState(VISIBLE_REVIEWS_AMOUNT);
   const [isVisibleMoreReviews, setIsVisibleMoreReviews] = useState(false);
   const [isVisibleButton, setIsVisibleButton] = useState(false);
 
+  const isAuth = useAuth();
+
   const reviewsAmount = reviews?.length || 0;
-  const sortedReviews = [...(reviews || [])].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  const reviewsForRender = sortedReviews?.slice(0, renderAmount);
+  const reviewsForRender = reviews?.slice(0, renderAmount);
 
   useEffect(() => {
     setIsVisibleButton(reviewsAmount > VISIBLE_REVIEWS_AMOUNT);
@@ -38,7 +38,7 @@ function ReviewsSection(props: Props): JSX.Element {
       <h2 className="reviews__title">Reviews &middot;
         <span className="reviews__amount">{reviewsAmount}</span>
       </h2>
-      {reviewsForRender?.length !== null &&
+      {reviewsForRender &&
         <><ReviewsList reviews={reviewsForRender} />
           {isVisibleButton &&
             <button
@@ -48,7 +48,7 @@ function ReviewsSection(props: Props): JSX.Element {
               {isVisibleMoreReviews ? ShowMoreButtonText.HIDE : ShowMoreButtonText.SHOW}
             </button>}
         </>}
-      {(authorizationStatus === AuthStatus.Auth) && <ReviewForm />}
+      {isAuth && <ReviewForm />}
     </section>
   );
 }

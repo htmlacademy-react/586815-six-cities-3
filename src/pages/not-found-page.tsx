@@ -1,6 +1,6 @@
-import Logo from '../components/logo';
+import Logo from '../components/header/logo';
 import { Link } from 'react-router-dom';
-import UserProfile from '../components/user-profile';
+import UserProfile from '../components/header/user-profile';
 import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../const';
 

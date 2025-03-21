@@ -1,4 +1,4 @@
-import Logo from '../components/logo';
+import Logo from '../components/header/logo';
 import { Helmet } from 'react-helmet-async';
 import { AppRoute } from '../const';
 import { useNavigate } from 'react-router-dom';
@@ -6,16 +6,22 @@ import { useAppDispatch } from '../hooks/store';
 import { userActions } from '../store/slices/user';
 import { FormEvent, useState } from 'react';
 import { favoriteActions } from '../store/slices/favorites';
+import useAuth from '../hooks/auth';
 
 const { loginAction } = userActions;
 const { fetchFavoritesOffers } = favoriteActions;
 
 export default function Login(): JSX.Element {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isAuth = useAuth();
+
+  if (isAuth) {
+    navigate(AppRoute.Main, { replace: true });
+  }
+
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -24,7 +30,7 @@ export default function Login(): JSX.Element {
       .unwrap()
       .then(() => {
         navigate(AppRoute.Main);
-        dispatch(fetchFavoritesOffers);
+        dispatch(fetchFavoritesOffers());
       });
   };
 
