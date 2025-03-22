@@ -1,64 +1,81 @@
-import Logo from '../components/logo';
-import UserProfile from '../components/user-profile';
+import Logo from '../components/header/logo';
+import UserProfile from '../components/header/user-profile';
 import { Helmet } from 'react-helmet-async';
 import { OfferType } from '../types/common';
-import { SCALE_RATING, NEAR_OFFERS_AMOUNT } from '../const';
+import { SCALE_RATING } from '../const';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found-page';
-import { AuthorizationStatus } from '../const';
 import ReviewsSection from '../components/offer/reviews/reviews-section';
 import NearOffersList from '../components/offer/near-offers-list';
 import Map from '../components/map/map';
 import { classNamesMap } from '../const';
-import { fetchDetailedOffer, fetchOfferReviews, fetchNearbyOffers } from '../store/api-actions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
-import { setError } from '../store/action';
 import Gallery from '../components/offer/gallery';
 import Features from '../components/offer/features';
+import { offerActions } from '../store/slices/offer';
+import { reviewsActions } from '../store/slices/reviews';
+import { nearbyOffersActions } from '../store/slices/nearby-offers';
+import Loader from '../loader';
+import Bookmark from '../components/favorites/bookmark';
+import { TypeBookmark } from '../const';
+import { favoriteActions } from '../store/slices/favorites';
+import { selectDetailedOffer, selectSortedReviews, selectNearbyOffersForMap, selectNearbyOffers } from '../store/selectors/offer';
+import { getOffers } from '../store/selectors/offers';
 
-type Props = {
-  authorizationStatus: AuthorizationStatus;
-}
+const { fetchDetailedOffer } = offerActions;
+const { fetchOfferReviews } = reviewsActions;
+const { fetchNearbyOffers } = nearbyOffersActions;
+const { changeFavorite } = favoriteActions;
 
-export default function Offer(props: Props): JSX.Element {
-  const { authorizationStatus } = props;
+export default function Offer(): JSX.Element {
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   const { id } = useParams();
+
+  const currentDetailedOffer = useAppSelector(selectDetailedOffer);
+  const reviews = useAppSelector(selectSortedReviews);
+  const nearbyOffers = useAppSelector(selectNearbyOffers);
+  const offers = useAppSelector(getOffers);
+  const currentOffer = offers.find((offer) => offer.id === id) as OfferType;
+  const nearbyOffersForMap = useAppSelector((state) => selectNearbyOffersForMap(state, currentOffer));
+
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadData = async () => {
-      try {
-        await Promise.all([
-          dispatch(fetchDetailedOffer(id)).unwrap(),
-          dispatch(fetchOfferReviews(id)).unwrap(),
-          dispatch(fetchNearbyOffers(id)).unwrap(),
-        ]);
-      } catch (error) {
-        dispatch(setError(error as string));
-      }
+      setIsLoadingData(true);
+      await Promise.all([
+        dispatch(fetchDetailedOffer({ offerId: id })).unwrap(),
+        dispatch(fetchOfferReviews({ offerId: id })).unwrap(),
+        dispatch(fetchNearbyOffers({ offerId: id })).unwrap(),
+      ]).finally(() => setIsLoadingData(false));
     };
 
     loadData();
   }, [id, dispatch]);
 
-  const currentDetailedOffer = useAppSelector((state) => state.detailedOffer);
-  const reviews = useAppSelector((state) => state.offerReviews);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
-  const offers = useAppSelector((state) => state.offers);
+
+  if (isLoadingData) {
+    return <Loader />;
+  }
 
   if (!currentDetailedOffer) {
     return <NotFoundPage />;
   }
 
-  const { price, title, isPremium, images, rating, type, city, bedrooms, maxAdults, goods, description } = currentDetailedOffer;
+  const { price, title, isPremium, images, rating, type, city, bedrooms, maxAdults, goods, description, isFavorite } = currentDetailedOffer;
 
-  const currentSimpleOffer = offers.find((offer) => offer.id === id) as OfferType;
   const currentCity = city.location;
-  const nearbyOffersForMap = offers.filter((offer) => offer.id !== id).slice(0, NEAR_OFFERS_AMOUNT);
-  const nearbyOffersPlusCurrent = [currentSimpleOffer, ...nearbyOffersForMap];
+
+  const handleFavoritesChange = () => {
+    dispatch(changeFavorite({ offerId: id as string, status: !isFavorite }))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchDetailedOffer({ offerId: id }));
+      });
+  };
 
   return (
     <div className="page">
@@ -93,12 +110,11 @@ export default function Offer(props: Props): JSX.Element {
                 <h1 className="offer__name">
                   {title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <Bookmark
+                  type={TypeBookmark.Offer}
+                  isFavorite={isFavorite}
+                  onFavoritesChange={handleFavoritesChange}
+                />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -140,18 +156,15 @@ export default function Offer(props: Props): JSX.Element {
                   <p className="offer__text">
                     {description}
                   </p>
-                  {/* <p className="offer__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p> */}
                 </div>
               </div>
-              <ReviewsSection authorizationStatus={authorizationStatus} reviews={reviews} />
+              <ReviewsSection reviews={reviews} />
             </div>
           </div>
           <Map
             className={classNamesMap.offer}
             currentCity={currentCity}
-            offers={nearbyOffersPlusCurrent}
+            offers={nearbyOffersForMap}
             selectedOfferId={id}
           />
         </section>

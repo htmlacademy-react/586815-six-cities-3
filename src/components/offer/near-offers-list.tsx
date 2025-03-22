@@ -14,7 +14,7 @@ function NearOffersList(props: Props): JSX.Element {
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
         <div className="near-places__list places__list">
           {nearOffers.map((offer) =>
-            <OfferCard key={offer.id} cardData={offer} isOffer />
+            <OfferCard key={offer.id} cardData={offer} isNearbyOffers />
           )}
         </div>
       </section>

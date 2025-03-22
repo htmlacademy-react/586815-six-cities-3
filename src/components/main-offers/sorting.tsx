@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { useState, useRef, useEffect } from 'react';
 import { SortingOptions } from '../../const';
+import { memo } from 'react';
 
 type Props = {
   onSortOptionChange: (sortType: string) => void;
@@ -73,4 +74,8 @@ function Sorting(props: Props): JSX.Element {
   );
 }
 
-export default Sorting;
+const MemoizedSorting = memo<Props>(Sorting);
+MemoizedSorting.displayName = 'Sorting';
+
+
+export default MemoizedSorting;

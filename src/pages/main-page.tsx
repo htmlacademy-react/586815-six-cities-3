@@ -1,48 +1,31 @@
-import { OfferType } from '../types/common';
-import Logo from '../components/logo';
-import UserProfile from '../components/user-profile';
+import Logo from '../components/header/logo';
+import UserProfile from '../components/header/user-profile';
 import { Helmet } from 'react-helmet-async';
 import OffersSection from '../components/main-offers/offers-section';
-import NoOffersList from '../components/no-offers-list';
-import Cities from '../components/cities';
+import NoOffersList from '../components/main-offers/no-offers-list';
+import Cities from '../components/main-offers/cities';
 import { useAppSelector, useAppDispatch } from '../hooks/store';
-import { LocationType } from '../types/common';
-import React, { useEffect, useState } from 'react';
-import { changeCity } from '../store/action';
+import React from 'react';
+import { offersActions } from '../store/slices/offers';
+import { getCurrentCity, getCurrentCityLocation, getFilteredOffers } from '../store/selectors/offers';
 
-type Props = {
-  offers: OfferType[];
-}
+const { changeCity } = offersActions;
 
-const getCurrenCityLocation = (city: string, offers: OfferType[]) => offers.find((offer) => offer.city.name === city)?.city.location;
+function MainPage(): JSX.Element {
 
-const getFilteredOffers = (city: string, offers: OfferType[]) => offers.filter((offer) => offer.city.name === city);
-
-function MainPage(props: Props): JSX.Element {
-  const { offers } = props;
-
-  const [currentCity, setCurrentCity] = useState(useAppSelector((state) => state.city));
-  const [currentCityLocation, setCurrentCityLocation] = useState<LocationType | null>(getCurrenCityLocation(currentCity, offers) || null);
-  const [filteredOffers, setFilteredOffers] = useState<OfferType[]>(getFilteredOffers(currentCity, offers));
+  const currentCity = useAppSelector(getCurrentCity);
+  const currentCityLocation = useAppSelector(getCurrentCityLocation);
+  const filteredOffers = useAppSelector(getFilteredOffers);
 
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const newLocation = getCurrenCityLocation(currentCity, offers);
-    const newFilteredOffers = getFilteredOffers(currentCity, offers);
-    setCurrentCityLocation(newLocation || null);
-    setFilteredOffers(newFilteredOffers);
-  }, [currentCity, offers]);
 
   const handleCityClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
 
     const target = evt.currentTarget as HTMLAnchorElement;
-
     const cityName = target.dataset.name?.toString() || '';
 
     dispatch(changeCity(cityName));
-    setCurrentCity(cityName);
   };
 
   return (
@@ -68,7 +51,7 @@ function MainPage(props: Props): JSX.Element {
       <main className="page__main page__main--index">
         <Cities currentCity={currentCity} onCityClick={handleCityClick} />
         <div className="cities">
-          {currentCityLocation ? <OffersSection offers={filteredOffers} currentCity={currentCity} currentCityLocation={currentCityLocation} /> : <NoOffersList />}
+          {currentCityLocation ? <OffersSection offers={filteredOffers} currentCity={currentCity} currentCityLocation={currentCityLocation} /> : <NoOffersList currentCity={currentCity} />}
         </div>
       </main>
     </div>

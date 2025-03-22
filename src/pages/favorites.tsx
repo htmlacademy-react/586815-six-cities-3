@@ -1,21 +1,19 @@
-import Logo from '../components/logo';
-import UserProfile from '../components/user-profile';
+import Logo from '../components/header/logo';
+import UserProfile from '../components/header/user-profile';
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../types/common';
-import FavoritesCity from '../components/favorites/favorites-city';
+import FavoritesOffersList from '../components/favorites/favorites-offers-list';
 import { Link } from 'react-router-dom';
-import NoFavoritesList from '../components/no-favorites-list';
+import NoFavoritesList from '../components/favorites/no-favorites-list';
+import { useAppSelector } from '../hooks/store';
+import { getFavoritesOffers, getFavoritesCities, getFavoritesCount } from '../store/selectors/favorites';
 
-type Props = {
-  favoritesOffers: OfferType[];
-};
+export default function Factories(): JSX.Element {
+  const favoritesOffers = useAppSelector(getFavoritesOffers);
+  const favoritesCities = useAppSelector(getFavoritesCities);
+  const favoritesCount = useAppSelector(getFavoritesCount);
 
-export default function Factories(props: Props): JSX.Element {
-  const { favoritesOffers } = props;
-
-  const favoritesCities = [...new Set(favoritesOffers.map((offer) => offer.city.name))];
   const cityList = favoritesCities.map((city: string) => (
-    <FavoritesCity key={city} cityName={city} offers={favoritesOffers} />
+    <FavoritesOffersList key={city} cityName={city} offers={favoritesOffers} />
   ));
 
   return (
@@ -37,7 +35,7 @@ export default function Factories(props: Props): JSX.Element {
           </div>
         </div>
       </header>
-      {favoritesOffers.length ?
+      {favoritesCount ?
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">
