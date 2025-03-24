@@ -4,7 +4,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 const getOffers = (state: RootState) => state.offers.items;
 const getCurrentCity = (state: RootState) => state.offers.currentCity;
-const isOffersLoading = (state: RootState) => state.offers.status === RequestStatus.Loading;
+const selectOffersLoading = (state: RootState) => state.offers.status === RequestStatus.Loading;
 
 const getCurrentCityLocation = createSelector(
   [getOffers, getCurrentCity],
@@ -16,4 +16,4 @@ const getFilteredOffers = createSelector(
   (offers, city) => offers.filter((offer) => offer.city.name === city)
 );
 
-export { getOffers, isOffersLoading, getCurrentCity, getCurrentCityLocation, getFilteredOffers };
+export { getOffers, selectOffersLoading, getCurrentCity, getCurrentCityLocation, getFilteredOffers };

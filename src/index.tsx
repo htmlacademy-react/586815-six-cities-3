@@ -16,8 +16,7 @@ store.dispatch(checkAuthAction())
   .unwrap()
   .then(() => {
     store.dispatch(fetchFavoritesOffers());
-  }
-  );
+  });
 
 
 const root = ReactDOM.createRoot(

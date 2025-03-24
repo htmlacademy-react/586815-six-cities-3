@@ -10,7 +10,7 @@ function ReviewsList(props: Props): JSX.Element {
 
   return (
     <ul className="reviews__list">
-      {reviews.map((review) => <ReviewsItem key={review.date + review.user.name} review={review} />)}
+      {reviews.map((review) => <ReviewsItem key={review.id} review={review} />)}
     </ul>
   );
 }

@@ -9,10 +9,10 @@ import PrivateRoute from './private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../hooks/store';
 import Loader from '../loader';
-import { isOffersLoading } from '../store/selectors/offers';
+import { selectOffersLoading } from '../store/selectors/offers';
 
 function App(): JSX.Element {
-  const isLoading = useAppSelector(isOffersLoading);
+  const isLoading = useAppSelector(selectOffersLoading);
 
   if (isLoading) {
     return <Loader />;
@@ -37,7 +37,9 @@ function App(): JSX.Element {
           <Route
             path={AppRoute.Login}
             element={
-              <Login />
+              <PrivateRoute reverse >
+                <Login />
+              </PrivateRoute>
             }
           />
           <Route

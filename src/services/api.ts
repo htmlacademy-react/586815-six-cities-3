@@ -65,6 +65,9 @@ export const createAPI = (): AxiosInstance => {
           );
         }
       }
+      if (error.response?.data.message === 'Header Token is not correct') {
+        return;
+      }
       toast.warn(error.message);
       throw error;
     }

@@ -6,7 +6,6 @@ import { useAppDispatch } from '../hooks/store';
 import { userActions } from '../store/slices/user';
 import { FormEvent, useState } from 'react';
 import { favoriteActions } from '../store/slices/favorites';
-import useAuth from '../hooks/auth';
 
 const { loginAction } = userActions;
 const { fetchFavoritesOffers } = favoriteActions;
@@ -14,11 +13,6 @@ const { fetchFavoritesOffers } = favoriteActions;
 export default function Login(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isAuth = useAuth();
-
-  if (isAuth) {
-    navigate(AppRoute.Main, { replace: true });
-  }
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
