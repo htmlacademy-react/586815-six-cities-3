@@ -8,6 +8,7 @@ import { useAppSelector, useAppDispatch } from '../hooks/store';
 import React from 'react';
 import { offersActions } from '../store/slices/offers';
 import { getCurrentCity, getCurrentCityLocation, getFilteredOffers } from '../store/selectors/offers';
+import classNames from 'classnames';
 
 const { changeCity } = offersActions;
 
@@ -48,7 +49,9 @@ function MainPage(): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={classNames('page__main', 'page__main--index',
+        { 'page__main--index-empty': !filteredOffers.length })}
+      >
         <Cities currentCity={currentCity} onCityClick={handleCityClick} />
         <div className="cities">
           {currentCityLocation ? <OffersSection offers={filteredOffers} currentCity={currentCity} currentCityLocation={currentCityLocation} /> : <NoOffersList currentCity={currentCity} />}

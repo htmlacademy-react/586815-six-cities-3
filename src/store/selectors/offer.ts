@@ -5,6 +5,7 @@ import { OfferType } from '../../types/common';
 
 const selectDetailedOffer = (state: RootState) => state.offer.item;
 const selectNearbyOffers = (state: RootState) => state.nearbyOffers.items;
+const selectCurrentOffer = (_: RootState, currentOffer: OfferType) => currentOffer;
 
 const selectSortedReviews = createSelector(
   [(state: RootState) => state.reviews.items],
@@ -12,7 +13,7 @@ const selectSortedReviews = createSelector(
 );
 
 const selectNearbyOffersForMap = createSelector(
-  [selectNearbyOffers, (_: RootState, currentOffer: OfferType) => currentOffer],
+  [selectNearbyOffers, selectCurrentOffer],
   (nearbyOffers, currentOffer) => [
     currentOffer,
     ...nearbyOffers
