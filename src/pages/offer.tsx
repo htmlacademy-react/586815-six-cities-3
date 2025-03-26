@@ -1,7 +1,6 @@
 import Logo from '../components/header/logo';
 import UserProfile from '../components/header/user-profile';
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../types/common';
 import { SCALE_RATING } from '../const';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found-page';
@@ -20,8 +19,7 @@ import Loader from '../loader';
 import Bookmark from '../components/favorites/bookmark';
 import { TypeBookmark } from '../const';
 import { favoriteActions } from '../store/slices/favorites';
-import { selectDetailedOffer, selectSortedReviews, selectNearbyOffersForMap, selectNearbyOffers } from '../store/selectors/offer';
-import { getOffers } from '../store/selectors/offers';
+import { getDetailedOffer, getSortedReviews, getNearbyOffersForMap, getNearbyOffers } from '../store/selectors/offer';
 
 const { fetchDetailedOffer } = offerActions;
 const { fetchOfferReviews } = reviewsActions;
@@ -33,12 +31,10 @@ export default function Offer(): JSX.Element {
 
   const { id } = useParams();
 
-  const currentDetailedOffer = useAppSelector(selectDetailedOffer);
-  const reviews = useAppSelector(selectSortedReviews);
-  const nearbyOffers = useAppSelector(selectNearbyOffers);
-  const offers = useAppSelector(getOffers);
-  const currentOffer = offers.find((offer) => offer.id === id) as OfferType;
-  const nearbyOffersForMap = useAppSelector((state) => selectNearbyOffersForMap(state, currentOffer));
+  const currentDetailedOffer = useAppSelector(getDetailedOffer);
+  const reviews = useAppSelector(getSortedReviews);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const nearbyOffersForMap = useAppSelector((state) => getNearbyOffersForMap(state));
 
 
   const dispatch = useAppDispatch();

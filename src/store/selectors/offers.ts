@@ -2,7 +2,7 @@ import { RootState } from '../../types/state';
 import { RequestStatus } from '../../const';
 import { createSelector } from '@reduxjs/toolkit';
 
-const getOffers = (state: RootState) => state.offers.items;
+const getOffers = (state: Pick<RootState, 'offers'>) => state.offers.items;
 const getCurrentCity = (state: RootState) => state.offers.currentCity;
 const selectOffersLoading = (state: RootState) => state.offers.status === RequestStatus.Loading;
 
