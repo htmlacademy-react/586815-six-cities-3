@@ -25,4 +25,4 @@ const getNearbyOffersForMap = createSelector(
       .slice(0, NEAR_OFFERS_AMOUNT)]
 );
 
-export { getDetailedOffer, getNearbyOffers, getSortedReviews, getNearbyOffersForMap };
+export { getDetailedOffer, getNearbyOffers, getSortedReviews, getNearbyOffersForMap, getCurrentOffer };

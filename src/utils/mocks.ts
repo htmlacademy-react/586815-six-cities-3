@@ -71,6 +71,11 @@ const makeFakeReview = (): ReviewType => ({
   rating: datatype.number(),
 });
 
+const makeFakeReviewForSort = (dateReview: string): ReviewType => ({
+  ...makeFakeReview(),
+  date: dateReview,
+});
+
 const makeFakeReviewContent = (): ReviewContentType => ({
   comment: name.title(),
   rating: datatype.number(),
@@ -84,4 +89,4 @@ const makeFakeUserData = (): UserData => ({
   token: datatype.uuid(),
 });
 
-export { makeFakeOffer, makeFakeDetailedOffer, makeFakeReview, makeFakeReviewContent, makeFakeUserData };
+export { makeFakeOffer, makeFakeDetailedOffer, makeFakeReview, makeFakeReviewContent, makeFakeUserData, makeFakeReviewForSort };

@@ -10,6 +10,7 @@ describe('Favorites selectors', () => {
       status: RequestStatus.Succeeded
     }
   };
+  const emptyState = { ...state, favorites: { items: [], status: RequestStatus.Succeeded } };
 
   it('should return offers from state', () => {
     const expectedOffers = state.favorites.items;
@@ -19,7 +20,7 @@ describe('Favorites selectors', () => {
     expect(result).toEqual(expectedOffers);
   });
 
-  it('should return offers.length from state', () => {
+  it('should return the number of favorite offers', () => {
     const { items } = state.favorites;
     const expectedCount = items.length;
 
@@ -35,5 +36,20 @@ describe('Favorites selectors', () => {
     const result = getFavoritesCities(state);
 
     expect(result).toEqual(expectedCities);
+  });
+
+  it('should return empty array when there are no favorite offers', () => {
+    const result = getFavoritesOffers(emptyState);
+    expect(result).toEqual([]);
+  });
+
+  it('should return 0 when there are no favorite offers', () => {
+    const result = getFavoritesCount(emptyState);
+    expect(result).toBe(0);
+  });
+
+  it('should return empty array when there are no favorite cities', () => {
+    const result = getFavoritesCities(emptyState);
+    expect(result).toEqual([]);
   });
 });

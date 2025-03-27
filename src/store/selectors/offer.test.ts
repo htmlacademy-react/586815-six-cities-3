@@ -1,7 +1,8 @@
 import { CITIES, RequestStatus } from '../../const';
 import { OfferType } from '../../types/common';
-import { makeFakeDetailedOffer, makeFakeOffer, makeFakeReview } from '../../utils/mocks';
-import { getDetailedOffer, getNearbyOffers, getNearbyOffersForMap, getSortedReviews } from './offer';
+import { makeFakeDetailedOffer, makeFakeOffer, makeFakeReviewForSort } from '../../utils/mocks';
+import { getDetailedOffer, getNearbyOffers, getNearbyOffersForMap, getSortedReviews, getCurrentOffer } from './offer';
+import { NEAR_OFFERS_AMOUNT } from '../../const';
 
 describe('Offer selectors', () => {
   const mockDetailedOffer = makeFakeDetailedOffer();
@@ -10,7 +11,9 @@ describe('Offer selectors', () => {
     previewImage: 'url'
   } as OfferType;
   const mockOffer = makeFakeOffer();
-  const mockReviews = [makeFakeReview(), makeFakeReview(), makeFakeReview()];
+  const mockDates = ['2019-05-08T14:13:56.569Z', '2020-05-08T14:13:56.569Z', '2021-05-08T14:13:56.569Z'];
+  const mockReviews = [makeFakeReviewForSort(mockDates[1]), makeFakeReviewForSort(mockDates[0]), makeFakeReviewForSort(mockDates[2])];
+
 
   const state = {
     offer: {
@@ -49,10 +52,11 @@ describe('Offer selectors', () => {
   });
 
   it('should return current offer and nearby offers from state', () => {
+    const currentOffer = state.offers.items.find((offer) => offer.id === state.offer.item.id);
     const expectedOffers = [
-      state.offers.items.find((offer) => offer.id === state.offer.item.id),
-      ...state.nearbyOffers.items
-    ];
+      currentOffer,
+      ...state.nearbyOffers.items.filter((offer) => offer.id !== currentOffer?.id)
+    ].slice(0, NEAR_OFFERS_AMOUNT);
 
     const result = getNearbyOffersForMap(state);
 
@@ -60,10 +64,27 @@ describe('Offer selectors', () => {
   });
 
   it('should return sorted reviews from state', () => {
-    const expectedReviews = state.reviews.items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const expectedReviews = [mockReviews[2], mockReviews[0], mockReviews[1]];
 
     const result = getSortedReviews(state);
 
     expect(result).toEqual(expectedReviews);
+  });
+
+  it('should return only current offer when there are no nearby offers', () => {
+    const emptyState = { ...state, nearbyOffers: { items: [], status: RequestStatus.Succeeded } };
+    const result = getNearbyOffersForMap(emptyState);
+    expect(result).toEqual([mockCurrentOffer]);
+  });
+
+  it('should return empty array when there are no reviews', () => {
+    const emptyState = { ...state, reviews: { items: [], status: RequestStatus.Succeeded } };
+    const result = getSortedReviews(emptyState);
+    expect(result).toEqual([]);
+  });
+
+  it('should return current offer if it exists in offers', () => {
+    const result = getCurrentOffer(state);
+    expect(result).toEqual(mockCurrentOffer);
   });
 });
