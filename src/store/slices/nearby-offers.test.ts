@@ -2,7 +2,7 @@ import { nearbyOfferSlice, nearbyOffersActions } from './nearby-offers';
 import { RequestStatus } from '../../const';
 import { makeFakeOffer } from '../../utils/mocks';
 
-const { fetchNearbyOffers } = nearbyOffersActions;
+const { fetchNearbyOffers, changeFavoriteStatusInNearbyOffer } = nearbyOffersActions;
 
 describe('NearbyOffers Slice', () => {
   it('should return initial state with empty action', () => {
@@ -62,6 +62,28 @@ describe('NearbyOffers Slice', () => {
     };
 
     const result = nearbyOfferSlice.reducer(undefined, fetchNearbyOffers.rejected);
+
+    expect(result).toEqual(expectedState);
+  });
+
+  it('should toggle isFavorite in offer when changeFavoriteStatus is dispatched', () => {
+    const mockOffer = makeFakeOffer();
+    const expectedOffer = {
+      ...mockOffer,
+      isFavorite: !mockOffer.isFavorite,
+    };
+    const initialState = {
+      currentCity: '',
+      items: [mockOffer],
+      status: RequestStatus.Idle,
+    };
+    const expectedState = {
+      currentCity: '',
+      items: [expectedOffer],
+      status: RequestStatus.Idle,
+    };
+
+    const result = nearbyOfferSlice.reducer(initialState, changeFavoriteStatusInNearbyOffer(mockOffer.id));
 
     expect(result).toEqual(expectedState);
   });

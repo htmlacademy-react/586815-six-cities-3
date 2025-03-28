@@ -3,7 +3,7 @@ import { offersSlice, offersActions } from './offers';
 import { CITIES } from '../../const';
 import { makeFakeOffer } from '../../utils/mocks';
 
-const { changeCity, changeFavoriteStatus, fetchOffers } = offersActions;
+const { changeCity, changeFavoriteStatusInMainOffer, fetchOffers } = offersActions;
 
 describe('Offers Slice', () => {
   it('should return initial state with empty action', () => {
@@ -62,7 +62,7 @@ describe('Offers Slice', () => {
       status: RequestStatus.Idle,
     };
 
-    const result = offersSlice.reducer(initialState, changeFavoriteStatus(mockOffer.id));
+    const result = offersSlice.reducer(initialState, changeFavoriteStatusInMainOffer(mockOffer.id));
 
     expect(result).toEqual(expectedState);
   });

@@ -24,7 +24,7 @@ import { getDetailedOffer, getSortedReviews, getNearbyOffersForMap, getNearbyOff
 const { fetchDetailedOffer } = offerActions;
 const { fetchOfferReviews } = reviewsActions;
 const { fetchNearbyOffers } = nearbyOffersActions;
-const { changeFavorite } = favoriteActions;
+const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
 
 export default function Offer(): JSX.Element {
   const [isLoadingData, setIsLoadingData] = useState(false);
@@ -69,6 +69,7 @@ export default function Offer(): JSX.Element {
     dispatch(changeFavorite({ offerId: id as string, status: !isFavorite }))
       .unwrap()
       .then(() => {
+        dispatch(fetchFavoritesOffers());
         dispatch(fetchDetailedOffer({ offerId: id }));
       });
   };
