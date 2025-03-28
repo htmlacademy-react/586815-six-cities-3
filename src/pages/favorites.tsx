@@ -17,7 +17,7 @@ export default function Factories(): JSX.Element {
   ));
 
   return (
-    <div className="page">
+    <div className="page" data-testid="favorites-page-container">
       <Helmet>
         <title>Six cities. In favorites</title>
       </Helmet>

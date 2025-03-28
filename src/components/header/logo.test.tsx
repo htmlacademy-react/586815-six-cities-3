@@ -15,8 +15,8 @@ describe('Component: Logo', () => {
 
   it('should render correct with active class', () => {
     render(withHistory(<Logo isActive />));
-    const logoContainer = screen.getByTestId(logoContainerTestId).classList;
+    const logoContainer = screen.getByTestId(logoContainerTestId);
 
-    expect(logoContainer).not.toHaveClass(logoActiveClass);
+    expect(logoContainer).toHaveClass(logoActiveClass);
   });
 });
