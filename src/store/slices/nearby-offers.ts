@@ -16,7 +16,14 @@ const initialState: NearbyOffersState = {
 export const nearbyOfferSlice = createSlice({
   name: 'nearbyOffers',
   initialState,
-  reducers: {},
+  reducers: {
+    changeFavoriteStatusInNearbyOffer(state, action) {
+      const offer = state.items.find((item) => item.id === action.payload as string);
+      if (offer) {
+        offer.isFavorite = !offer.isFavorite;
+      }
+    }
+  },
   extraReducers(builder) {
     builder.addCase(fetchNearbyOffers.pending, (state) => {
       state.status = RequestStatus.Loading;

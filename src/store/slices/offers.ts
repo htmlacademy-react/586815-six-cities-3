@@ -23,7 +23,7 @@ export const offersSlice = createSlice({
     changeCity(state, action) {
       state.currentCity = action.payload as string;
     },
-    changeFavoriteStatus(state, action) {
+    changeFavoriteStatusInMainOffer(state, action) {
       const offer = state.items.find((item) => item.id === action.payload as string);
       if (offer) {
         offer.isFavorite = !offer.isFavorite;

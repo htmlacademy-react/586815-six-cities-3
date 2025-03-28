@@ -29,7 +29,7 @@ export default function Login(): JSX.Element {
   };
 
   return (
-    <div className="page page--gray page--login">
+    <div className="page page--gray page--login" data-testid="login-page-container">
       <Helmet>
         <title>Login</title>
       </Helmet>

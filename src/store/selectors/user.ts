@@ -1,5 +1,6 @@
 import { RootState } from '../../types/state';
 
-const selectUserInfo = (state: RootState) => state.user.info;
+const getUserInfo = (state: Pick<RootState, 'user'>) => state.user.info;
+const getAuthStatus = (state: Pick<RootState, 'user'>) => state.user.authStatus;
 
-export { selectUserInfo };
+export { getUserInfo, getAuthStatus };

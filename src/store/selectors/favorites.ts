@@ -1,7 +1,7 @@
 import { RootState } from '../../types/state';
 import { createSelector } from '@reduxjs/toolkit';
 
-const getFavoritesOffers = (state: RootState) => state.favorites.items;
+const getFavoritesOffers = (state: Pick<RootState, 'favorites'>) => state.favorites.items;
 
 const getFavoritesCount = createSelector(
   [getFavoritesOffers],

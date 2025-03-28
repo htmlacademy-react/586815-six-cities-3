@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 type Props = {
   className: string;
-  offers: OfferType[];
+  offers: (OfferType | null)[];
   currentCity: LocationType;
   selectedOfferId: Nullable<string>;
 }
@@ -38,15 +38,17 @@ function Map(props: Props): JSX.Element {
 
     if (map) {
       offers.forEach((offer) => {
-        leaflet.marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude,
-        }, {
-          icon: (selectedOfferId === offer.id)
-            ? currentCustomIcon
-            : defaultCustomIcon
-        })
-          .addTo(markerGroupRef.current as leaflet.LayerGroup);
+        if (offer) {
+          leaflet.marker({
+            lat: offer.location.latitude,
+            lng: offer.location.longitude,
+          }, {
+            icon: (selectedOfferId === offer.id)
+              ? currentCustomIcon
+              : defaultCustomIcon
+          })
+            .addTo(markerGroupRef.current as leaflet.LayerGroup);
+        }
       });
     }
   }, [map, offers, selectedOfferId]);
