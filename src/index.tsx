@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App.tsx';
 import { Provider } from 'react-redux';
-import { store } from './store/index';
 import { ToastContainer } from 'react-toastify';
+import App from './components/App.tsx';
+import { store } from './store/index';
 import { offersActions } from './store/slices/offers.ts';
 import { userActions } from './store/slices/user.ts';
 import { fetchFavoritesOffers } from './store/thunks/favorites.ts';
+import { BrowserRouter } from 'react-router-dom';
 
 const { fetchOffers } = offersActions;
 const { checkAuthAction } = userActions;
@@ -26,8 +27,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App />
+      <BrowserRouter>
+        <ToastContainer />
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

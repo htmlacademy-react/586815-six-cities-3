@@ -8,6 +8,7 @@ import { State } from '../types/state';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+import { AuthStatus, RequestStatus } from '../const';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
@@ -114,4 +115,14 @@ const makeFakeUserData = (): UserData => ({
   token: datatype.uuid(),
 });
 
-export { makeFakeOffer, makeFakeDetailedOffer, makeFakeReview, makeFakeReviewContent, makeFakeUserData, makeFakeReviewForSort, getMockStoreCreator, getAxiosAdapter, extractActionsTypes };
+const makeFakeStore = (initialState?: Partial<State>): State => ({
+  favorites: { items: [makeFakeOffer()], status: RequestStatus.Succeeded },
+  nearbyOffers: { items: [makeFakeOffer()], status: RequestStatus.Succeeded },
+  offer: { item: makeFakeDetailedOffer(), status: RequestStatus.Succeeded },
+  offers: { currentCity: 'Paris', items: [makeFakeOffer()], status: RequestStatus.Succeeded, },
+  reviews: { items: [makeFakeReview()], status: RequestStatus.Succeeded },
+  user: { authStatus: AuthStatus.Unknown, info: makeFakeUserData(), status: RequestStatus.Succeeded },
+  ...initialState ?? {},
+});
+
+export { makeFakeOffer, makeFakeDetailedOffer, makeFakeReview, makeFakeReviewContent, makeFakeUserData, makeFakeReviewForSort, getMockStoreCreator, getAxiosAdapter, extractActionsTypes, makeFakeStore };

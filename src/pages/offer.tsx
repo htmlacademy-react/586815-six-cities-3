@@ -15,7 +15,7 @@ import Features from '../components/offer/features';
 import { offerActions } from '../store/slices/offer';
 import { reviewsActions } from '../store/slices/reviews';
 import { nearbyOffersActions } from '../store/slices/nearby-offers';
-import Loader from '../loader';
+import Loader from '../components/loader/loader';
 import Bookmark from '../components/favorites/bookmark';
 import { TypeBookmark } from '../const';
 import { favoriteActions } from '../store/slices/favorites';
@@ -75,7 +75,7 @@ export default function Offer(): JSX.Element {
   };
 
   return (
-    <div className="page">
+    <div className="page" >
       <Helmet>
         <title>Six cities. About offer</title>
       </Helmet>
@@ -95,7 +95,7 @@ export default function Offer(): JSX.Element {
       </header>
 
       <main className="page__main page__main--offer">
-        <section className="offer">
+        <section className="offer" data-testid="offer-page-container">
           <Gallery images={images} />
           <div className="offer__container container">
             <div className="offer__wrapper">
