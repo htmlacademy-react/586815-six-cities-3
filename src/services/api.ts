@@ -56,7 +56,7 @@ export const createAPI = (): AxiosInstance => {
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
         const detailMessage = error.response.data;
-        if (detailMessage.details) {
+        if (detailMessage?.details) {
           Object.entries(detailMessage.details).forEach(([, validation]) => {
             validation.messages.forEach((message) => {
               toast.warn(message, options);
