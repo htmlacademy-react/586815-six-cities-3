@@ -26,13 +26,14 @@ describe('Application Routing', () => {
     const offerPageContainerTestId = 'offer-page-container';
     const mockOffer = makeFakeOffer();
     const withHistoryComponent = withHistory(<App />, mockHistory);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+    const { withStoreComponent, mockAxiosAdapter } = withStore(withHistoryComponent, makeFakeStore({
       offers: {
         currentCity: 'Paris',
         items: [mockOffer],
         status: RequestStatus.Succeeded
       }
     }));
+    mockAxiosAdapter.onGet(`/offer/${mockOffer.id}`).reply(200);
     mockHistory.push(`/offer/${mockOffer.id}`);
 
     render(withStoreComponent);
