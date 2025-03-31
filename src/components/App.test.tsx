@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { AppRoute, AuthStatus, RequestStatus } from '../const';
 import App from './App';
-import { makeFakeStore, makeFakeUserData } from '../utils/mocks';
+import { makeFakeOffer, makeFakeStore, makeFakeUserData } from '../utils/mocks';
 import { withHistory, withStore } from '../utils/mock-component';
 
 describe('Application Routing', () => {
@@ -24,9 +24,16 @@ describe('Application Routing', () => {
 
   it('should render "OfferPage" when user navigate to "/offer/:id"', async () => {
     const offerPageContainerTestId = 'offer-page-container';
+    const mockOffer = makeFakeOffer();
     const withHistoryComponent = withHistory(<App />, mockHistory);
-    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore());
-    mockHistory.push(AppRoute.Offer);
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      offers: {
+        currentCity: 'Paris',
+        items: [mockOffer],
+        status: RequestStatus.Succeeded
+      }
+    }));
+    mockHistory.push(`offer/${mockOffer.id}`);
 
     render(withStoreComponent);
     const offerPageContainer = await screen.findByTestId(offerPageContainerTestId);
