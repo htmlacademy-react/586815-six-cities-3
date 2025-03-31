@@ -33,7 +33,7 @@ describe('Application Routing', () => {
         status: RequestStatus.Succeeded
       }
     }));
-    mockHistory.push(`offer/${mockOffer.id}`);
+    mockHistory.push(`/offer/${mockOffer.id}`);
 
     render(withStoreComponent);
     const offerPageContainer = await screen.findByTestId(offerPageContainerTestId);
