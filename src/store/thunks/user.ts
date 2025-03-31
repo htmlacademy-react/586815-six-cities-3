@@ -4,13 +4,14 @@ import { APIRoute } from '../../const';
 import { UserData } from '../../types/user';
 import { saveToken, dropToken } from '../../services/token';
 
-const checkAuthAction = createAsyncThunk<UserData, undefined, {
+const checkAuthAction = createAsyncThunk<UserData | null, undefined, {
   extra: AxiosInstance;
 }>(
   'user/checkAuth',
   async (_arg, { extra: api }) => {
-    const { data } = await api.get<UserData>(APIRoute.Login);
-    return data;
+    const response = await api.get<UserData>(APIRoute.Login);
+
+    return response ? response.data : null;
   },
 );
 
