@@ -26,7 +26,7 @@ export const userSlice = createSlice({
     })
       .addCase(checkAuthAction.fulfilled, (state, action) => {
         state.info = action.payload;
-        state.authStatus = AuthStatus.Auth;
+        state.authStatus = action.payload ? AuthStatus.Auth : AuthStatus.NoAuth;
         state.status = RequestStatus.Succeeded;
       })
       .addCase(checkAuthAction.rejected, (state) => {
