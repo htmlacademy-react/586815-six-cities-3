@@ -8,7 +8,7 @@ import ReviewsSection from '../components/offer/reviews/reviews-section';
 import NearOffersList from '../components/offer/near-offers-list';
 import Map from '../components/map/map';
 import { classNamesMap } from '../const';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import Gallery from '../components/offer/gallery';
 import Features from '../components/offer/features';
@@ -20,6 +20,7 @@ import Bookmark from '../components/favorites/bookmark';
 import { TypeBookmark } from '../const';
 import { favoriteActions } from '../store/slices/favorites';
 import { getDetailedOffer, getSortedReviews, getNearbyOffersForMap, getNearbyOffers } from '../store/selectors/offer';
+import { getLoadingStatus } from '../store/selectors/loading';
 
 const { fetchDetailedOffer } = offerActions;
 const { fetchOfferReviews } = reviewsActions;
@@ -27,37 +28,32 @@ const { fetchNearbyOffers } = nearbyOffersActions;
 const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
 
 export default function Offer(): JSX.Element {
-  const [isLoadingData, setIsLoadingData] = useState(false);
-
   const { id } = useParams();
 
   const currentDetailedOffer = useAppSelector(getDetailedOffer);
   const reviews = useAppSelector(getSortedReviews);
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const nearbyOffersForMap = useAppSelector((state) => getNearbyOffersForMap(state));
-
+  const isLoadingData = useAppSelector(getLoadingStatus);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadData = async () => {
-      setIsLoadingData(true);
       await Promise.all([
         dispatch(fetchDetailedOffer({ offerId: id })).unwrap(),
         dispatch(fetchOfferReviews({ offerId: id })).unwrap(),
         dispatch(fetchNearbyOffers({ offerId: id })).unwrap(),
-      ]).finally(() => setIsLoadingData(false));
+      ]);
     };
-
     loadData();
   }, [id, dispatch]);
 
 
-  if (isLoadingData) {
-    return <Loader />;
-  }
-
   if (!currentDetailedOffer) {
+    if (isLoadingData) {
+      return <Loader />;
+    }
     return <NotFoundPage />;
   }
 

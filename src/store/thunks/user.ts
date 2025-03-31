@@ -11,7 +11,7 @@ const checkAuthAction = createAsyncThunk<UserData | null, undefined, {
   async (_arg, { extra: api }) => {
     const response = await api.get<UserData>(APIRoute.Login);
 
-    return response ? response.data : null;
+    return response.data ?? null;
   },
 );
 

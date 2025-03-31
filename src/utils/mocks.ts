@@ -122,6 +122,7 @@ const makeFakeStore = (initialState?: Partial<State>): State => ({
   offers: { currentCity: 'Paris', items: [makeFakeOffer()], status: RequestStatus.Succeeded, },
   reviews: { items: [makeFakeReview()], status: RequestStatus.Succeeded },
   user: { authStatus: AuthStatus.Unknown, info: makeFakeUserData(), status: RequestStatus.Succeeded },
+  loading: { isLoading: datatype.boolean() },
   ...initialState ?? {},
 });
 

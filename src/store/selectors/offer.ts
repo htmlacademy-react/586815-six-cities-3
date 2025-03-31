@@ -4,7 +4,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { getOffers } from './offers';
 
 const getDetailedOffer = (state: Pick<RootState, 'offer'>) => state.offer.item;
-const getNearbyOffers = (state: Pick<RootState, 'nearbyOffers'>) => state.nearbyOffers.items;
+const getNearbyOffers = (state: Pick<RootState, 'nearbyOffers'>) => state.nearbyOffers.items.slice(0, NEAR_OFFERS_AMOUNT);
 
 const getCurrentOffer = createSelector(
   [getDetailedOffer, getOffers],
@@ -21,8 +21,7 @@ const getNearbyOffersForMap = createSelector(
   (nearbyOffers, currentOffer) => [
     currentOffer,
     ...nearbyOffers
-      .filter((offer) => offer.id !== currentOffer?.id)
-      .slice(0, NEAR_OFFERS_AMOUNT)]
+      .filter((offer) => offer.id !== currentOffer?.id)]
 );
 
 export { getDetailedOffer, getNearbyOffers, getSortedReviews, getNearbyOffersForMap, getCurrentOffer };

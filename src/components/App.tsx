@@ -9,17 +9,14 @@ import PrivateRoute from './private-route';
 import { HelmetProvider } from 'react-helmet-async';
 import { useAppSelector } from '../hooks/store';
 import Loader from './loader/loader';
-import { selectOffersLoading } from '../store/selectors/offers';
+import { getLoadingStatus } from '../store/selectors/loading';
 
 function App(): JSX.Element {
-  const isLoading = useAppSelector(selectOffersLoading);
-
-  if (isLoading) {
-    return <Loader />;
-  }
+  const isLoading = useAppSelector(getLoadingStatus);
 
   return (
     <HelmetProvider>
+      {isLoading && <Loader />}
       <Routes>
         <Route
           path={AppRoute.Main}

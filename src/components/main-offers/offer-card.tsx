@@ -7,11 +7,15 @@ import { favoriteActions } from '../../store/slices/favorites';
 import { useAppDispatch } from '../../hooks/store';
 import { offersActions } from '../../store/slices/offers';
 import { nearbyOffersActions } from '../../store/slices/nearby-offers';
+import { offerActions } from '../../store/slices/offer';
+import { reviewsActions } from '../../store/slices/reviews';
 import { memo } from 'react';
 
+const { fetchDetailedOffer } = offerActions;
 const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
 const { changeFavoriteStatusInMainOffer } = offersActions;
-const { changeFavoriteStatusInNearbyOffer } = nearbyOffersActions;
+const { changeFavoriteStatusInNearbyOffer, fetchNearbyOffers } = nearbyOffersActions;
+const { fetchOfferReviews } = reviewsActions;
 
 type Props = {
   cardData: OfferType;
@@ -48,6 +52,18 @@ function OfferCard(props: Props): JSX.Element {
     onOfferHover?.(null);
   };
 
+  const handleOfferClick = () => {
+    const loadData = async () => {
+      await Promise.all([
+        dispatch(fetchDetailedOffer({ offerId: id })).unwrap(),
+        dispatch(fetchOfferReviews({ offerId: id })).unwrap(),
+        dispatch(fetchNearbyOffers({ offerId: id })).unwrap(),
+      ]);
+    };
+
+    loadData();
+  };
+
   return (
     <article
       className={classNames('place-card',
@@ -69,7 +85,7 @@ function OfferCard(props: Props): JSX.Element {
           isFavoritesOffers && 'favorites__image-wrapper'
         )}
       >
-        <Link to={offerRoute}>
+        <Link to={offerRoute} onClick={handleOfferClick}>
           <img className="place-card__image" src={previewImage} width={isFavoritesOffers ? '150' : '260'} height={isFavoritesOffers ? '110' : '200'} alt="Place image" />
         </Link>
       </div>
@@ -95,7 +111,7 @@ function OfferCard(props: Props): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={offerRoute}>{title}</Link>
+          <Link to={offerRoute} onClick={handleOfferClick}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

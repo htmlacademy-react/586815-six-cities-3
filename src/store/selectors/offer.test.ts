@@ -63,12 +63,12 @@ describe('Offer selectors', () => {
     expect(result).toEqual(expectedOffers);
   });
 
-  it('should return sorted reviews from state', () => {
-    const expectedReviews = [mockReviews[2], mockReviews[0], mockReviews[1]];
+  it('should return sorted by date reviews from state', () => {
+    const expectedSortedReviews = [mockReviews[2], mockReviews[0], mockReviews[1]];
 
     const result = getSortedReviews(state);
 
-    expect(result).toEqual(expectedReviews);
+    expect(result).toEqual(expectedSortedReviews);
   });
 
   it('should return only current offer when there are no nearby offers', () => {
