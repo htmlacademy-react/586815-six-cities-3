@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { AppRoute, AuthStatus, RequestStatus } from '../const';
+import { AppRoute, AuthStatus } from '../const';
 import App from './App';
 import { makeFakeStore, makeFakeUserData } from '../utils/mocks';
 import { withHistory, withStore } from '../utils/mock-component';
@@ -26,7 +26,7 @@ describe('Application Routing', () => {
     const favoritesPageContainerTestId = 'favorites-page-container';
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-      user: { authStatus: AuthStatus.Auth, info: makeFakeUserData(), status: RequestStatus.Succeeded }
+      user: { authStatus: AuthStatus.Auth, info: makeFakeUserData() }
     }));
     mockHistory.push(AppRoute.Favorites);
 
@@ -39,7 +39,7 @@ describe('Application Routing', () => {
     const loginPageContainerTestId = 'login-page-container';
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-      user: { authStatus: AuthStatus.NoAuth, info: null, status: RequestStatus.Idle }
+      user: { authStatus: AuthStatus.NoAuth, info: null }
     }));
     mockHistory.push(AppRoute.Login);
 
@@ -52,7 +52,7 @@ describe('Application Routing', () => {
     const mainPageContainerTestId = 'main-page-container';
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-      user: { authStatus: AuthStatus.Auth, info: makeFakeUserData(), status: RequestStatus.Idle }
+      user: { authStatus: AuthStatus.Auth, info: makeFakeUserData() }
     }));
     mockHistory.push(AppRoute.Login);
 
@@ -65,7 +65,7 @@ describe('Application Routing', () => {
     const loginPageContainerTestId = 'login-page-container';
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-      user: { authStatus: AuthStatus.NoAuth, info: null, status: RequestStatus.Idle }
+      user: { authStatus: AuthStatus.NoAuth, info: null }
     }));
     mockHistory.push(AppRoute.Login);
 

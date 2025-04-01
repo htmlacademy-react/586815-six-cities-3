@@ -1,5 +1,4 @@
 import { nearbyOfferSlice, nearbyOffersActions } from './nearby-offers';
-import { RequestStatus } from '../../const';
 import { makeFakeOffer } from '../../utils/mocks';
 
 const { fetchNearbyOffers, changeFavoriteStatusInNearbyOffer } = nearbyOffersActions;
@@ -8,8 +7,7 @@ describe('NearbyOffers Slice', () => {
   it('should return initial state with empty action', () => {
     const emptyAction = { type: '' };
     const expectedState = {
-      items: [],
-      status: RequestStatus.Succeeded,
+      items: []
     };
 
     const result = nearbyOfferSlice.reducer(expectedState, emptyAction);
@@ -20,8 +18,7 @@ describe('NearbyOffers Slice', () => {
   it('should return default initial state with empty action', () => {
     const emptyAction = { type: '' };
     const expectedState = {
-      items: [],
-      status: RequestStatus.Idle,
+      items: []
     };
 
     const result = nearbyOfferSlice.reducer(undefined, emptyAction);
@@ -29,39 +26,15 @@ describe('NearbyOffers Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('should mark status as "loading" when fetchNearbyOffers is pending', () => {
-    const expectedState = {
-      items: [],
-      status: RequestStatus.Loading,
-    };
-
-    const result = nearbyOfferSlice.reducer(undefined, fetchNearbyOffers.pending);
-
-    expect(result).toEqual(expectedState);
-  });
-
-
-  it('should store fetched offers and mark status as "succeeded" when fetchNearbyOffers is fulfilled', () => {
+  it('should store fetched offers when fetchNearbyOffers is fulfilled', () => {
     const mockNearbyOffer = makeFakeOffer();
     const expectedState = {
-      items: [mockNearbyOffer],
-      status: RequestStatus.Succeeded,
+      items: [mockNearbyOffer]
     };
 
     const result = nearbyOfferSlice.reducer(undefined, fetchNearbyOffers.fulfilled(
       [mockNearbyOffer], '', {}, undefined
     ));
-
-    expect(result).toEqual(expectedState);
-  });
-
-  it('should mark status as "failed" when fetchNearbyOffers is rejected', () => {
-    const expectedState = {
-      items: [],
-      status: RequestStatus.Failed,
-    };
-
-    const result = nearbyOfferSlice.reducer(undefined, fetchNearbyOffers.rejected);
 
     expect(result).toEqual(expectedState);
   });
@@ -74,13 +47,11 @@ describe('NearbyOffers Slice', () => {
     };
     const initialState = {
       currentCity: '',
-      items: [mockOffer],
-      status: RequestStatus.Idle,
+      items: [mockOffer]
     };
     const expectedState = {
       currentCity: '',
-      items: [expectedOffer],
-      status: RequestStatus.Idle,
+      items: [expectedOffer]
     };
 
     const result = nearbyOfferSlice.reducer(initialState, changeFavoriteStatusInNearbyOffer(mockOffer.id));

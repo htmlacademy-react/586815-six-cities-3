@@ -1,5 +1,4 @@
-import { RequestStatus } from '../../const';
-import { getOffers, getCurrentCity, getCurrentCityLocation, getFilteredOffers, selectOffersLoading } from './offers';
+import { getOffers, getCurrentCity, getCurrentCityLocation, getFilteredOffers } from './offers';
 import { makeFakeOffer } from '../../utils/mocks';
 
 describe('Offers selectors', () => {
@@ -13,13 +12,12 @@ describe('Offers selectors', () => {
   const state = {
     offers: {
       currentCity: 'Paris',
-      items: [mockOffer1, mockOffer2],
-      status: RequestStatus.Succeeded,
+      items: [mockOffer1, mockOffer2]
     }
   };
 
   it('should return empty array when there are no offers', () => {
-    const emptyState = { ...state, offers: { currentCity: '', items: [], status: RequestStatus.Succeeded } };
+    const emptyState = { ...state, offers: { currentCity: '', items: [] } };
     const result = getOffers(emptyState);
     expect(result).toEqual([]);
   });
@@ -34,17 +32,6 @@ describe('Offers selectors', () => {
     const expectedCity = 'Paris';
     const result = getCurrentCity(state);
     expect(result).toBe(expectedCity);
-  });
-
-  it('should return false when status from state is not "Loading"', () => {
-    const result = selectOffersLoading(state);
-    expect(result).toBeFalsy();
-  });
-
-  it('should return true when status from state is "Loading"', () => {
-    const initialState = { ...state, offers: { ...state.offers, status: RequestStatus.Loading } };
-    const result = selectOffersLoading(initialState);
-    expect(result).toBeTruthy();
   });
 
   it('should return location city from state', () => {

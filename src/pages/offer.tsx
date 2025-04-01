@@ -21,11 +21,12 @@ import { TypeBookmark } from '../const';
 import { favoriteActions } from '../store/slices/favorites';
 import { getDetailedOffer, getSortedReviews, getNearbyOffersForMap, getNearbyOffers } from '../store/selectors/offer';
 import { getLoadingStatus } from '../store/selectors/loading';
+import { changeFavorite } from '../store/thunks/favorites';
 
 const { fetchDetailedOffer } = offerActions;
 const { fetchOfferReviews } = reviewsActions;
 const { fetchNearbyOffers } = nearbyOffersActions;
-const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
+const { fetchFavoritesOffers } = favoriteActions;
 
 export default function Offer(): JSX.Element {
   const { id } = useParams();

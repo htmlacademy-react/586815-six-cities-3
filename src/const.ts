@@ -64,13 +64,6 @@ export enum APIRoute {
   Comments = '/comments',
 }
 
-export enum RequestStatus {
-  Idle = 'idle',
-  Loading = 'loading',
-  Succeeded = 'succeeded',
-  Failed = 'failed'
-}
-
 export enum FavoritesStatus {
   Added = 1,
   Removed = 0

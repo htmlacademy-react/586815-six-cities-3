@@ -1,4 +1,3 @@
-import { RequestStatus } from '../../const';
 import { makeFakeOffer } from '../../utils/mocks';
 import { getFavoritesOffers, getFavoritesCount, getFavoritesCities } from './favorites';
 
@@ -7,10 +6,9 @@ describe('Favorites selectors', () => {
   const state = {
     favorites: {
       items: [mockOffer],
-      status: RequestStatus.Succeeded
     }
   };
-  const emptyState = { ...state, favorites: { items: [], status: RequestStatus.Succeeded } };
+  const emptyState = { ...state, favorites: { items: [] } };
 
   it('should return offers from state', () => {
     const expectedOffers = state.favorites.items;

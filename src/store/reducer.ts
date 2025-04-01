@@ -4,7 +4,7 @@ import { offersSlice } from './slices/offers';
 import { reviewsSlice } from './slices/reviews';
 import { nearbyOfferSlice } from './slices/nearby-offers';
 import { offerSlice } from './slices/offer';
-import { loadingSlice } from './slices/loading-slice';
+import { loadingSlice } from './slices/loading';
 import { userSlice } from './slices/user';
 
 const reducer = combineReducers({

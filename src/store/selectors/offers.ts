@@ -1,10 +1,8 @@
 import { RootState } from '../../types/state';
-import { RequestStatus } from '../../const';
 import { createSelector } from '@reduxjs/toolkit';
 
 const getOffers = (state: Pick<RootState, 'offers'>) => state.offers.items;
 const getCurrentCity = (state: Pick<RootState, 'offers'>) => state.offers.currentCity;
-const selectOffersLoading = (state: Pick<RootState, 'offers'>) => state.offers.status === RequestStatus.Loading;
 
 const getCurrentCityLocation = createSelector(
   [getOffers, getCurrentCity],
@@ -16,4 +14,4 @@ const getFilteredOffers = createSelector(
   (offers, city) => offers.filter((offer) => offer.city.name === city)
 );
 
-export { getOffers, selectOffersLoading, getCurrentCity, getCurrentCityLocation, getFilteredOffers };
+export { getOffers, getCurrentCity, getCurrentCityLocation, getFilteredOffers };

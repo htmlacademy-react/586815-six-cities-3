@@ -10,9 +10,10 @@ import { nearbyOffersActions } from '../../store/slices/nearby-offers';
 import { offerActions } from '../../store/slices/offer';
 import { reviewsActions } from '../../store/slices/reviews';
 import { memo } from 'react';
+import { changeFavorite } from '../../store/thunks/favorites';
 
 const { fetchDetailedOffer } = offerActions;
-const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
+const { fetchFavoritesOffers } = favoriteActions;
 const { changeFavoriteStatusInMainOffer } = offersActions;
 const { changeFavoriteStatusInNearbyOffer, fetchNearbyOffers } = nearbyOffersActions;
 const { fetchOfferReviews } = reviewsActions;

@@ -1,4 +1,3 @@
-import { RequestStatus } from '../../const';
 import { offerSlice, offerActions } from './offer';
 import { makeFakeDetailedOffer } from '../../utils/mocks';
 
@@ -8,8 +7,7 @@ describe('Offer Slice', () => {
   it('should return initial state with empty action', () => {
     const emptyAction = { type: '' };
     const expectedState = {
-      item: null,
-      status: RequestStatus.Succeeded,
+      item: null
     };
 
     const result = offerSlice.reducer(expectedState, emptyAction);
@@ -20,8 +18,7 @@ describe('Offer Slice', () => {
   it('should return default initial state with empty action', () => {
     const emptyAction = { type: '' };
     const expectedState = {
-      item: null,
-      status: RequestStatus.Idle,
+      item: null
     };
 
     const result = offerSlice.reducer(undefined, emptyAction);
@@ -29,22 +26,10 @@ describe('Offer Slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  it('should mark status as "loading" when fetchDetailedOffer is pending', () => {
-    const expectedState = {
-      item: null,
-      status: RequestStatus.Loading,
-    };
-
-    const result = offerSlice.reducer(undefined, fetchDetailedOffer.pending);
-
-    expect(result).toEqual(expectedState);
-  });
-
-  it('should store fetched offer and mark status as "succeeded" when fetchDetailedOffer is fulfilled', () => {
+  it('should store fetched offer when fetchDetailedOffer is fulfilled', () => {
     const mockOffer = makeFakeDetailedOffer();
     const expectedState = {
       item: mockOffer,
-      status: RequestStatus.Succeeded,
     };
 
     const result = offerSlice.reducer(undefined, fetchDetailedOffer.fulfilled(
@@ -53,16 +38,4 @@ describe('Offer Slice', () => {
 
     expect(result).toEqual(expectedState);
   });
-
-  it('should mark status as "failed" when fetchDetailedOffer is rejected', () => {
-    const expectedState = {
-      item: null,
-      status: RequestStatus.Failed,
-    };
-
-    const result = offerSlice.reducer(undefined, fetchDetailedOffer.rejected);
-
-    expect(result).toEqual(expectedState);
-  });
-
 });
