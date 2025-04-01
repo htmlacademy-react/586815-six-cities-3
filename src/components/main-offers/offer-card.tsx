@@ -6,10 +6,16 @@ import Bookmark from '../favorites/bookmark';
 import { favoriteActions } from '../../store/slices/favorites';
 import { useAppDispatch } from '../../hooks/store';
 import { offersActions } from '../../store/slices/offers';
+import { nearbyOffersActions } from '../../store/slices/nearby-offers';
+import { offerActions } from '../../store/slices/offer';
+import { reviewsActions } from '../../store/slices/reviews';
 import { memo } from 'react';
 
-const { changeFavorite } = favoriteActions;
-const { changeFavoriteStatus } = offersActions;
+const { fetchDetailedOffer } = offerActions;
+const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
+const { changeFavoriteStatusInMainOffer } = offersActions;
+const { changeFavoriteStatusInNearbyOffer, fetchNearbyOffers } = nearbyOffersActions;
+const { fetchOfferReviews } = reviewsActions;
 
 type Props = {
   cardData: OfferType;
@@ -20,7 +26,7 @@ type Props = {
 }
 
 function OfferCard(props: Props): JSX.Element {
-  const { isMainOffers, isNearbyOffers: isOffer, isFavoritesOffers: isFavorites, onOfferHover } = props;
+  const { isMainOffers, isNearbyOffers, isFavoritesOffers, onOfferHover } = props;
   const { isPremium, isFavorite, title, price, rating, previewImage, type, id } = props.cardData;
   const offerRoute = `/offer/${id}`;
 
@@ -30,7 +36,11 @@ function OfferCard(props: Props): JSX.Element {
     dispatch(changeFavorite({ offerId: id, status: !isFavorite }))
       .unwrap()
       .then(() => {
-        dispatch(changeFavoriteStatus(id));
+        dispatch(fetchFavoritesOffers());
+        dispatch(changeFavoriteStatusInMainOffer(id));
+        if (isNearbyOffers) {
+          dispatch(changeFavoriteStatusInNearbyOffer(id));
+        }
       });
   };
 
@@ -42,12 +52,24 @@ function OfferCard(props: Props): JSX.Element {
     onOfferHover?.(null);
   };
 
+  const handleOfferClick = () => {
+    const loadData = async () => {
+      await Promise.all([
+        dispatch(fetchDetailedOffer({ offerId: id })).unwrap(),
+        dispatch(fetchOfferReviews({ offerId: id })).unwrap(),
+        dispatch(fetchNearbyOffers({ offerId: id })).unwrap(),
+      ]);
+    };
+
+    loadData();
+  };
+
   return (
     <article
       className={classNames('place-card',
         isMainOffers && 'cities__card',
-        isOffer && 'near-places__card',
-        isFavorites && 'favorites__card'
+        isNearbyOffers && 'near-places__card',
+        isFavoritesOffers && 'favorites__card'
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -59,16 +81,16 @@ function OfferCard(props: Props): JSX.Element {
       <div
         className={classNames('place-card__image-wrapper',
           isMainOffers && 'cities__image-wrapper',
-          isOffer && 'near-places__image-wrapper',
-          isFavorites && 'favorites__image-wrapper'
+          isNearbyOffers && 'near-places__image-wrapper',
+          isFavoritesOffers && 'favorites__image-wrapper'
         )}
       >
-        <Link to={offerRoute}>
-          <img className="place-card__image" src={previewImage} width={isFavorites ? '150' : '260'} height={isFavorites ? '110' : '200'} alt="Place image" />
+        <Link to={offerRoute} onClick={handleOfferClick}>
+          <img className="place-card__image" src={previewImage} width={isFavoritesOffers ? '150' : '260'} height={isFavoritesOffers ? '110' : '200'} alt="Place image" />
         </Link>
       </div>
       <div className={classNames('place-card__info',
-        isFavorites && 'favorites__card-info'
+        isFavoritesOffers && 'favorites__card-info'
       )}
       >
         <div className="place-card__price-wrapper">
@@ -89,7 +111,7 @@ function OfferCard(props: Props): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={offerRoute}>{title}</Link>
+          <Link to={offerRoute} onClick={handleOfferClick}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

@@ -1,7 +1,6 @@
 import Logo from '../components/header/logo';
 import UserProfile from '../components/header/user-profile';
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../types/common';
 import { SCALE_RATING } from '../const';
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './not-found-page';
@@ -9,59 +8,52 @@ import ReviewsSection from '../components/offer/reviews/reviews-section';
 import NearOffersList from '../components/offer/near-offers-list';
 import Map from '../components/map/map';
 import { classNamesMap } from '../const';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import Gallery from '../components/offer/gallery';
 import Features from '../components/offer/features';
 import { offerActions } from '../store/slices/offer';
 import { reviewsActions } from '../store/slices/reviews';
 import { nearbyOffersActions } from '../store/slices/nearby-offers';
-import Loader from '../loader';
+import Loader from '../components/loader/loader';
 import Bookmark from '../components/favorites/bookmark';
 import { TypeBookmark } from '../const';
 import { favoriteActions } from '../store/slices/favorites';
-import { selectDetailedOffer, selectSortedReviews, selectNearbyOffersForMap, selectNearbyOffers } from '../store/selectors/offer';
-import { getOffers } from '../store/selectors/offers';
+import { getDetailedOffer, getSortedReviews, getNearbyOffersForMap, getNearbyOffers } from '../store/selectors/offer';
+import { getLoadingStatus } from '../store/selectors/loading';
 
 const { fetchDetailedOffer } = offerActions;
 const { fetchOfferReviews } = reviewsActions;
 const { fetchNearbyOffers } = nearbyOffersActions;
-const { changeFavorite } = favoriteActions;
+const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
 
 export default function Offer(): JSX.Element {
-  const [isLoadingData, setIsLoadingData] = useState(false);
-
   const { id } = useParams();
 
-  const currentDetailedOffer = useAppSelector(selectDetailedOffer);
-  const reviews = useAppSelector(selectSortedReviews);
-  const nearbyOffers = useAppSelector(selectNearbyOffers);
-  const offers = useAppSelector(getOffers);
-  const currentOffer = offers.find((offer) => offer.id === id) as OfferType;
-  const nearbyOffersForMap = useAppSelector((state) => selectNearbyOffersForMap(state, currentOffer));
-
+  const currentDetailedOffer = useAppSelector(getDetailedOffer);
+  const reviews = useAppSelector(getSortedReviews);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const nearbyOffersForMap = useAppSelector((state) => getNearbyOffersForMap(state));
+  const isLoadingData = useAppSelector(getLoadingStatus);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadData = async () => {
-      setIsLoadingData(true);
       await Promise.all([
         dispatch(fetchDetailedOffer({ offerId: id })).unwrap(),
         dispatch(fetchOfferReviews({ offerId: id })).unwrap(),
         dispatch(fetchNearbyOffers({ offerId: id })).unwrap(),
-      ]).finally(() => setIsLoadingData(false));
+      ]);
     };
-
     loadData();
   }, [id, dispatch]);
 
 
-  if (isLoadingData) {
-    return <Loader />;
-  }
-
   if (!currentDetailedOffer) {
+    if (isLoadingData) {
+      return <Loader />;
+    }
     return <NotFoundPage />;
   }
 
@@ -73,12 +65,13 @@ export default function Offer(): JSX.Element {
     dispatch(changeFavorite({ offerId: id as string, status: !isFavorite }))
       .unwrap()
       .then(() => {
+        dispatch(fetchFavoritesOffers());
         dispatch(fetchDetailedOffer({ offerId: id }));
       });
   };
 
   return (
-    <div className="page">
+    <div className="page" >
       <Helmet>
         <title>Six cities. About offer</title>
       </Helmet>
@@ -98,7 +91,7 @@ export default function Offer(): JSX.Element {
       </header>
 
       <main className="page__main page__main--offer">
-        <section className="offer">
+        <section className="offer" data-testid="offer-page-container">
           <Gallery images={images} />
           <div className="offer__container container">
             <div className="offer__wrapper">

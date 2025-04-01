@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { userActions } from '../../store/slices/user';
 import { memo } from 'react';
 import { getFavoritesCount } from '../../store/selectors/favorites';
-import { selectUserInfo } from '../../store/selectors/user';
+import { getUserInfo } from '../../store/selectors/user';
 
 const { logoutAction } = userActions;
 
@@ -14,7 +14,7 @@ type Props = {
 
 function UserProfile(props: Props): JSX.Element {
   const { disabled } = props;
-  const userData = useAppSelector(selectUserInfo);
+  const userData = useAppSelector(getUserInfo);
   const favoritesCount = useAppSelector(getFavoritesCount);
   const dispatch = useAppDispatch();
 

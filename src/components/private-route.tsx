@@ -1,7 +1,7 @@
 import { AppRoute } from '../const';
 import { Navigate } from 'react-router-dom';
 import useAuth from '../hooks/auth';
-import Loader from '../loader';
+import Loader from './loader/loader';
 import { useAppSelector } from '../hooks/store';
 import { AuthStatus } from '../const';
 
