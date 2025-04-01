@@ -7,7 +7,6 @@ import NotFoundPage from './not-found-page';
 import ReviewsSection from '../components/offer/reviews/reviews-section';
 import NearOffersList from '../components/offer/near-offers-list';
 import Map from '../components/map/map';
-import { classNamesMap } from '../const';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import Gallery from '../components/offer/gallery';
@@ -156,7 +155,6 @@ export default function Offer(): JSX.Element {
             </div>
           </div>
           <Map
-            className={classNamesMap.offer}
             currentCity={currentCity}
             offers={nearbyOffersForMap}
             selectedOfferId={id}

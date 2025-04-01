@@ -43,12 +43,14 @@ function Sorting(props: Props): JSX.Element {
       ref={sortingRef}
       className="places__sorting"
       action="#" method="get"
+      data-testid="sorting-container"
     >
       <span className="places__sorting-caption" > Sort by </span>
       <span
         className="places__sorting-type"
         tabIndex={0}
         onClick={handleDropdownToggle}
+        data-testid="sort-button-container"
       >
         {currentOption}
         < svg className="places__sorting-arrow" width="7" height="4" >

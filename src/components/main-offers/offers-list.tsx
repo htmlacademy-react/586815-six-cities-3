@@ -12,7 +12,7 @@ function OffersList(props: Props): JSX.Element {
   const { offers, onOfferHover } = props;
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className="cities__places-list places__list tabs__content" data-testid="offers-list-container">
       {offers.map((offer) => (
         <OfferCard
           key={offer.id}
