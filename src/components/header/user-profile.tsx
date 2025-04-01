@@ -24,7 +24,7 @@ function UserProfile(props: Props): JSX.Element {
 
   if (!userData) {
     return (
-      <li className="header__nav-item user">
+      <li className="header__nav-item user" data-testid='login-button-container'>
         <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
           <div className="header__avatar-wrapper user__avatar-wrapper">
           </div>
@@ -38,7 +38,7 @@ function UserProfile(props: Props): JSX.Element {
 
   return (
     <>
-      <li className="header__nav-item user">
+      <li className="header__nav-item user" data-testid='profile-container'>
         <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites} style={{ pointerEvents: disabled ? 'none' : 'auto' }} aria-disabled={disabled}>
           <div
             className="header__avatar-wrapper user__avatar-wrapper"
@@ -51,7 +51,7 @@ function UserProfile(props: Props): JSX.Element {
           <span className="header__favorite-count">{favoritesCount}</span>
         </Link>
       </li>
-      <li className="header__nav-item" onClick={handleLogoutClick}>
+      <li className="header__nav-item" onClick={handleLogoutClick} data-testid='logout-button-container'>
         <Link className="header__nav-link" to={AppRoute.Main}>
           <span className="header__signout">Sign out</span>
         </Link>

@@ -74,6 +74,7 @@ function OfferCard(props: Props): JSX.Element {
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      data-testid='offer-card-container'
     >
       {isPremium &&
         <div className="place-card__mark">
