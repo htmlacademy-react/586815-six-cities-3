@@ -28,13 +28,13 @@ const getAxiosAdapter = () => {
   return mockAxiosAdapter;
 };
 
-const makeFakeOffer = (): OfferType => ({
+const makeFakeOffer = (cityName?: string): OfferType => ({
   id: datatype.uuid(),
   title: name.title(),
   type: name.jobType(),
   price: Number(commerce.price()),
   city: {
-    name: name.title(),
+    name: cityName ?? name.title(),
     location: {
       latitude: Number(address.latitude()),
       longitude: Number(address.longitude()),

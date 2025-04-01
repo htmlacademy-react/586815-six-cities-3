@@ -8,8 +8,6 @@ import { makeFakeStore, makeFakeUserData } from '../../utils/mocks';
 import { AppRoute } from '../../const';
 
 describe('Component: Bookmark', (() => {
-
-
   it('should render with text "To bookmarks" when offer is not in favorites and Auth', (() => {
     const expectedText = 'To bookmarks';
     const withHistoryComponent = withHistory(
@@ -59,6 +57,7 @@ describe('Component: Bookmark', (() => {
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
       user: { authStatus: AuthStatus.Auth, info: makeFakeUserData() }
     }));
+
     render(withStoreComponent);
 
     const button = screen.getByRole('button');
@@ -86,6 +85,7 @@ describe('Component: Bookmark', (() => {
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
       user: { authStatus: AuthStatus.NoAuth, info: null }
     }));
+
     render(withStoreComponent);
 
     const button = screen.getByRole('button');
