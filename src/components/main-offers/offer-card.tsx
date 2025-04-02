@@ -10,10 +10,9 @@ import { nearbyOffersActions } from '../../store/slices/nearby-offers';
 import { offerActions } from '../../store/slices/offer';
 import { reviewsActions } from '../../store/slices/reviews';
 import { memo } from 'react';
-import { changeFavorite } from '../../store/thunks/favorites';
 
 const { fetchDetailedOffer } = offerActions;
-const { fetchFavoritesOffers } = favoriteActions;
+const { changeFavorite } = favoriteActions;
 const { changeFavoriteStatusInMainOffer } = offersActions;
 const { changeFavoriteStatusInNearbyOffer, fetchNearbyOffers } = nearbyOffersActions;
 const { fetchOfferReviews } = reviewsActions;
@@ -37,7 +36,6 @@ function OfferCard(props: Props): JSX.Element {
     dispatch(changeFavorite({ offerId: id, status: !isFavorite }))
       .unwrap()
       .then(() => {
-        dispatch(fetchFavoritesOffers());
         dispatch(changeFavoriteStatusInMainOffer(id));
         if (isNearbyOffers) {
           dispatch(changeFavoriteStatusInNearbyOffer(id));
