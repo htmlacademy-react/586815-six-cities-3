@@ -1,5 +1,11 @@
 import { OfferType } from '../../types/common';
 import OfferCard from '../main-offers/offer-card';
+import { useAppDispatch } from '../../hooks/store';
+import { useNavigate } from 'react-router-dom';
+import { offersActions } from '../../store/slices/offers';
+import { AppRoute } from '../../const';
+
+const { changeCity } = offersActions;
 
 type Props = {
   cityName: string;
@@ -14,11 +20,19 @@ function FavoritesOffersList(props: Props): JSX.Element {
     <OfferCard cardData={offer} key={offer.id} isFavoritesOffers />
   ));
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleCityClick = () => {
+    dispatch(changeCity(cityName));
+    navigate(AppRoute.Main);
+  };
+
   return (
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
+          <a className="locations__item-link" href="#" onClick={handleCityClick}>
             <span>{cityName}</span>
           </a>
         </div>
