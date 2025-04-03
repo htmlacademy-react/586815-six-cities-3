@@ -12,7 +12,7 @@ export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', '
 
 export enum AppRoute {
   Login = '/login',
-  Favorites = '/favorite',
+  Favorites = '/favorites',
   Offer = '/offer/:id',
   Main = '/',
 }
@@ -62,13 +62,6 @@ export enum APIRoute {
   Logout = '/logout',
   Favorite = '/favorite',
   Comments = '/comments',
-}
-
-export enum RequestStatus {
-  Idle = 'idle',
-  Loading = 'loading',
-  Succeeded = 'succeeded',
-  Failed = 'failed'
 }
 
 export enum FavoritesStatus {

@@ -12,7 +12,7 @@ function Cities(props: Props): JSX.Element {
   return (
     <>
       <h1 className="visually-hidden">Cities</h1>
-      <div className="tabs">
+      <div className="tabs" data-testid='cities-container'>
         <section className="locations container">
           <ul className="locations__list tabs__list">
             {CITIES.map((city) => (

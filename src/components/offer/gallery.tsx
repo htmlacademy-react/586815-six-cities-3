@@ -7,7 +7,7 @@ export default function Gallery(props: Props): JSX.Element {
 
 
   return (
-    <div className="offer__gallery-container container">
+    <div className="offer__gallery-container container" data-testid="offer-gallery-container">
       <div className="offer__gallery">
         {images.map((imageUrl) => (
           <div className="offer__image-wrapper" key={imageUrl}>

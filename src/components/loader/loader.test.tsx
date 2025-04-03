@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import Loader from './loader';
 
 describe('Component: Loader', () => {
-  it('should render correct', () => {
+  it('should render correctly', () => {
     const loaderContainerTestId = 'loader-container';
 
     render(<Loader />);

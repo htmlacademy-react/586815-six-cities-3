@@ -1,24 +1,47 @@
 import Logo from '../components/header/logo';
 import { Helmet } from 'react-helmet-async';
-import { AppRoute } from '../const';
+import { AppRoute, CITIES } from '../const';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/store';
 import { userActions } from '../store/slices/user';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { favoriteActions } from '../store/slices/favorites';
+import { toast } from 'react-toastify';
+import { getRandomElement } from '../utils/common';
+import { offersActions } from '../store/slices/offers';
 
 const { loginAction } = userActions;
 const { fetchFavoritesOffers } = favoriteActions;
+const { changeCity } = offersActions;
 
 export default function Login(): JSX.Element {
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [cityName, setCityName] = useState(getRandomElement(CITIES));
+
+  useEffect(() => {
+    setCityName(getRandomElement(CITIES));
+  }, []);
+
+
+  const handleCityClick = () => {
+    dispatch(changeCity(cityName));
+    navigate(AppRoute.Main);
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[^\s]{2,}$/;
+
+    if (!passwordRegex.test(password)) {
+      toast.warn('The password must contain at least 1 letter and 1 digit');
+      return;
+    }
 
     dispatch(loginAction({ login, password }))
       .unwrap()
@@ -82,8 +105,8 @@ export default function Login(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
+              <a className="locations__item-link" href="#" onClick={handleCityClick}>
+                <span>{cityName}</span>
               </a>
             </div>
           </section>

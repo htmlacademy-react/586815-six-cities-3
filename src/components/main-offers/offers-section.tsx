@@ -2,7 +2,6 @@ import { OfferType, LocationType } from '../../types/common';
 import { useEffect, useState } from 'react';
 import { Nullable } from 'vitest';
 import Map from '../map/map';
-import { classNamesMap } from '../../const';
 import Sorting from './sorting';
 import { getSortedOffers } from '../../utils/sort';
 import { SortingOptions } from '../../const';
@@ -36,7 +35,7 @@ function OffersSection(props: Props): JSX.Element {
   }, [offers]);
 
   return (
-    <div className="cities__places-container container">
+    <div className="cities__places-container container" data-testid="offers-section-container">
       <section className="cities__places places">
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{offers.length} place{getPluralSuffix(offers.length)} to stay in {currentCity}</b>
@@ -47,10 +46,10 @@ function OffersSection(props: Props): JSX.Element {
       </section>
       <div className="cities__right-section">
         <Map
-          className={classNamesMap.cities}
           offers={offers}
           currentCity={currentCityLocation}
           selectedOfferId={activeOffer ? activeOffer.id : null}
+          isMainPage
         />
       </div>
     </div>

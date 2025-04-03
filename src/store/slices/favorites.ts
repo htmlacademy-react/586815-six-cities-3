@@ -1,47 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RequestStatus } from '../../const';
 import { OfferType } from '../../types/common';
-import { fetchFavoritesOffers, changeFavorite } from '../thunks/favorites';
+import { changeFavorite, fetchFavoritesOffers } from '../thunks/favorites';
 
 interface FavoriteState {
   items: OfferType[];
-  status: RequestStatus;
 }
 
 const initialState: FavoriteState = {
-  items: [],
-  status: RequestStatus.Idle,
+  items: []
 };
 
 export const favoritesSlice = createSlice({
   name: 'favorites',
   initialState,
-  reducers: {},
+  reducers: {
+    dropFavoriteOffer(state, action) {
+      state.items = state.items.filter((offer) => offer.id !== action.payload);
+    }
+  },
   extraReducers(builder) {
-    builder.addCase(fetchFavoritesOffers.pending, (state) => {
-      state.status = RequestStatus.Loading;
+    builder.addCase(fetchFavoritesOffers.fulfilled, (state, action) => {
+      state.items = action.payload;
     })
-      .addCase(fetchFavoritesOffers.fulfilled, (state, action) => {
-        state.items = action.payload;
-        state.status = RequestStatus.Succeeded;
-      })
-      .addCase(fetchFavoritesOffers.rejected, (state) => {
-        state.status = RequestStatus.Failed;
-      })
-      .addCase(changeFavorite.pending, (state) => {
-        state.status = RequestStatus.Loading;
-      })
-      .addCase(changeFavorite.fulfilled, (state) => {
-        state.status = RequestStatus.Succeeded;
-      })
-      .addCase(changeFavorite.rejected, (state) => {
-        state.status = RequestStatus.Failed;
+      .addCase(changeFavorite.fulfilled, (state, action) => {
+        if (!action.payload.isFavorite) {
+          state.items = state.items.filter((offer) => offer.id !== action.payload.id);
+          return;
+        }
+        state.items.push(action.payload as OfferType);
       });
   }
 });
 
 export const favoriteActions = {
   ...favoritesSlice.actions,
-  changeFavorite,
-  fetchFavoritesOffers
+  fetchFavoritesOffers,
+  changeFavorite
 };

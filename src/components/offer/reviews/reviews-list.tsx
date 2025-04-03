@@ -9,7 +9,7 @@ function ReviewsList(props: Props): JSX.Element {
   const { reviews } = props;
 
   return (
-    <ul className="reviews__list">
+    <ul className="reviews__list" data-testId="reviews-list-container">
       {reviews.map((review) => <ReviewsItem key={review.id} review={review} />)}
     </ul>
   );

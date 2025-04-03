@@ -4,9 +4,7 @@ import { useAppDispatch } from '../../../hooks/store';
 import { useParams } from 'react-router-dom';
 import { ReviewContentType } from '../../../types/common';
 import { toast } from 'react-toastify';
-import { reviewsActions } from '../../../store/slices/reviews';
-
-const { sendReviewAction } = reviewsActions;
+import { sendReviewAction } from '../../../store/thunks/reviews';
 
 type ChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -57,7 +55,13 @@ function ReviewForm(): JSX.Element {
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleSubmit}
+      data-testid="review-form-container"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {rating.map(({ value, title }) => (

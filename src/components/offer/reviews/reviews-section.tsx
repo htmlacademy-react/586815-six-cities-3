@@ -34,7 +34,7 @@ function ReviewsSection(props: Props): JSX.Element {
   };
 
   return (
-    <section className="offer__reviews reviews">
+    <section className="offer__reviews reviews" data-testid="reviews-section-container">
       <h2 className="reviews__title">Reviews &middot;
         <span className="reviews__amount">{reviewsAmount}</span>
       </h2>

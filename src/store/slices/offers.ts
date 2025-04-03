@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RequestStatus } from '../../const';
 import { OfferType } from '../../types/common';
 import { fetchOffers } from '../thunks/offers';
 import { CITIES } from '../../const';
@@ -7,13 +6,11 @@ import { CITIES } from '../../const';
 interface OffersState {
   currentCity: string;
   items: OfferType[];
-  status: RequestStatus;
 }
 
 const initialState: OffersState = {
   currentCity: CITIES[0],
-  items: [],
-  status: RequestStatus.Idle
+  items: []
 };
 
 export const offersSlice = createSlice({
@@ -31,16 +28,9 @@ export const offersSlice = createSlice({
     }
   },
   extraReducers(builder) {
-    builder.addCase(fetchOffers.pending, (state) => {
-      state.status = RequestStatus.Loading;
-    })
-      .addCase(fetchOffers.fulfilled, (state, action) => {
-        state.items = action.payload;
-        state.status = RequestStatus.Succeeded;
-      })
-      .addCase(fetchOffers.rejected, (state) => {
-        state.status = RequestStatus.Failed;
-      });
+    builder.addCase(fetchOffers.fulfilled, (state, action) => {
+      state.items = action.payload;
+    });
   }
 });
 

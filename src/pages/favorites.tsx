@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import NoFavoritesList from '../components/favorites/no-favorites-list';
 import { useAppSelector } from '../hooks/store';
 import { getFavoritesOffers, getFavoritesCities, getFavoritesCount } from '../store/selectors/favorites';
+import classNames from 'classnames';
 
-export default function Factories(): JSX.Element {
+export default function Favorites(): JSX.Element {
   const favoritesOffers = useAppSelector(getFavoritesOffers);
   const favoritesCities = useAppSelector(getFavoritesCities);
   const favoritesCount = useAppSelector(getFavoritesCount);
@@ -15,9 +16,11 @@ export default function Factories(): JSX.Element {
   const cityList = favoritesCities.map((city: string) => (
     <FavoritesOffersList key={city} cityName={city} offers={favoritesOffers} />
   ));
-
   return (
-    <div className="page" data-testid="favorites-page-container">
+    <div
+      className={classNames('page', !favoritesOffers.length && 'page--favorites-empty')}
+      data-testid="favorites-page-container"
+    >
       <Helmet>
         <title>Six cities. In favorites</title>
       </Helmet>
@@ -29,29 +32,31 @@ export default function Factories(): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile disabled />
+                <UserProfile />
               </ul>
             </nav>
           </div>
         </div>
       </header>
-      {favoritesCount ?
-        <main className="page__main page__main--favorites">
-          <div className="page__favorites-container container">
-            <section className="favorites">
-              <h1 className="favorites__title">Saved listing</h1>
-              <ul className="favorites__list">
-                {cityList}
-              </ul>
-            </section>
-          </div>
-        </main> :
-        <NoFavoritesList />}
+      {
+        favoritesCount ?
+          <main className="page__main page__main--favorites">
+            <div className="page__favorites-container container">
+              <section className="favorites">
+                <h1 className="favorites__title">Saved listing</h1>
+                <ul className="favorites__list">
+                  {cityList}
+                </ul>
+              </section>
+            </div>
+          </main> :
+          <NoFavoritesList />
+      }
       <footer className="footer container">
         <Link className="footer__logo-link" to="/">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </Link>
       </footer>
-    </div>
+    </div >
   );
 }

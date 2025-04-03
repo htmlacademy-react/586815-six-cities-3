@@ -9,7 +9,7 @@ function NearOffersList(props: Props): JSX.Element {
   const { nearOffers } = props;
 
   return (
-    <div className="container">
+    <div className="container" data-testid="near-offers-container">
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the neighbourhood</h2>
         <div className="near-places__list places__list">

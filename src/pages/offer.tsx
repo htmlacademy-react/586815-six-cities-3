@@ -7,7 +7,6 @@ import NotFoundPage from './not-found-page';
 import ReviewsSection from '../components/offer/reviews/reviews-section';
 import NearOffersList from '../components/offer/near-offers-list';
 import Map from '../components/map/map';
-import { classNamesMap } from '../const';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import Gallery from '../components/offer/gallery';
@@ -21,11 +20,12 @@ import { TypeBookmark } from '../const';
 import { favoriteActions } from '../store/slices/favorites';
 import { getDetailedOffer, getSortedReviews, getNearbyOffersForMap, getNearbyOffers } from '../store/selectors/offer';
 import { getLoadingStatus } from '../store/selectors/loading';
+import { changeFavorite } from '../store/thunks/favorites';
 
 const { fetchDetailedOffer } = offerActions;
 const { fetchOfferReviews } = reviewsActions;
 const { fetchNearbyOffers } = nearbyOffersActions;
-const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
+const { fetchFavoritesOffers } = favoriteActions;
 
 export default function Offer(): JSX.Element {
   const { id } = useParams();
@@ -71,7 +71,7 @@ export default function Offer(): JSX.Element {
   };
 
   return (
-    <div className="page" >
+    <div className="page" data-testid="offer-page-container">
       <Helmet>
         <title>Six cities. About offer</title>
       </Helmet>
@@ -155,7 +155,6 @@ export default function Offer(): JSX.Element {
             </div>
           </div>
           <Map
-            className={classNamesMap.offer}
             currentCity={currentCity}
             offers={nearbyOffersForMap}
             selectedOfferId={id}

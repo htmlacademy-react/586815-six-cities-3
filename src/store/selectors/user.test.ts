@@ -1,4 +1,4 @@
-import { AuthStatus, RequestStatus } from '../../const';
+import { AuthStatus } from '../../const';
 import { makeFakeUserData } from '../../utils/mocks';
 import { getUserInfo, getAuthStatus } from './user';
 
@@ -7,8 +7,7 @@ describe('User selectors', () => {
   const state = {
     user: {
       info: mockUserInfo,
-      authStatus: AuthStatus.Auth,
-      status: RequestStatus.Succeeded
+      authStatus: AuthStatus.Auth
     }
   };
 

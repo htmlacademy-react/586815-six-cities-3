@@ -12,7 +12,7 @@ import { reviewsActions } from '../../store/slices/reviews';
 import { memo } from 'react';
 
 const { fetchDetailedOffer } = offerActions;
-const { changeFavorite, fetchFavoritesOffers } = favoriteActions;
+const { changeFavorite } = favoriteActions;
 const { changeFavoriteStatusInMainOffer } = offersActions;
 const { changeFavoriteStatusInNearbyOffer, fetchNearbyOffers } = nearbyOffersActions;
 const { fetchOfferReviews } = reviewsActions;
@@ -36,7 +36,6 @@ function OfferCard(props: Props): JSX.Element {
     dispatch(changeFavorite({ offerId: id, status: !isFavorite }))
       .unwrap()
       .then(() => {
-        dispatch(fetchFavoritesOffers());
         dispatch(changeFavoriteStatusInMainOffer(id));
         if (isNearbyOffers) {
           dispatch(changeFavoriteStatusInNearbyOffer(id));
@@ -73,6 +72,7 @@ function OfferCard(props: Props): JSX.Element {
       )}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      data-testid='offer-card-container'
     >
       {isPremium &&
         <div className="place-card__mark">

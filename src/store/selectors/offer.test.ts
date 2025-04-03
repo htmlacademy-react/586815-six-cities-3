@@ -1,4 +1,4 @@
-import { CITIES, RequestStatus } from '../../const';
+import { CITIES } from '../../const';
 import { OfferType } from '../../types/common';
 import { makeFakeDetailedOffer, makeFakeOffer, makeFakeReviewForSort } from '../../utils/mocks';
 import { getDetailedOffer, getNearbyOffers, getNearbyOffersForMap, getSortedReviews, getCurrentOffer } from './offer';
@@ -17,21 +17,17 @@ describe('Offer selectors', () => {
 
   const state = {
     offer: {
-      item: mockDetailedOffer,
-      status: RequestStatus.Succeeded,
+      item: mockDetailedOffer
     },
     nearbyOffers: {
-      items: [mockOffer],
-      status: RequestStatus.Succeeded,
+      items: [mockOffer]
     },
     offers: {
       currentCity: CITIES[0],
-      items: [mockOffer, mockCurrentOffer],
-      status: RequestStatus.Succeeded,
+      items: [mockOffer, mockCurrentOffer]
     },
     reviews: {
-      items: mockReviews,
-      status: RequestStatus.Succeeded,
+      items: mockReviews
     }
   };
 
@@ -72,13 +68,13 @@ describe('Offer selectors', () => {
   });
 
   it('should return only current offer when there are no nearby offers', () => {
-    const emptyState = { ...state, nearbyOffers: { items: [], status: RequestStatus.Succeeded } };
+    const emptyState = { ...state, nearbyOffers: { items: [] } };
     const result = getNearbyOffersForMap(emptyState);
     expect(result).toEqual([mockCurrentOffer]);
   });
 
   it('should return empty array when there are no reviews', () => {
-    const emptyState = { ...state, reviews: { items: [], status: RequestStatus.Succeeded } };
+    const emptyState = { ...state, reviews: { items: [] } };
     const result = getSortedReviews(emptyState);
     expect(result).toEqual([]);
   });

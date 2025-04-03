@@ -8,14 +8,14 @@ import { defaultCustomIcon, currentCustomIcon } from '../../const';
 import classNames from 'classnames';
 
 type Props = {
-  className: string;
   offers: (OfferType | null)[];
   currentCity: LocationType;
   selectedOfferId: Nullable<string>;
+  isMainPage?: boolean;
 }
 
 function Map(props: Props): JSX.Element {
-  const { className, offers, currentCity, selectedOfferId } = props;
+  const { offers, currentCity, selectedOfferId, isMainPage } = props;
   const mapRef = useRef<HTMLDivElement | null>(null);
   const map = useMap({ mapRef, city: currentCity });
   const markerGroupRef = useRef<leaflet.LayerGroup | null>(null);
@@ -55,8 +55,9 @@ function Map(props: Props): JSX.Element {
 
   return (
     <section
-      className={classNames(className, 'map')}
+      className={classNames('map', isMainPage ? 'cities__map' : 'offer__map')}
       ref={mapRef}
+      data-testid="map-container"
     >
     </section >
   );
