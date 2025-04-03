@@ -8,7 +8,7 @@ import { useAppSelector } from '../hooks/store';
 import { getFavoritesOffers, getFavoritesCities, getFavoritesCount } from '../store/selectors/favorites';
 import classNames from 'classnames';
 
-export default function Factories(): JSX.Element {
+export default function Favorites(): JSX.Element {
   const favoritesOffers = useAppSelector(getFavoritesOffers);
   const favoritesCities = useAppSelector(getFavoritesCities);
   const favoritesCount = useAppSelector(getFavoritesCount);

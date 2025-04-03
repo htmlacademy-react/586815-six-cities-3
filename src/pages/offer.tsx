@@ -71,7 +71,7 @@ export default function Offer(): JSX.Element {
   };
 
   return (
-    <div className="page" >
+    <div className="page" data-testid="offer-page-container">
       <Helmet>
         <title>Six cities. About offer</title>
       </Helmet>

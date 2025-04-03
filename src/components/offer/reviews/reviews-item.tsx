@@ -22,7 +22,7 @@ function ReviewsItem(props: Props): JSX.Element {
   const formattedDate = formatter.format(parsedDate);
 
   return (
-    <li className="reviews__item">
+    <li className="reviews__item" data-testid="reviews-item-container">
       <div className="reviews__user user">
         <div className={classNames('reviews__avatar-wrapper user__avatar-wrapper',
           isPro && 'reviews__avatar-wrapper--pro')}

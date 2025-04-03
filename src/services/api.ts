@@ -24,15 +24,6 @@ const StatusCodeMapping: Record<number, boolean> = {
 
 const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
 
-// const options: ToastOptions = {
-//   position: 'top-right',
-//   autoClose: 5000,
-//   hideProgressBar: false,
-//   closeOnClick: true,
-//   pauseOnHover: true,
-//   draggable: true,
-// };
-
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
@@ -54,21 +45,16 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
-      // if (error.response && shouldDisplayError(error.response)) {
-      //   const detailMessage = (error.response.data);
-
-      //   toast.warn(detailMessage.message);
-      // }
-
-      // if (error.response?.status === 401) {
-      //   console.log(error);
-      //   return Promise.reject(error);
-      // }
-
       if (error.response?.status === 401) {
-        console.warn('401 Unauthorized, обработано в interceptor');
-        return null;
+        return Promise.resolve(null);
       }
+
+      if (error.response && shouldDisplayError(error.response)) {
+        const detailMessage = (error.response.data);
+
+        toast.warn(detailMessage.message);
+      }
+
 
       throw error;
     }
