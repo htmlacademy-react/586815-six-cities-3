@@ -4,7 +4,7 @@ import { AppRoute, CITIES } from '../const';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/store';
 import { userActions } from '../store/slices/user';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { favoriteActions } from '../store/slices/favorites';
 import { toast } from 'react-toastify';
 import { getRandomElement } from '../utils/common';
@@ -15,13 +15,18 @@ const { fetchFavoritesOffers } = favoriteActions;
 const { changeCity } = offersActions;
 
 export default function Login(): JSX.Element {
-  const cityName = getRandomElement(CITIES);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [cityName, setCityName] = useState(getRandomElement(CITIES));
+
+  useEffect(() => {
+    setCityName(getRandomElement(CITIES));
+  }, []);
+
 
   const handleCityClick = () => {
     dispatch(changeCity(cityName));
