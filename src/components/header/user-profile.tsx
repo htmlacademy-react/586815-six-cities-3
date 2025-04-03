@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { userActions } from '../../store/slices/user';
@@ -8,18 +8,19 @@ import { getUserInfo } from '../../store/selectors/user';
 
 const { logoutAction } = userActions;
 
-type Props = {
-  disabled?: boolean;
-};
 
-function UserProfile(props: Props): JSX.Element {
-  const { disabled } = props;
+function UserProfile(): JSX.Element {
   const userData = useAppSelector(getUserInfo);
   const favoritesCount = useAppSelector(getFavoritesCount);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleLogoutClick = () => {
-    dispatch(logoutAction());
+    dispatch(logoutAction())
+      .unwrap()
+      .then(() => {
+        navigate(AppRoute.Login);
+      });
   };
 
   if (!userData) {
@@ -39,7 +40,7 @@ function UserProfile(props: Props): JSX.Element {
   return (
     <>
       <li className="header__nav-item user" data-testid='profile-container'>
-        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites} style={{ pointerEvents: disabled ? 'none' : 'auto' }} aria-disabled={disabled}>
+        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
           <div
             className="header__avatar-wrapper user__avatar-wrapper"
             style={{
@@ -61,8 +62,7 @@ function UserProfile(props: Props): JSX.Element {
 }
 
 
-const MemoizedUserProfile = memo<Props>(UserProfile, (prevProps, nextProps) =>
-  prevProps.disabled === nextProps.disabled);
+const MemoizedUserProfile = memo(UserProfile);
 MemoizedUserProfile.displayName = 'UserProfile';
 
 export default MemoizedUserProfile;

@@ -53,26 +53,7 @@ const makeFakeOffer = (cityName?: string): OfferType => ({
 });
 
 const makeFakeDetailedOffer = (): DetailedOfferType => ({
-  id: datatype.uuid(),
-  title: name.title(),
-  type: name.jobType(),
-  price: Number(commerce.price()),
-  city: {
-    name: name.title(),
-    location: {
-      latitude: Number(address.latitude()),
-      longitude: Number(address.longitude()),
-      zoom: datatype.number(),
-    },
-  },
-  location: {
-    latitude: Number(address.latitude()),
-    longitude: Number(address.longitude()),
-    zoom: datatype.number(),
-  },
-  isFavorite: datatype.boolean(),
-  isPremium: datatype.boolean(),
-  rating: datatype.number(),
+  ...makeFakeOffer(),
   description: name.title(),
   bedrooms: datatype.number(),
   goods: [name.title()],

@@ -32,7 +32,7 @@ export default function Factories(): JSX.Element {
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
-                <UserProfile disabled />
+                <UserProfile />
               </ul>
             </nav>
           </div>
