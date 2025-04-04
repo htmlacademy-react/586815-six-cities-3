@@ -1,5 +1,5 @@
 import { useAppSelector } from './store';
-import { AuthStatus } from '../const';
+import { AuthStatus } from '../const/const';
 import { useMemo } from 'react';
 import { getAuthStatus } from '../store/selectors/user';
 

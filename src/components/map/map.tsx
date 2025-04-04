@@ -4,8 +4,8 @@ import 'leaflet/dist/leaflet.css';
 import { OfferType, LocationType } from '../../types/common';
 import useMap from '../../hooks/map';
 import { Nullable } from 'vitest';
-import { defaultCustomIcon, currentCustomIcon } from '../../const';
 import classNames from 'classnames';
+import { URL_MARKER_CURRENT, URL_MARKER_DEFAULT } from '../../const/const';
 
 type Props = {
   offers: (OfferType | null)[];
@@ -13,6 +13,18 @@ type Props = {
   selectedOfferId: Nullable<string>;
   isMainPage?: boolean;
 }
+
+const defaultCustomIcon = leaflet.icon({
+  iconUrl: URL_MARKER_DEFAULT,
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39],
+});
+
+const currentCustomIcon = leaflet.icon({
+  iconUrl: URL_MARKER_CURRENT,
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39],
+});
 
 function Map(props: Props): JSX.Element {
   const { offers, currentCity, selectedOfferId, isMainPage } = props;
