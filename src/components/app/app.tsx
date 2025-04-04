@@ -12,43 +12,43 @@ import Loader from '../loader/loader';
 import { getLoadingStatus } from '../../store/selectors/loading';
 
 function App(): JSX.Element {
-	const isLoading = useAppSelector(getLoadingStatus);
+  const isLoading = useAppSelector(getLoadingStatus);
 
-	return (
-		<HelmetProvider>
-			{isLoading && <Loader />}
-			<Routes>
-				<Route
-					path={AppRoute.Main}
-					element={<MainPage />}
-				/>
-				<Route
-					path={AppRoute.Favorites}
-					element={
-						<PrivateRoute>
-							<Favorites />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path={AppRoute.Login}
-					element={
-						<PrivateRoute reverse >
-							<Login />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path={AppRoute.Offer}
-					element={<Offer />}
-				/>
-				<Route
-					path="*"
-					element={<NotFoundPage />}
-				/>
-			</Routes>
-		</HelmetProvider>
-	);
+  return (
+    <HelmetProvider>
+      {isLoading && <Loader />}
+      <Routes>
+        <Route
+          path={AppRoute.Main}
+          element={<MainPage />}
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute>
+              <Favorites />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Login}
+          element={
+            <PrivateRoute reverse >
+              <Login />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Offer}
+          element={<Offer />}
+        />
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+        />
+      </Routes>
+    </HelmetProvider>
+  );
 }
 
 export default App;
