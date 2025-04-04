@@ -1,5 +1,5 @@
 import { UserData } from '../../types/user';
-import { AuthStatus } from '../../const';
+import { AuthStatus } from '../../const/const';
 import { createSlice } from '@reduxjs/toolkit';
 import { checkAuthAction, loginAction, logoutAction } from '../thunks/user';
 

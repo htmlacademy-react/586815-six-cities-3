@@ -8,7 +8,7 @@ import { State } from '../types/state';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { AuthStatus } from '../const';
+import { AuthStatus } from '../const/const';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 

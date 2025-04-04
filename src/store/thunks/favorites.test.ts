@@ -1,7 +1,7 @@
 import { getMockStoreCreator, getAxiosAdapter, extractActionsTypes } from '../../utils/mocks';
 import { fetchFavoritesOffers, changeFavorite } from './favorites';
 import { makeFakeOffer } from '../../utils/mocks';
-import { APIRoute } from '../../const';
+import { APIRoute } from '../../const/const';
 
 describe('Favorites async actions', () => {
   const mockStoreCreator = getMockStoreCreator();

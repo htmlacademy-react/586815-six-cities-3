@@ -1,4 +1,4 @@
-import { AuthStatus } from '../const';
+import { AuthStatus } from '../const/const';
 import { getMockStoreCreator } from '../utils/mocks';
 import { renderHook } from '@testing-library/react';
 import useAuth from './auth';

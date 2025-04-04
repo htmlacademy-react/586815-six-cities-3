@@ -1,5 +1,5 @@
 import { offersSlice, offersActions } from './offers';
-import { CITIES } from '../../const';
+import { CITIES } from '../../const/const';
 import { makeFakeOffer } from '../../utils/mocks';
 
 const { changeCity, changeFavoriteStatusInMainOffer, fetchOffers } = offersActions;

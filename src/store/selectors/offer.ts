@@ -1,10 +1,14 @@
 import { RootState } from '../../types/state';
-import { NEAR_OFFERS_AMOUNT } from '../../const';
+import { NEAR_OFFERS_AMOUNT } from '../../const/const';
 import { createSelector } from '@reduxjs/toolkit';
 import { getOffers } from './offers';
 
 const getDetailedOffer = (state: Pick<RootState, 'offer'>) => state.offer.item;
-const getNearbyOffers = (state: Pick<RootState, 'nearbyOffers'>) => state.nearbyOffers.items.slice(0, NEAR_OFFERS_AMOUNT);
+const selectNearbyOffers = (state: RootState) => state.nearbyOffers.items;
+const getNearbyOffers = createSelector(
+  [selectNearbyOffers],
+  (nearbyOffers) => nearbyOffers.slice(0, NEAR_OFFERS_AMOUNT)
+);
 
 const getCurrentOffer = createSelector(
   [getDetailedOffer, getOffers],

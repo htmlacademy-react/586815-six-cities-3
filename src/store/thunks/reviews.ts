@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ReviewType, ReviewContentType } from '../../types/common';
 import { AxiosInstance } from 'axios';
-import { APIRoute } from '../../const';
+import { APIRoute } from '../../const/const';
 import { AppDispatch } from '../../types/state';
 
 interface ReviewsProps {

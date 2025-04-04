@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIRoute } from '../../const';
+import { APIRoute } from '../../const/const';
 import { DetailedOfferType, OfferType } from '../../types/common';
 
 const fetchFavoritesOffers = createAsyncThunk<OfferType[], undefined, {

@@ -1,4 +1,4 @@
-import { AuthStatus } from '../../const';
+import { AuthStatus } from '../../const/const';
 import { userSlice, userActions } from './user';
 import { makeFakeUserData } from '../../utils/mocks';
 

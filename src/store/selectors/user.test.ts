@@ -1,4 +1,4 @@
-import { AuthStatus } from '../../const';
+import { AuthStatus } from '../../const/const';
 import { makeFakeUserData } from '../../utils/mocks';
 import { getUserInfo, getAuthStatus } from './user';
 

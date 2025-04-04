@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { OfferType } from '../../types/common';
 import { fetchOffers } from '../thunks/offers';
-import { CITIES } from '../../const';
+import { CITIES } from '../../const/const';
 
 interface OffersState {
   currentCity: string;

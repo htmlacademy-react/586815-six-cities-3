@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { OfferType } from '../../types/common';
-import { APIRoute } from '../../const';
+import { APIRoute } from '../../const/const';
 
 interface NearbyOffersProps {
   offerId?: string;
